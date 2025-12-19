@@ -18,14 +18,26 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 When in doubt, consult AGENTS.md. If a change makes the parser smarter, more convenient, or more opinionated, it likely violates the boundary and should be rejected.
 
+## API Documentation
+
+For complete API documentation, TypeScript interfaces, and usage examples, see **README.md**.
+
+Key resources:
+
+- ParseResult and ParseIssue interfaces
+- ParseIssueCode values and meanings
+- Security guarantees (in scope vs out of scope)
+- v0.1.0 scope definition
+
 ## Development Commands
 
 This project is in early stages. Development commands will be added here once the implementation begins.
 
-Expected setup:
-- TypeScript-based implementation
+Notes for future implementation:
+
+- TypeScript-based
 - Minimal dependencies
-- Single-file API
+- Framework-agnostic design
 
 ## Architecture Notes
 

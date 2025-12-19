@@ -83,6 +83,24 @@ This is non-optional and part of the boundary definition.
 
 ---
 
+## Security guarantees (within scope)
+
+### In scope
+
+- Prevention of prototype pollution via forbidden keys
+- Detection of duplicate keys
+- Detection of structurally invalid keys
+- Explicit reporting of all structural issues
+
+### Out of scope
+
+- Value validation or type coercion
+- Authorization or authentication
+- Denial-of-service protection (e.g. large payloads)
+- Framework- or ecosystem-specific behavior
+
+---
+
 ## ParseIssue contract
 
 ### Allowed IssueCode values (fixed)
@@ -96,7 +114,7 @@ No additional IssueCode may be introduced without a major version bump.
 ### ParseIssue shape
 
 - `message` must be human-readable and standalone.
-- `path` must always be an empty array (no structural inference).
+- `path` must always be an empty array (no structural inference). This field exists only to preserve compatibility with external issue formats.
 - Issues are informational, not exceptions.
 
 ---
@@ -113,6 +131,27 @@ parse(formData): ParseResult
 - No options
 - No framework-specific adapters
 
+### Type definitions
+
+```ts
+export interface ParseResult<T = Record<string, string | File>> {
+  data: T | null
+  issues: ParseIssue[]
+}
+
+export interface ParseIssue {
+  code: ParseIssueCode
+  message: string
+  path: string[]
+  meta?: Record<string, unknown>
+}
+
+export type ParseIssueCode =
+  | 'invalid_key'
+  | 'forbidden_key'
+  | 'duplicate_key'
+```
+
 ---
 
 ## Non-goals (hard exclusions)
@@ -127,6 +166,25 @@ The implementation must not include:
 - Business or application logic
 
 If a feature conflicts with these, it must be rejected.
+
+---
+
+## v0.1.0 scope
+
+v0.1.0 establishes the FormData boundary with:
+
+- Flat FormData parsing into a plain JavaScript object
+- Detection of forbidden, duplicate, and invalid keys
+- Non-throwing issue reporting
+- A minimal, stable public API
+
+Explicitly excluded from v0.1.0:
+
+- Structural inference (arrays or objects)
+- Duplicate key resolution
+- Validation or schema integration
+- Framework-specific behavior
+- Performance optimizations beyond correctness
 
 ---
 

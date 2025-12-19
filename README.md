@@ -146,7 +146,7 @@ export interface ParseIssue {
 ```
 
 Issues are informational and must be handled explicitly by the caller. They are not thrown as exceptions.
-The `path` field is always an empty array and exists solely for compatibility with schema-driven error formats.
+The `path` field is always an empty array. It exists only to preserve compatibility with external issue formats.
 
 ---
 
