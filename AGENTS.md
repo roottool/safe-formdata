@@ -76,7 +76,7 @@ Convenience features belong outside the boundary.
 - Parsed data **must** be created with no prototype.
 
 ```ts
-Object.create(null)
+Object.create(null);
 ```
 
 This is non-optional and part of the boundary definition.
@@ -113,9 +113,12 @@ No additional IssueCode may be introduced without a major version bump.
 
 ### ParseIssue shape
 
-- `message` must be human-readable and standalone.
+- `code` must be one of the allowed IssueCode values.
 - `path` must always be an empty array (no structural inference). This field exists only to preserve compatibility with external issue formats.
+- `key?` may contain the problematic key when an issue occurs (for debugging purposes).
 - Issues are informational, not exceptions.
+
+Note: In v1.0+, additional fields such as `message: string` and `meta?: Record<string, unknown>` may be considered for enhanced error reporting.
 
 ---
 
@@ -135,21 +138,17 @@ parse(formData): ParseResult
 
 ```ts
 export interface ParseResult<T = Record<string, string | File>> {
-  data: T | null
-  issues: ParseIssue[]
+  data: T | null;
+  issues: ParseIssue[];
 }
 
 export interface ParseIssue {
-  code: ParseIssueCode
-  message: string
-  path: string[]
-  meta?: Record<string, unknown>
+  code: ParseIssueCode;
+  path: string[];
+  key?: unknown;
 }
 
-export type ParseIssueCode =
-  | 'invalid_key'
-  | 'forbidden_key'
-  | 'duplicate_key'
+export type ParseIssueCode = "invalid_key" | "forbidden_key" | "duplicate_key";
 ```
 
 ---

@@ -139,14 +139,16 @@ Partial success is not allowed.
 ```ts
 export interface ParseIssue {
   code: ParseIssueCode
-  message: string
   path: string[]
-  meta?: Record<string, unknown>
+  key?: unknown
 }
 ```
 
+- `code`: The type of issue (`invalid_key`, `forbidden_key`, or `duplicate_key`)
+- `path`: Always an empty array. Exists only to preserve compatibility with external issue formats
+- `key?`: The problematic key that triggered the issue (for debugging purposes)
+
 Issues are informational and must be handled explicitly by the caller. They are not thrown as exceptions.
-The `path` field is always an empty array. It exists only to preserve compatibility with external issue formats.
 
 ---
 

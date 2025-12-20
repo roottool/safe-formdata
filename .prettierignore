@@ -1,0 +1,8 @@
+**/*.js
+**/*mjs
+**/*.ts
+
+*.config.ts
+**/*.test.ts
+
+**/*.json
