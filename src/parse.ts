@@ -1,35 +1,31 @@
-import type { ParseResult, ParseIssue } from './types.js'
-import { validateKey } from './validate-key.js'
+import { FORBIDDEN_KEYS } from './issues/forbiddenKeys'
+import { createIssue } from './issues/createIssue'
+import type { ParseResult } from './types/ParseResult'
 
-/**
- * FormDataを境界重視でパースする
- *
- * @param formData - パース対象のFormData
- * @returns ParseResult（issuesがあればdataはnull）
- */
 export function parse(formData: FormData): ParseResult {
-  const issues: ParseIssue[] = []
+  const data = Object.create(null) as Record<string, string | File>
+  const issues = []
   const seenKeys = new Set<string>()
 
-  // Object.create(null) でプロトタイプ汚染を防ぐ
-  const data: Record<string, string | File> = Object.create(null)
-
   for (const [key, value] of formData.entries()) {
-    // キー検証
-    const keyIssue = validateKey(key)
-    if (keyIssue) {
-      issues.push(keyIssue)
+    if (typeof key !== 'string' || key.length === 0) {
+      issues.push(
+        createIssue('invalid_key', { key })
+      )
       continue
     }
 
-    // 重複キー検出
+    if (FORBIDDEN_KEYS.has(key)) {
+      issues.push(
+        createIssue('forbidden_key', { key })
+      )
+      continue
+    }
+
     if (seenKeys.has(key)) {
-      issues.push({
-        code: 'duplicate_key',
-        message: `Duplicate key detected: "${key}"`,
-        path: [],
-        meta: { key },
-      })
+      issues.push(
+        createIssue('duplicate_key', { key })
+      )
       continue
     }
 
@@ -37,9 +33,15 @@ export function parse(formData: FormData): ParseResult {
     data[key] = value
   }
 
-  // 部分成功を許可しない: issuesがあればdataはnull
+  if (issues.length > 0) {
+    return {
+      data: null,
+      issues,
+    }
+  }
+
   return {
-    data: issues.length > 0 ? null : data,
-    issues,
+    data,
+    issues: [],
   }
 }

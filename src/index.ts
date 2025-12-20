@@ -5,4 +5,7 @@
  */
 
 export { parse } from './parse.js'
-export type { ParseResult, ParseIssue, ParseIssueCode } from './types.js'
+
+export type { IssueCode } from './types/IssueCode.js'
+export type { ParseIssue } from './types/ParseIssue.js'
+export type { ParseResult } from './types/ParseResult.js'

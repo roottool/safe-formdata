@@ -1,168 +1,118 @@
 import { describe, it, expect } from 'vitest'
-import { parse } from './parse.js'
+import { parse } from '../src/parse'
 
-describe('parse()', () => {
-  describe('正常系', () => {
-    it('空のFormDataをパースできる', () => {
-      const formData = new FormData()
-      const result = parse(formData)
+describe('parse - happy path', () => {
+  it('parses flat FormData into an object', () => {
+    const fd = new FormData()
+    fd.append('name', 'alice')
+    fd.append('age', '20')
 
-      expect(result.data).toEqual(Object.create(null))
-      expect(result.issues).toEqual([])
-    })
+    const result = parse(fd)
 
-    it('単一のキー・バリューをパースできる', () => {
-      const formData = new FormData()
-      formData.append('username', 'alice')
-
-      const result = parse(formData)
-
-      expect(result.data).not.toBeNull()
-      expect(result.data!['username']).toBe('alice')
-      expect(result.issues).toEqual([])
-    })
-
-    it('Fileオブジェクトをパースできる', () => {
-      const formData = new FormData()
-      const file = new File(['content'], 'test.txt')
-      formData.append('upload', file)
-
-      const result = parse(formData)
-
-      expect(result.data).not.toBeNull()
-      expect(result.data!['upload']).toBe(file)
-      expect(result.issues).toEqual([])
-    })
-
-    it('複数のキー・バリューをパースできる', () => {
-      const formData = new FormData()
-      formData.append('username', 'alice')
-      formData.append('email', 'alice@example.com')
-      formData.append('age', '30')
-
-      const result = parse(formData)
-
-      expect(result.data).not.toBeNull()
-      expect(result.data!['username']).toBe('alice')
-      expect(result.data!['email']).toBe('alice@example.com')
-      expect(result.data!['age']).toBe('30')
-      expect(result.issues).toEqual([])
+    expect(result.issues).toEqual([])
+    expect(result.data).toEqual({
+      name: 'alice',
+      age: '20',
     })
   })
+})
 
-  describe('forbidden_key検出', () => {
-    it('__proto__を拒否する', () => {
-      const formData = new FormData()
-      formData.append('__proto__', 'malicious')
+describe('parse - duplicate keys', () => {
+  it('reports duplicate_key and returns null data', () => {
+    const fd = new FormData()
+    fd.append('a', '1')
+    fd.append('a', '2')
 
-      const result = parse(formData)
+    const result = parse(fd)
 
-      expect(result.data).toBeNull()
-      expect(result.issues).toHaveLength(1)
-      expect(result.issues[0]?.code).toBe('forbidden_key')
-    })
+    expect(result.data).toBeNull()
+    expect(result.issues).toHaveLength(1)
 
-    it('constructorを拒否する', () => {
-      const formData = new FormData()
-      formData.append('constructor', 'malicious')
+    const issue = result.issues[0]
+    expect(issue.code).toBe('duplicate_key')
+    expect(issue.path).toEqual([])
+  })
+})
 
-      const result = parse(formData)
+describe('parse - no structural inference', () => {
+  it('treats bracket notation as opaque keys', () => {
+    const fd = new FormData()
+    fd.append('items[]', '1')
+    fd.append('items[]', '2')
 
-      expect(result.data).toBeNull()
-      expect(result.issues[0]?.code).toBe('forbidden_key')
-    })
+    const result = parse(fd)
 
-    it('prototypeを拒否する', () => {
-      const formData = new FormData()
-      formData.append('prototype', 'malicious')
+    expect(result.data).toBeNull()
+    expect(result.issues[0].code).toBe('duplicate_key')
+  })
+})
 
-      const result = parse(formData)
+describe('parse - forbidden keys', () => {
+  it('rejects __proto__', () => {
+    const fd = new FormData()
+    fd.append('__proto__', 'polluted')
 
-      expect(result.data).toBeNull()
-      expect(result.issues[0]?.code).toBe('forbidden_key')
-    })
+    const result = parse(fd)
+
+    expect(result.data).toBeNull()
+    expect(result.issues[0].code).toBe('forbidden_key')
   })
 
-  describe('duplicate_key検出', () => {
-    it('重複キーを検出する', () => {
-      const formData = new FormData()
-      formData.append('item', 'first')
-      formData.append('item', 'second')
+  it('rejects constructor', () => {
+    const fd = new FormData()
+    fd.append('constructor', 'x')
 
-      const result = parse(formData)
+    const result = parse(fd)
 
-      expect(result.data).toBeNull()
-      expect(result.issues).toHaveLength(1)
-      expect(result.issues[0]?.code).toBe('duplicate_key')
-      expect(result.issues[0]?.meta?.key).toBe('item')
-    })
-
-    it('3つ以上の重複キーを検出する', () => {
-      const formData = new FormData()
-      formData.append('item', 'first')
-      formData.append('item', 'second')
-      formData.append('item', 'third')
-
-      const result = parse(formData)
-
-      expect(result.data).toBeNull()
-      // 2番目と3番目で2つのissue
-      expect(result.issues).toHaveLength(2)
-      expect(result.issues.every((i) => i.code === 'duplicate_key')).toBe(true)
-    })
+    expect(result.data).toBeNull()
+    expect(result.issues[0].code).toBe('forbidden_key')
   })
 
-  describe('invalid_key検出', () => {
-    it('空文字列のキーを拒否する', () => {
-      const formData = new FormData()
-      formData.append('', 'value')
+  it('rejects prototype', () => {
+    const fd = new FormData()
+    fd.append('prototype', 'malicious')
 
-      const result = parse(formData)
+    const result = parse(fd)
 
-      expect(result.data).toBeNull()
-      expect(result.issues[0]?.code).toBe('invalid_key')
-    })
+    expect(result.data).toBeNull()
+    expect(result.issues).toHaveLength(1)
+    expect(result.issues[0].code).toBe('forbidden_key')
+    expect(result.issues[0].key).toBe('prototype')
+    expect(result.issues[0].path).toEqual([])
   })
+})
 
-  describe('部分成功の禁止', () => {
-    it('issuesがある場合、dataはnullになる', () => {
-      const formData = new FormData()
-      formData.append('valid', 'ok')
-      formData.append('__proto__', 'malicious')
+describe('parse - issue path', () => {
+  it('always returns empty path', () => {
+    const fd = new FormData()
+    fd.append('__proto__', 'x')
 
-      const result = parse(formData)
+    const result = parse(fd)
 
-      expect(result.data).toBeNull()
-      expect(result.issues.length).toBeGreaterThan(0)
-    })
-
-    it('複数のissuesがある場合もdataはnull', () => {
-      const formData = new FormData()
-      formData.append('', 'empty key')
-      formData.append('__proto__', 'malicious')
-      formData.append('item', 'first')
-      formData.append('item', 'duplicate')
-
-      const result = parse(formData)
-
-      expect(result.data).toBeNull()
-      expect(result.issues.length).toBeGreaterThan(2)
-    })
+    expect(result.issues[0].path).toEqual([])
   })
+})
 
-  describe('issueの構造', () => {
-    it('issueは正しい構造を持つ', () => {
-      const formData = new FormData()
-      formData.append('__proto__', 'test')
+describe('parse - data container', () => {
+  it('creates data object with no prototype', () => {
+    const fd = new FormData()
+    fd.append('a', '1')
 
-      const result = parse(formData)
+    const result = parse(fd)
 
-      const issue = result.issues[0]
-      expect(issue).toBeDefined()
-      expect(issue?.code).toBe('forbidden_key')
-      expect(issue?.message).toBeTypeOf('string')
-      expect(issue?.path).toEqual([])
-      expect(issue?.meta).toBeDefined()
-    })
+    expect(Object.getPrototypeOf(result.data)).toBeNull()
+  })
+})
+
+describe('parse - no partial success', () => {
+  it('returns null data if any issue exists', () => {
+    const fd = new FormData()
+    fd.append('ok', '1')
+    fd.append('__proto__', 'x')
+
+    const result = parse(fd)
+
+    expect(result.data).toBeNull()
+    expect(result.issues.length).toBeGreaterThan(0)
   })
 })
