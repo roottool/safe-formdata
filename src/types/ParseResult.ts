@@ -1,4 +1,4 @@
-import type { ParseIssue } from './ParseIssue'
+import type { ParseIssue } from './ParseIssue.js'
 
 export type ParseResult =
   | {

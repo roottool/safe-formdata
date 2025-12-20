@@ -1,6 +1,6 @@
-import { FORBIDDEN_KEYS } from './issues/forbiddenKeys'
-import { createIssue } from './issues/createIssue'
-import type { ParseResult } from './types/ParseResult'
+import { FORBIDDEN_KEYS } from './issues/forbiddenKeys.js'
+import { createIssue } from './issues/createIssue.js'
+import type { ParseResult } from './types/ParseResult.js'
 
 export function parse(formData: FormData): ParseResult {
   const data = Object.create(null) as Record<string, string | File>

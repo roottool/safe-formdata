@@ -1,7 +1,5 @@
-// src/issues/createIssue.ts
-
-import type { ParseIssue } from '../types/ParseIssue'
-import type { IssueCode } from '../types/IssueCode'
+import type { ParseIssue } from '../types/ParseIssue.js'
+import type { IssueCode } from '../types/IssueCode.js'
 
 export function createIssue(
   code: IssueCode,
