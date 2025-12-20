@@ -1,3 +1,8 @@
-**/*.{js,cjs,mjs,jsx}
-**/*.{ts,cts,mts,tsx}
-**/*.{json,mdx,html,htm,css,scss}
+**/*.js
+**/*mjs
+**/*.ts
+
+*.config.ts
+**/*.test.ts
+
+**/*.json

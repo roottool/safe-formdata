@@ -76,7 +76,7 @@ Convenience features belong outside the boundary.
 - Parsed data **must** be created with no prototype.
 
 ```ts
-Object.create(null)
+Object.create(null);
 ```
 
 This is non-optional and part of the boundary definition.
@@ -138,20 +138,17 @@ parse(formData): ParseResult
 
 ```ts
 export interface ParseResult<T = Record<string, string | File>> {
-  data: T | null
-  issues: ParseIssue[]
+  data: T | null;
+  issues: ParseIssue[];
 }
 
 export interface ParseIssue {
-  code: ParseIssueCode
-  path: string[]
-  key?: unknown
+  code: ParseIssueCode;
+  path: string[];
+  key?: unknown;
 }
 
-export type ParseIssueCode =
-  | 'invalid_key'
-  | 'forbidden_key'
-  | 'duplicate_key'
+export type ParseIssueCode = "invalid_key" | "forbidden_key" | "duplicate_key";
 ```
 
 ---

@@ -32,29 +32,34 @@ Key resources:
 ## Development Commands
 
 ### Setup
+
 ```bash
 bun install
 ```
 
 ### Development
+
 ```bash
 bun run dev          # Watch mode for building
 bun run test:watch   # Watch mode for testing
 ```
 
 ### Testing
+
 ```bash
 bun run test              # Run all tests
 bun run test:coverage     # Run tests with coverage report
 ```
 
 ### Build
+
 ```bash
 bun run build        # Build for production
 bun run type-check   # TypeScript type checking
 ```
 
 ### Publishing
+
 ```bash
 npm publish          # Publish to npm (runs prepublishOnly hook)
 ```
