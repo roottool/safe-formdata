@@ -1,6 +1,6 @@
-import { FORBIDDEN_KEYS } from './issues/forbiddenKeys.ts'
-import { createIssue } from './issues/createIssue.ts'
-import type { ParseResult } from './types/ParseResult.ts'
+import { FORBIDDEN_KEYS } from '#issues/forbiddenKeys'
+import { createIssue } from '#issues/createIssue'
+import type { ParseResult } from '#types/ParseResult'
 
 /**
  * Parses FormData into a flat JavaScript object with strict boundary enforcement.

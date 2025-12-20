@@ -1,4 +1,4 @@
-import type { IssueCode } from './IssueCode.ts'
+import type { IssueCode } from '#types/IssueCode'
 
 export type ParseIssue = {
   code: IssueCode

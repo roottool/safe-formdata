@@ -1,5 +1,5 @@
-import type { ParseIssue } from '../types/ParseIssue.ts'
-import type { IssueCode } from '../types/IssueCode.ts'
+import type { ParseIssue } from '#types/ParseIssue'
+import type { IssueCode } from '#types/IssueCode'
 
 /**
  * Payload for creating a ParseIssue.

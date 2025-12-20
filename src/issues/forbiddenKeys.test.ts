@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { FORBIDDEN_KEYS } from './forbiddenKeys'
+import { FORBIDDEN_KEYS } from '#issues/forbiddenKeys'
 
 describe('FORBIDDEN_KEYS', () => {
   it('contains prototype pollution primitives', () => {

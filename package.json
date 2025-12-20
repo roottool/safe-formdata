@@ -7,6 +7,11 @@
     "type": "git",
     "url": "https://github.com/roottool/safe-formdata"
   },
+  "imports": {
+    "#*": {
+      "default": "./src/*.ts"
+    }
+  },
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",

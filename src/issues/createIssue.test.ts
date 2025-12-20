@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import { createIssue } from './createIssue'
-import type { ParseIssue } from '../types/ParseIssue'
+import { createIssue } from '#issues/createIssue'
+import type { ParseIssue } from '#types/ParseIssue'
 
 describe('createIssue', () => {
   it('creates an issue with empty path', () => {

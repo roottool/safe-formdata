@@ -1,5 +1,5 @@
 import { assert, describe, it, expect } from 'vitest'
-import { parse } from '../src/parse.ts'
+import { parse } from '#parse'
 
 describe('valid input', () => {
   it('parses flat FormData into an object', () => {
