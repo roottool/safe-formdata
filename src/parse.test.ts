@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { parse } from '../src/parse'
 
-describe('parse - happy path', () => {
+describe('valid input', () => {
   it('parses flat FormData into an object', () => {
     const fd = new FormData()
     fd.append('name', 'alice')
@@ -17,7 +17,7 @@ describe('parse - happy path', () => {
   })
 })
 
-describe('parse - duplicate keys', () => {
+describe('duplicate key detection', () => {
   it('reports duplicate_key and returns null data', () => {
     const fd = new FormData()
     fd.append('a', '1')
@@ -32,9 +32,7 @@ describe('parse - duplicate keys', () => {
     expect(issue.code).toBe('duplicate_key')
     expect(issue.path).toEqual([])
   })
-})
 
-describe('parse - no structural inference', () => {
   it('treats bracket notation as opaque keys', () => {
     const fd = new FormData()
     fd.append('items[]', '1')
@@ -47,7 +45,7 @@ describe('parse - no structural inference', () => {
   })
 })
 
-describe('parse - forbidden keys', () => {
+describe('forbidden key detection', () => {
   it('rejects __proto__', () => {
     const fd = new FormData()
     fd.append('__proto__', 'polluted')
@@ -82,7 +80,22 @@ describe('parse - forbidden keys', () => {
   })
 })
 
-describe('parse - issue path', () => {
+describe('invalid key detection', () => {
+  it('rejects empty string keys', () => {
+    const fd = new FormData()
+    fd.append('', 'empty-key-value')
+
+    const result = parse(fd)
+
+    expect(result.data).toBeNull()
+    expect(result.issues).toHaveLength(1)
+    expect(result.issues[0].code).toBe('invalid_key')
+    expect(result.issues[0].key).toBe('')
+    expect(result.issues[0].path).toEqual([])
+  })
+})
+
+describe('boundary constraints', () => {
   it('always returns empty path', () => {
     const fd = new FormData()
     fd.append('__proto__', 'x')
@@ -91,9 +104,7 @@ describe('parse - issue path', () => {
 
     expect(result.issues[0].path).toEqual([])
   })
-})
 
-describe('parse - data container', () => {
   it('creates data object with no prototype', () => {
     const fd = new FormData()
     fd.append('a', '1')
@@ -102,9 +113,7 @@ describe('parse - data container', () => {
 
     expect(Object.getPrototypeOf(result.data)).toBeNull()
   })
-})
 
-describe('parse - no partial success', () => {
   it('returns null data if any issue exists', () => {
     const fd = new FormData()
     fd.append('ok', '1')
