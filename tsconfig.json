@@ -2,9 +2,9 @@
   "compilerOptions": {
     // Language & Environment
     "target": "ES2022",
-    "lib": ["ES2022"],
-    "module": "ESNext",
-    "moduleResolution": "bundler",
+    "lib": ["ESNext"],
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
 
     // Emit
     "declaration": true,
@@ -27,13 +27,6 @@
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "skipLibCheck": true,
-
-    // Root & Paths
-    "rootDir": "./src",
-    "baseUrl": "./",
-    "paths": {
-      "safe-formdata": ["./src/index.ts"]
-    }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.spec.ts"]
