@@ -2,7 +2,7 @@
   "compilerOptions": {
     // Language & Environment
     "target": "ES2022",
-    "lib": ["ESNext"],
+    "lib": ["ES2022"],
     "module": "NodeNext",
     "moduleResolution": "nodenext",
     "rewriteRelativeImportExtensions": true,
@@ -36,5 +36,5 @@
     "skipLibCheck": true
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.spec.ts"]
+  "exclude": ["node_modules", "dist"]
 }

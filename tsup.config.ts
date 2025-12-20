@@ -7,4 +7,5 @@ export default defineConfig({
   clean: true,
   minify: "terser",
   sourcemap: true,
+  tsconfig: 'tsconfig.build.json',
 })

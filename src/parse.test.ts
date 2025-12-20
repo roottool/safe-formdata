@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest'
-import { parse } from '../src/parse'
+import { assert, describe, it, expect } from 'vitest'
+import { parse } from '../src/parse.ts'
 
 describe('valid input', () => {
   it('parses flat FormData into an object', () => {
@@ -29,6 +29,7 @@ describe('duplicate key detection', () => {
     expect(result.issues).toHaveLength(1)
 
     const issue = result.issues[0]
+    assert(issue)
     expect(issue.code).toBe('duplicate_key')
     expect(issue.path).toEqual([])
   })
@@ -41,7 +42,9 @@ describe('duplicate key detection', () => {
     const result = parse(fd)
 
     expect(result.data).toBeNull()
-    expect(result.issues[0].code).toBe('duplicate_key')
+    const issue = result.issues[0]
+    assert(issue)
+    expect(issue.code).toBe('duplicate_key')
   })
 })
 
@@ -53,7 +56,9 @@ describe('forbidden key detection', () => {
     const result = parse(fd)
 
     expect(result.data).toBeNull()
-    expect(result.issues[0].code).toBe('forbidden_key')
+    const issue = result.issues[0]
+    assert(issue)
+    expect(issue.code).toBe('forbidden_key')
   })
 
   it('rejects constructor', () => {
@@ -63,7 +68,9 @@ describe('forbidden key detection', () => {
     const result = parse(fd)
 
     expect(result.data).toBeNull()
-    expect(result.issues[0].code).toBe('forbidden_key')
+    const issue = result.issues[0]
+    assert(issue)
+    expect(issue.code).toBe('forbidden_key')
   })
 
   it('rejects prototype', () => {
@@ -74,9 +81,11 @@ describe('forbidden key detection', () => {
 
     expect(result.data).toBeNull()
     expect(result.issues).toHaveLength(1)
-    expect(result.issues[0].code).toBe('forbidden_key')
-    expect(result.issues[0].key).toBe('prototype')
-    expect(result.issues[0].path).toEqual([])
+    const issue = result.issues[0]
+    assert(issue)
+    expect(issue.code).toBe('forbidden_key')
+    expect(issue.key).toBe('prototype')
+    expect(issue.path).toEqual([])
   })
 })
 
@@ -89,9 +98,11 @@ describe('invalid key detection', () => {
 
     expect(result.data).toBeNull()
     expect(result.issues).toHaveLength(1)
-    expect(result.issues[0].code).toBe('invalid_key')
-    expect(result.issues[0].key).toBe('')
-    expect(result.issues[0].path).toEqual([])
+    const issue = result.issues[0]
+    assert(issue)
+    expect(issue.code).toBe('invalid_key')
+    expect(issue.key).toBe('')
+    expect(issue.path).toEqual([])
   })
 })
 
@@ -102,7 +113,9 @@ describe('boundary constraints', () => {
 
     const result = parse(fd)
 
-    expect(result.issues[0].path).toEqual([])
+    const issue = result.issues[0]
+    assert(issue)
+    expect(issue.path).toEqual([])
   })
 
   it('creates data object with no prototype', () => {
