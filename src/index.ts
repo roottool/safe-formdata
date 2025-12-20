@@ -4,8 +4,8 @@
  * See AGENTS.md for design rules and boundary definition.
  */
 
-export { parse } from './parse.js'
+export { parse } from './parse.ts'
 
-export type { IssueCode } from './types/IssueCode.js'
-export type { ParseIssue } from './types/ParseIssue.js'
-export type { ParseResult } from './types/ParseResult.js'
+export type { IssueCode } from './types/IssueCode.ts'
+export type { ParseIssue } from './types/ParseIssue.ts'
+export type { ParseResult } from './types/ParseResult.ts'
