@@ -7,19 +7,16 @@
     "type": "git",
     "url": "https://github.com/roottool/safe-formdata"
   },
-  "private": true,
-  "license": "MIT",
-  "keywords": [
-    "formdata",
-    "parser",
-    "security",
-    "boundary",
-    "prototype-pollution"
-  ],
   "type": "module",
   "main": "./dist/index.js",
-  "module": "./dist/index.js",
+  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "files": [
     "dist",
     "README.md",
@@ -43,5 +40,13 @@
     "tsup": "8.5.1",
     "typescript": "5.9.3",
     "vitest": "4.0.16"
-  }
+  },
+  "license": "MIT",
+  "keywords": [
+    "formdata",
+    "parser",
+    "security",
+    "boundary",
+    "prototype-pollution"
+  ]
 }
