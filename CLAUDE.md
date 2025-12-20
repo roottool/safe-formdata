@@ -31,14 +31,39 @@ Key resources:
 
 ## Development Commands
 
-This project is in early stages. Development commands will be added here once the implementation begins.
+### Setup
+```bash
+bun install
+```
 
-Notes for future implementation:
+### Development
+```bash
+bun run dev          # Watch mode for building
+bun run test:watch   # Watch mode for testing
+```
 
-- TypeScript-based
-- Minimal dependencies
-- Framework-agnostic design
+### Testing
+```bash
+bun run test              # Run all tests
+bun run test:coverage     # Run tests with coverage report
+```
+
+### Build
+```bash
+bun run build        # Build for production
+bun run type-check   # TypeScript type checking
+```
+
+### Publishing
+```bash
+npm publish          # Publish to npm (runs prepublishOnly hook)
+```
 
 ## Architecture Notes
 
-Implementation has not yet begun. Architecture guidance will be added here as the codebase develops.
+This project follows a minimal, security-focused architecture:
+
+- **TypeScript-based**: Strict type checking enabled
+- **Minimal dependencies**: Zero runtime dependencies, minimal dev dependencies
+- **Framework-agnostic**: Works with any JavaScript framework or runtime
+- **Security-first**: Uses `Object.create(null)` to prevent prototype pollution
