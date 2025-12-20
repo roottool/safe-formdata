@@ -15,7 +15,7 @@
  * @see {@link https://github.com/roottool/safe-formdata/blob/main/AGENTS.md#prototype-safety AGENTS.md > Security rules > Prototype safety}
  */
 export const FORBIDDEN_KEYS = new Set<string>([
-  '__proto__',
-  'prototype',
-  'constructor',
-] as const satisfies readonly string[])
+	"__proto__",
+	"prototype",
+	"constructor",
+] as const satisfies readonly string[]);

@@ -1,5 +1,5 @@
-import type { ParseIssue } from '#types/ParseIssue'
-import type { IssueCode } from '#types/IssueCode'
+import type { ParseIssue } from "#types/ParseIssue";
+import type { IssueCode } from "#types/IssueCode";
 
 /**
  * Payload for creating a ParseIssue.
@@ -7,7 +7,7 @@ import type { IssueCode } from '#types/IssueCode'
  * @property key - The problematic key that triggered the issue (for debugging)
  */
 interface IssuePayload {
-  key?: unknown
+	key?: unknown;
 }
 
 /**
@@ -23,13 +23,10 @@ interface IssuePayload {
  *
  * @internal
  */
-export function createIssue(
-  code: IssueCode,
-  payload: IssuePayload = {},
-): ParseIssue {
-  return {
-    code,
-    path: [],
-    ...payload,
-  }
+export function createIssue(code: IssueCode, payload: IssuePayload = {}): ParseIssue {
+	return {
+		code,
+		path: [],
+		...payload,
+	};
 }
