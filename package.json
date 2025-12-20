@@ -5,10 +5,12 @@
   "author": "roottool",
   "repository": {
     "type": "git",
-    "url": "https://github.com/roottool/safe-formdata"
+    "url": "git+https://github.com/roottool/safe-formdata.git"
   },
   "imports": {
     "#*": {
+      "types": "./src/*.ts",
+      "import": "./src/*.ts",
       "default": "./src/*.ts"
     }
   },
@@ -18,8 +20,9 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "default": "./dist/index.js"
     }
   },
   "files": [
@@ -34,14 +37,17 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "type-check": "tsc --noEmit",
-    "prepublishOnly": "bun run type-check && bun run test && bun run build"
+    "check-exports": "publint && attw --pack . --ignore-rules cjs-resolves-to-esm",
+    "prepublishOnly": "bun run type-check && bun run test && bun run build && bun run check-exports"
   },
   "engines": {
     "node": ">=20.0.0"
   },
   "devDependencies": {
+    "@arethetypeswrong/cli": "0.18.2",
     "@types/node": "25.0.3",
     "@vitest/coverage-v8": "4.0.16",
+    "publint": "0.3.16",
     "terser": "5.44.1",
     "tsup": "8.5.1",
     "typescript": "5.9.3",
