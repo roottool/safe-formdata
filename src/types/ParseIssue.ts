@@ -1,7 +1,7 @@
 import type { IssueCode } from '#types/IssueCode'
 
-export type ParseIssue = {
+export interface ParseIssue {
   code: IssueCode
-  path: string[]
+  path: readonly []
   key?: unknown
 }

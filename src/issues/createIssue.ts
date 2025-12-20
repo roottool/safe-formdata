@@ -25,7 +25,7 @@ interface IssuePayload {
  */
 export function createIssue(
   code: IssueCode,
-  payload: IssuePayload
+  payload: IssuePayload = {},
 ): ParseIssue {
   return {
     code,
