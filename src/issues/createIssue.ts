@@ -4,7 +4,7 @@ import type { IssueCode } from "#types/IssueCode";
 /**
  * Payload for creating a ParseIssue.
  *
- * @property key - The problematic key that triggered the issue (for debugging)
+ * @property {unknown} key - The problematic key that triggered the issue (for debugging)
  */
 interface IssuePayload {
 	key?: unknown;
