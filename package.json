@@ -37,6 +37,7 @@
   "devDependencies": {
     "@types/node": "24.10.4",
     "@vitest/coverage-v8": "4.0.16",
+    "terser": "5.44.1",
     "tsup": "8.5.1",
     "typescript": "5.9.3",
     "vitest": "4.0.16"
