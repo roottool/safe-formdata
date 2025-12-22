@@ -140,17 +140,17 @@ parse(formData): ParseResult
 
 ```ts
 export interface ParseResult {
-  data: Record<string, string | File> | null
-  issues: ParseIssue[]
+  data: Record<string, string | File> | null;
+  issues: ParseIssue[];
 }
 
 export interface ParseIssue {
-  code: ParseIssueCode
-  path: string[]
-  key?: unknown
+  code: ParseIssueCode;
+  path: string[];
+  key?: unknown;
 }
 
-export type ParseIssueCode = "invalid_key" | "forbidden_key" | "duplicate_key"
+export type ParseIssueCode = "invalid_key" | "forbidden_key" | "duplicate_key";
 ```
 
 ---

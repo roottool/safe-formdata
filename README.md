@@ -58,9 +58,9 @@ to preserve the integrity of the FormData boundary.
 ### parse(formData): ParseResult
 
 ```ts
-import { parse } from 'safe-formdata'
+import { parse } from "safe-formdata";
 
-const { data, issues } = parse(formData)
+const { data, issues } = parse(formData);
 ```
 
 - `data` is `null` if any boundary violations are detected
@@ -71,8 +71,8 @@ const { data, issues } = parse(formData)
 
 ```ts
 export interface ParseResult {
-  data: Record<string, string | File> | null
-  issues: ParseIssue[]
+  data: Record<string, string | File> | null;
+  issues: ParseIssue[];
 }
 ```
 
@@ -84,9 +84,9 @@ export interface ParseResult {
 
 ```ts
 export interface ParseIssue {
-  code: 'invalid_key' | 'forbidden_key' | 'duplicate_key'
-  path: string[]
-  key?: unknown
+  code: "invalid_key" | "forbidden_key" | "duplicate_key";
+  path: string[];
+  key?: unknown;
 }
 ```
 
@@ -121,7 +121,7 @@ that the library intentionally does not provide.
 The output type is intentionally flat:
 
 ```ts
-Record<string, string | File>
+Record<string, string | File>;
 ```
 
 ### Why no throwing or `parseOrThrow`?
