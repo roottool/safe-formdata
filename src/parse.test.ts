@@ -104,6 +104,17 @@ describe("invalid key detection", () => {
 		expect(issue.key).toBe("");
 		expect(issue.path).toEqual([]);
 	});
+
+	it("handles non-string keys gracefully if they occur", () => {
+		const fd = new FormData();
+		// Handle cases where null or undefined keys might be injected
+		// by specific environments or legacy polyfills.
+		fd.append(null as any, "value");
+
+		const result = parse(fd);
+		expect(result.data).toBeNull();
+		expect(result.issues[0]?.code).toBe("invalid_key");
+	});
 });
 
 describe("boundary constraints", () => {
