@@ -44,7 +44,7 @@
 		"test:coverage": "vitest run --coverage",
 		"type-check": "tsc --noEmit",
 		"check-exports": "publint && attw --pack . --ignore-rules cjs-resolves-to-esm",
-		"prepublishOnly": "bun run type-check && bun run test && bun run build && bun run check-exports"
+		"prepublishOnly": "bun run type-check && bun run test:coverage && bun run build && bun run check-exports"
 	},
 	"engines": {
 		"node": ">=20.0.0"
