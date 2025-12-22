@@ -1,0 +1,30 @@
+# Codecov configuration for safe-formdata
+# This project requires 100% test coverage
+
+coverage:
+  precision: 2
+  round: down
+  range: "100...100"
+
+  status:
+    project:
+      default:
+        target: 100%
+        threshold: 0%
+        if_ci_failed: error
+
+    patch:
+      default:
+        target: 100%
+        threshold: 0%
+        if_ci_failed: error
+
+comment:
+  layout: "header, diff, flags, components"
+  behavior: default
+  require_changes: false
+  require_base: false
+  require_head: true
+
+github_checks:
+  annotations: true
