@@ -23,7 +23,10 @@ This document provides guidelines for contributing to this boundary-focused Form
 ### Prerequisites
 
 - Node.js ^20.19.0 || >= 22.12.0
-- Package manager: Bun (recommended), npm also supported
+- Package manager: Bun
+
+This project uses Bun for development.
+Other package managers are not supported.
 
 ### Installation
 
