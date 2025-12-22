@@ -1,5 +1,17 @@
 # AGENTS.md
 
+## Prerequisites
+
+This document translates the design principles and decisions in **README.md** into implementation-level technical rules.
+
+Before implementing, review:
+
+- README.md: Design principles
+- README.md: Security scope
+- README.md: Design decisions (Why not?)
+
+---
+
 ## Purpose
 
 safe-formdata is a **boundary-focused FormData parser**.
@@ -83,21 +95,11 @@ This is non-optional and part of the boundary definition.
 
 ---
 
-## Security guarantees (within scope)
+## Security guarantees
 
-### In scope
+> **Note**: For security scope definitions, see **README.md Security scope section**.
 
-- Prevention of prototype pollution via forbidden keys
-- Detection of duplicate keys
-- Detection of structurally invalid keys
-- Explicit reporting of all structural issues
-
-### Out of scope
-
-- Value validation or type coercion
-- Authorization or authentication
-- Denial-of-service protection (e.g. large payloads)
-- Framework- or ecosystem-specific behavior
+For implementation-level security constraints, see the **Security rules (mandatory) section** above.
 
 ---
 
@@ -137,8 +139,8 @@ parse(formData): ParseResult
 ### Type definitions
 
 ```ts
-export interface ParseResult<T = Record<string, string | File>> {
-  data: T | null;
+export interface ParseResult {
+  data: Record<string, string | File> | null;
   issues: ParseIssue[];
 }
 
@@ -177,28 +179,11 @@ v0.1.0 establishes the FormData boundary with:
 - Non-throwing issue reporting
 - A minimal, stable public API
 
-Explicitly excluded from v0.1.0:
-
-- Structural inference (arrays or objects)
-- Duplicate key resolution
-- Validation or schema integration
-- Framework-specific behavior
-- Performance optimizations beyond correctness
-
 ---
 
-## Versioning intent
+## Versioning
 
-### v0.x
-
-- Establish and clarify the FormData boundary.
-- Breaking changes allowed only to strengthen the boundary.
-
-### v1.0+
-
-- Boundary definition becomes a stable contract.
-- Public API and IssueCode semantics are frozen.
-- Semantic versioning applies.
+For versioning policy details, see **README.md Versioning section**.
 
 ---
 

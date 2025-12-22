@@ -1,217 +1,150 @@
 # safe-formdata
 
-**FormData Boundary**
+**The strict trust boundary for FormData.**
 
-safe-formdata is a boundary-focused FormData parser. It enforces a strict boundary between untrusted input and application logic.
+safe-formdata is a **security-focused** parser that establishes a predictable boundary between untrusted input and application logic.
+It enforces strict rules on keys and forbids structural inference by design.
 
 ---
 
 ## Overview
 
-FormData is inherently untyped and unstructured. Many existing parsers attempt to infer meaning from key naming conventions, silently merging or transforming input along the way.
+FormData is untyped and unstructured by nature.
+Many parsers attempt to infer structure or semantics from key naming conventions.
 
-safe-formdata takes a different approach.
+safe-formdata intentionally does not.
 
-It establishes a strict boundary at the point where FormData enters your application, performing only minimal, security-focused parsing without inferring structure, semantics, or intent.
+It performs only minimal, security-focused parsing and reports
+all structural issues explicitly, without inferring structure, intent, or meaning.
 
 ---
 
 ## Design principles
 
-safe-formdata is built around the following principles:
-
-- **Keys are opaque strings**  
-  No structure is inferred from key names.
-
-- **No silent fixes**  
+- 🧱 **Keys are opaque**  
+  Key names are never interpreted as structure.
+- 🚫 **No silent fixes**  
   Invalid or conflicting input is reported, not corrected.
-
-- **Parsing is not validation**  
-  Structural parsing is separated from schema or business logic.
-
-- **Security over convenience**  
+- ⚖️ **Parsing is not validation**  
+  Schema and business logic belong outside the boundary.
+- 🔒️ **Security over convenience**  
   Unsafe input is surfaced early and explicitly.
 
 ---
 
-## Security guarantees
-
-safe-formdata provides the following guarantees **within its scope**.
+## Security scope
 
 ### In scope
 
-- Prevention of prototype pollution via forbidden keys
-- Detection of duplicate keys
-- Detection of structurally invalid keys
-- Explicit reporting of all structural issues
+- Forbidden keys (e.g. prototype pollution)
+- Duplicate keys
+- Structurally invalid keys
+- Explicit reporting of all issues
 
 ### Out of scope
 
-- Value validation or type coercion
-- Authorization or authentication
-- Denial-of-service protection (e.g. large payloads)
-- Framework- or ecosystem-specific behavior
+- Value validation or coercion
+- Authentication or authorization
+- Denial-of-service protection
+- Framework-specific behavior
 
-safe-formdata reports structural issues instead of throwing,
+safe-formdata reports issues instead of throwing,
 to preserve the integrity of the FormData boundary.
-
----
-
-## Non-goals
-
-safe-formdata intentionally does **not** attempt to:
-
-### Infer structure from keys
-
-- Interpret bracket notation such as `items[]` or `user[name]`
-- Convert naming conventions into arrays or nested objects
-
-Keys are treated as opaque strings.
-
----
-
-### Merge or override duplicate keys
-
-- Merge values into arrays
-- Apply first-wins or last-wins semantics
-
-Duplicate keys are always reported as boundary violations.
-
----
-
-### Perform validation or type coercion
-
-- Validate value formats or ranges
-- Coerce strings into numbers, booleans, or other types
-
-Validation belongs outside the FormData boundary.
-
----
-
-### Handle business or application logic
-
-- Authorization or authentication decisions
-- Application-specific semantics
-
----
-
-### Provide framework- or ecosystem-specific behavior
-
-- PHP-style array encoding
-- Framework conventions (e.g. Express, Rails, Laravel)
-
-safe-formdata is framework-agnostic by design.
 
 ---
 
 ## API
 
-### parse(formData)
+### parse(formData): ParseResult
 
 ```ts
-import { parse } from 'safe-formdata'
+import { parse } from "safe-formdata";
 
-const result = parse(formData)
-```
-
-Returns a `ParseResult`.
-
----
-
-## ParseResult
-
-```ts
-export interface ParseResult<T = Record<string, string | File>> {
-  data: T | null
-  issues: ParseIssue[]
-}
+const { data, issues } = parse(formData);
 ```
 
 - `data` is `null` if any boundary violations are detected
 - `issues` contains all detected structural issues
+- Partial success is not allowed
 
-Partial success is not allowed.
-
----
-
-## ParseIssue
+### Result
 
 ```ts
-export interface ParseIssue {
-  code: ParseIssueCode
-  path: string[]
-  key?: unknown
+export interface ParseResult {
+  data: Record<string, string | File> | null;
+  issues: ParseIssue[];
 }
 ```
 
-- `code`: The type of issue (`invalid_key`, `forbidden_key`, or `duplicate_key`)
-- `path`: Always an empty array. Exists only to preserve compatibility with external issue formats
-- `key?`: The problematic key that triggered the issue (for debugging purposes)
+- `data` is non-null only when no boundary violations are detected
+- `data` is always a flat object; no structural inference is performed
+- `issues` must always be checked by the caller
 
-Issues are informational and must be handled explicitly by the caller. They are not thrown as exceptions.
-
----
-
-### ParseIssueCode
+### Issues
 
 ```ts
-export type ParseIssueCode =
-  | 'invalid_key'
-  | 'forbidden_key'
-  | 'duplicate_key'
+export interface ParseIssue {
+  code: "invalid_key" | "forbidden_key" | "duplicate_key";
+  path: string[];
+  key?: unknown;
+}
 ```
 
-#### invalid_key
+- `path` is always empty and exists only for compatibility
+- Issues are informational and are never thrown
 
-The FormData key is not a valid string key.
+## Design decisions (Why not?)
 
----
+safe-formdata intentionally omits several common features.
 
-#### forbidden_key
+### Why no structural inference?
 
-The key is explicitly forbidden for security reasons (e.g. prototype pollution).
+Keys such as `a[b][c]`, `user.name`, or `items[]`
+are treated as opaque strings, not paths.
 
----
+```ts
+{
+  "a[b][c]": "value"
+}
+```
 
-#### duplicate_key
+Inferring structure introduces ambiguity and security risks.
+safe-formdata validates keys, but never constructs objects from them.
 
-The same key appears more than once.
+### Why no generic type parameters?
 
----
+safe-formdata does not produce typed structural output.
+
+Allowing generic types would imply runtime guarantees
+that the library intentionally does not provide.
+
+The output type is intentionally flat:
+
+```ts
+Record<string, string | File>;
+```
+
+### Why no throwing or `parseOrThrow`?
+
+FormData is external input.
+Throwing encourages accidental 500 errors and obscures boundary handling.
+
+safe-formdata exposes a single, explicit error-handling model:
+inspect issues and decide what to do.
+
+### What is safe-formdata not?
+
+- Not a schema validator
+- Not a typed form parser
+- Not a replacement for Zod, Yup, or similar libraries
+
+safe-formdata defines a safe boundary.
+Validation and typing belong beyond it.
 
 ## Versioning
 
-### v0.1.0 scope
-
-v0.1.0 establishes the FormData boundary.
-
-This release focuses exclusively on safe, minimal parsing of FormData
-without inferring structure, semantics, or intent.
-
-#### In scope (v0.1.0)
-
-- Flat FormData parsing into a plain JavaScript object
-- Detection of forbidden, duplicate, and invalid keys
-- Non-throwing issue reporting
-- A minimal, stable public API
-
-#### Out of scope (v0.1.0)
-
-- Structural inference (arrays or objects)
-- Duplicate key resolution
-- Validation or schema integration
-- Framework-specific behavior
-- Performance optimizations beyond correctness
-
-Within v0.x:
-
-- The FormData boundary definition will not change
-- IssueCode semantics will remain stable
-- No inference or convenience features will be added
-
-Breaking changes may occur before v1.0 only to strengthen or clarify the boundary.
-
----
+v0.x focuses exclusively on establishing and clarifying the FormData boundary.
+No inference or convenience features will be added within v0.x.
 
 ## License
 
