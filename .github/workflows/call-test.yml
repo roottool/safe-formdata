@@ -1,0 +1,40 @@
+name: Test (workflow_call)
+run-name: "${{ github.workflow }} (${{ github.ref_name }}): ${{ github.event.pull_request.title }}"
+
+on:
+  workflow_call:
+    secrets:
+      CODECOV_TOKEN:
+        description: Token for Codecov upload
+        required: true
+
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          persist-credentials: false
+
+      - name: Initialize
+        uses: ./.github/actions/setup-environment
+
+      - name: Run tests with coverage
+        run: bun run test:coverage
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true
