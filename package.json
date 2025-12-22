@@ -26,9 +26,7 @@
 		}
 	},
 	"files": [
-		"dist",
-		"README.md",
-		"LICENSE"
+		"dist"
 	],
 	"scripts": {
 		"dev": "tsup --watch",
