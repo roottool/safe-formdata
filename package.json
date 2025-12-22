@@ -45,7 +45,7 @@
 		"prepublishOnly": "bun run type-check && bun run test:coverage && bun run build && bun run check-exports"
 	},
 	"engines": {
-		"node": ">=20.0.0"
+		"node": "^20.19.0 || >= 22.12.0"
 	},
 	"devDependencies": {
 		"@arethetypeswrong/cli": "0.18.2",
