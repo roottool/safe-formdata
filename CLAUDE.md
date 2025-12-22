@@ -8,15 +8,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Critical: Follow AGENTS.md
 
-**All implementation and review decisions must strictly adhere to AGENTS.md**, which defines the non-negotiable rules for this project:
+**All implementation and review decisions must strictly adhere to AGENTS.md**, which defines the non-negotiable technical rules:
 
-- Core design rules (opaque keys, no silent behavior, no inference, explicit issue reporting)
-- Security rules (prototype safety, prototype-free data containers)
-- API contract (minimal public API, fixed IssueCode values)
-- Non-goals (hard exclusions)
-- Review criteria
+- Implementation-level interpretation of README.md design principles
+- Security implementation rules (prototype safety, forbidden keys)
+- API contract and type definitions
+- Non-goals (hard exclusions for any feature requests)
+- Code review criteria ("Review rule of thumb")
 
-When in doubt, consult AGENTS.md. If a change makes the parser smarter, more convenient, or more opinionated, it likely violates the boundary and should be rejected.
+When implementing features or reviewing code:
+
+1. First, confirm alignment with README.md design principles
+2. Then, apply AGENTS.md technical constraints
+3. If a change makes the parser smarter/more convenient, it likely violates the boundary → reject it
 
 ## API Documentation
 
@@ -24,10 +28,11 @@ For complete API documentation, TypeScript interfaces, and usage examples, see *
 
 Key resources:
 
-- ParseResult and ParseIssue interfaces
-- ParseIssueCode values and meanings
-- Security guarantees (in scope vs out of scope)
-- v0.1.0 scope definition
+- API interfaces (ParseResult, ParseIssue)
+- Issue codes (invalid_key, forbidden_key, duplicate_key)
+- Security scope (in scope vs out of scope)
+- Design decisions (Why no structural inference?, etc.)
+- Versioning policy
 
 ## Development Commands
 
@@ -56,12 +61,6 @@ bun run test:coverage     # Run tests with coverage report
 ```bash
 bun run build        # Build for production
 bun run type-check   # TypeScript type checking
-```
-
-### Publishing
-
-```bash
-npm publish          # Publish to npm (runs prepublishOnly hook)
 ```
 
 ## Architecture Notes
