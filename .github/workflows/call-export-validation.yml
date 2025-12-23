@@ -32,4 +32,4 @@ jobs:
           echo "Build verification successful"
 
       - name: Validate exports
-        run: bun run check-exports
+        run: bun run check:package
