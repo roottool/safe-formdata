@@ -1,0 +1,82 @@
+name: CI
+run-name: "${{ github.workflow }} (${{ github.ref_name }}): ${{ github.event.pull_request.title }}"
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
+
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# This workflow contains core CI jobs that run on push/pull_request events.
+# For additional jobs, create separate workflow_call files (e.g., call-*.yml)
+# and invoke them from this workflow. See .github/workflows/call-dependency-review.yml for reference.
+jobs:
+  setup:
+    name: Setup
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      pull-requests: read
+    if: ${{ !github.event.pull_request.draft }}
+    outputs:
+      dependencies: ${{ steps.filter.outputs.dependencies }}
+      typescript: ${{ steps.filter.outputs.typescript }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          persist-credentials: false
+
+      - name: Initialize
+        uses: ./.github/actions/setup-environment
+
+      - name: Check diff targets by path filters
+        uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
+        id: filter
+        with:
+          filters: |
+            dependencies:
+              - 'bun.lock'
+            typescript:
+              - 'bun.lock'
+              - '**/tsconfig*.json'
+              - '**/*.ts'
+              - '**/*.tsx'
+
+  lint-format:
+    needs: [setup]
+    uses: ./.github/workflows/call-lint-format.yml
+
+  type-check:
+    needs: [setup]
+    if: ${{ needs.setup.outputs.typescript == 'true' }}
+    uses: ./.github/workflows/call-type-check.yml
+
+  test:
+    needs: [setup]
+    uses: ./.github/workflows/call-test.yml
+    secrets:
+      CODECOV_TOKEN: "${{ secrets.CODECOV_TOKEN }}"
+
+  export-validation:
+    needs: [setup, lint-format, type-check, test]
+    if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
+    uses: ./.github/workflows/call-export-validation.yml
+
+  status-check:
+    name: Status Check
+    runs-on: ubuntu-slim
+    timeout-minutes: 1
+    needs: [setup, lint-format, type-check, test, export-validation]
+    if: always() && (contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled'))
+    steps:
+      - run: exit 1

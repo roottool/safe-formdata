@@ -1,0 +1,35 @@
+name: Export Validation (workflow_call)
+run-name: "${{ github.workflow }} (${{ github.ref_name }}): ${{ github.event.pull_request.title }}"
+
+on: workflow_call
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  export-validation:
+    name: Export Validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          persist-credentials: false
+
+      - name: Initialize
+        uses: ./.github/actions/setup-environment
+
+      - name: Build package
+        run: bun run build
+
+      - name: Verify build outputs
+        run: |
+          test -f dist/index.js || (echo "dist/index.js not found" && exit 1)
+          test -f dist/index.js.map || (echo "dist/index.js.map not found" && exit 1)
+          test -f dist/index.d.ts || (echo "dist/index.d.ts not found" && exit 1)
+          echo "Build verification successful"
+
+      - name: Validate exports
+        run: bun run check:package

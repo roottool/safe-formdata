@@ -7,6 +7,10 @@
 		"type": "git",
 		"url": "git+https://github.com/roottool/safe-formdata.git"
 	},
+	"bugs": {
+		"url": "https://github.com/roottool/safe-formdata/issues"
+	},
+	"homepage": "https://github.com/roottool/safe-formdata#readme",
 	"imports": {
 		"#*": {
 			"types": "./src/*.ts",
