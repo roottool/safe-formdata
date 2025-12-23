@@ -54,15 +54,13 @@ export function parse(formData: FormData): ParseResult {
 		data[key] = value;
 	}
 
-	if (issues.length > 0) {
-		return {
-			data: null,
-			issues,
-		};
-	}
-
-	return {
-		data,
-		issues: [],
-	};
+	return issues.length > 0
+		? {
+				data: null,
+				issues,
+			}
+		: {
+				data,
+				issues: [],
+			};
 }
