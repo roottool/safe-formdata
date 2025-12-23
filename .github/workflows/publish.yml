@@ -53,7 +53,7 @@ jobs:
           persist-credentials: false
 
       - name: Initialize
-        uses: ./.github/actions/setup-environment.yml
+        uses: ./.github/actions/setup-environment
 
       - name: Run prepublishOnly
         run: bun run prepublishOnly
