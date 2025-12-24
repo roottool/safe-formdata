@@ -22,4 +22,4 @@ jobs:
         uses: ./.github/actions/setup-environment
 
       - name: Run Lint & Format Check
-        run: bun run check:source
+        run: bun run check:source:ci
