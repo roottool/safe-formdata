@@ -35,13 +35,13 @@ body:
         // Your code here
         const result = parse(formData);
         ```
-      validations:
-        required: true
+    validations:
+      required: true
 
   - type: input
     id: version
     attributes:
       label: safe-formdata version
       placeholder: e.g., 0.1.0
-      validations:
-        required: true
+    validations:
+      required: true
