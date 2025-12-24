@@ -4,7 +4,7 @@
 
 [![npm version](https://img.shields.io/npm/v/safe-formdata)](https://www.npmjs.com/package/safe-formdata)
 [![CI](https://github.com/roottool/safe-formdata/actions/workflows/ci.yml/badge.svg)](https://github.com/roottool/safe-formdata/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/gh/roottool/safe-formdata/graph/badge.svg)](https://codecov.io/gh/USroottoolER/safe-formdata)
+[![codecov](https://codecov.io/gh/roottool/safe-formdata/graph/badge.svg)](https://codecov.io/gh/roottool/safe-formdata)
 
 safe-formdata is a **security-focused** parser that establishes a predictable boundary between untrusted input and application logic.
 It enforces strict rules on keys and forbids structural inference by design.
