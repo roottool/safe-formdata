@@ -1,0 +1,69 @@
+name: Security Issue
+description: Report a security concern within the FormData parsing boundary
+title: "[Security]: "
+labels: ["security"]
+blank_issues_enabled: false
+contact_links:
+  - name: Security Vulnerability (Private)
+    url: https://github.com/roottool/safe-formdata/security/advisories/new
+    about: Report a security vulnerability privately via GitHub Security Advisories
+  - name: Question or Discussion
+    url: https://github.com/roottool/safe-formdata/discussions
+    about: Ask questions or discuss ideas about safe-formdata
+  - name: Documentation
+    url: https://github.com/roottool/safe-formdata#readme
+    about: Read the README for API documentation, design principles, and usage examples
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For sensitive vulnerabilities, please use **GitHub Security Advisories** (private).
+
+        This template is for **non-sensitive security concerns or design questions**
+        within the FormData parsing boundary.
+
+        safe-formdata defines a **strict trust boundary** between untrusted FormData input
+        and application logic.
+
+        Security decisions and issue triage are based on the definitions in SECURITY.md.
+
+  - type: checkboxes
+    id: security-scope
+    attributes:
+      label: Security scope confirmation
+      options:
+        - label: This issue relates to boundary security (prototype pollution, forbidden keys, duplicate keys)
+          required: true
+        - label: This issue is **not** about value validation, authentication, framework behavior, or denial-of-service
+          required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Detailed description of the security issue or concern
+      validations:
+        required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Proof of concept / reproduction
+      description: Minimal code or steps to demonstrate the issue
+      placeholder: |
+        ```ts
+        import { parse } from "safe-formdata";
+        const formData = new FormData();
+        // Demonstration code here
+        const result = parse(formData);
+        ```
+      validations:
+        required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Affected safe-formdata version
+      placeholder: e.g., 0.1.0
+      validations:
+        required: true

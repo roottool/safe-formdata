@@ -1,0 +1,47 @@
+name: Bug Report
+description: Report a bug within the FormData parsing boundary
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        safe-formdata defines a **strict trust boundary** between untrusted FormData input
+        and application logic.
+
+        Only issues **within this boundary** are considered bugs.
+
+        Security decisions and issue triage are based on the definitions in SECURITY.md.
+
+  - type: checkboxes
+    id: scope-check
+    attributes:
+      label: Scope confirmation
+      options:
+        - label: This issue concerns FormData parsing behavior **within the defined boundary**
+          required: true
+        - label: This issue is **not** about value validation, schema enforcement, framework behavior, or application logic
+          required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproducible example
+      description: Provide the smallest example to reproduce the bug
+      placeholder: |
+        ```ts
+        import { parse } from "safe-formdata";
+        const formData = new FormData();
+        // Your code here
+        const result = parse(formData);
+        ```
+      validations:
+        required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: safe-formdata version
+      placeholder: e.g., 0.1.0
+      validations:
+        required: true
