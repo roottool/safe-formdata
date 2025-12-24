@@ -9,13 +9,13 @@ changelog:
     - title: Breaking Changes
       labels: ["Type: Breaking Change"]
     - title: Features
-      labels: ["Type: Feature"]
+      labels: ["Type: enhancement"]
     - title: Bug Fixes
-      labels: ["Type: Bug"]
+      labels: ["Type: bug"]
     - title: Documentation
-      labels: ["Type: Documentation"]
+      labels: ["Type: Documentation", "documentation"]
     - title: CI
-      labels: ["Type: CI"]
+      labels: ["Type: CI", "ci"]
     - title: Dependency Updates
       labels: ["Type: Dependencies", "dependencies"]
     - title: Other Changes
