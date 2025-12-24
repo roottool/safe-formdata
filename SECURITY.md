@@ -2,11 +2,15 @@
 
 safe-formdata is a **boundary-focused FormData parser** designed with security as a core principle.
 
-This document explains:
+This document defines:
 
-- How to report security vulnerabilities
-- What is considered in scope vs out of scope
-- The security guarantees and design assumptions of this library
+- How to report security issues responsibly
+- What is considered **in scope** vs **out of scope**
+- The security guarantees and assumptions of this library
+- How security-related issues are evaluated and handled
+
+This policy serves as the **authoritative reference** for security-related decisions,
+including issue triage and closure.
 
 ---
 
@@ -14,44 +18,106 @@ This document explains:
 
 **Only the latest release receives security updates.**
 
-Security fixes are not backported to previous versions. Users should upgrade to the latest version to receive security patches.
+Security fixes are not backported.
+Users must upgrade to the latest version to receive security patches.
+
+---
+
+## Public vs Private Reporting
+
+safe-formdata distinguishes clearly between **private vulnerability disclosure**
+and **public security discussion**.
+
+### Private (Security Advisory)
+
+Use **GitHub Security Advisories** for:
+
+- Reproducible vulnerabilities
+- Exploit techniques or payloads
+- Issues that could be actively abused
+- Any report containing proof-of-concept code
+
+👉 Report privately here:  
+<https://github.com/roottool/safe-formdata/security/advisories/new>
+
+### Public Issue
+
+Public issues are appropriate only for:
+
+- **Design-level security questions**
+- **Non-sensitive security concerns**
+- Documentation gaps or unclear guarantees
+- Boundary assumptions that need clarification
+
+**Do not include exploit code or detailed attack vectors in public issues.**
+
+If you are unsure, **report privately first**.
 
 ---
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability in safe-formdata, please report it responsibly:
+To report a security issue responsibly:
 
-1. **Preferred**: [Open a GitHub Security Advisory](https://github.com/roottool/safe-formdata/security/advisories/new)
-2. **Alternative**: Open a public issue with a clear, non-sensitive description
+1. **Preferred**: Open a GitHub Security Advisory (private)
+2. **Alternative**: Open a public issue with a high-level, non-sensitive description
 
-**Important**: Do **not** include exploit code or detailed attack vectors in public issues. Use Security Advisories for sensitive disclosures.
+Public issues that include sensitive details may be closed and redirected
+to private reporting.
 
 ---
 
 ## Security Scope
 
-safe-formdata establishes a **strict boundary** between untrusted FormData input and application logic. The security scope is defined by this boundary.
+safe-formdata establishes a **strict trust boundary** between untrusted FormData input
+and application logic.
 
-### In scope
+All security issues are evaluated relative to this boundary.
 
-Issues within the parsing boundary are considered security vulnerabilities:
+### In Scope (Boundary-Level Vulnerabilities)
 
-- **Prototype pollution**: Bypassing forbidden key detection (`__proto__`, `constructor`, `prototype`)
-- **Boundary violations**: Incorrect handling of duplicate or invalid keys that allows ambiguous or unsafe state
-- **Unsafe parsing**: Any behavior that allows untrusted FormData to cross the boundary without proper issue reporting
-- **Data integrity**: Violations of the guarantee that `data` uses `Object.create(null)`
+The following are considered security vulnerabilities in safe-formdata:
 
-### Out of scope
+- **Prototype pollution**
+  - Bypassing forbidden key detection (`__proto__`, `constructor`, `prototype`)
+- **Boundary violations**
+  - Incorrect handling of duplicate or invalid keys that allows ambiguous or unsafe state
+- **Unsafe parsing behavior**
+  - Untrusted FormData crossing the boundary without explicit issue reporting
+- **Data integrity violations**
+  - Failure to guarantee that parsed `data` is created via `Object.create(null)`
 
-Issues outside the parsing boundary are **not** considered security vulnerabilities:
+These issues directly compromise the safety of the FormData boundary.
 
-- **Application logic**: Value validation, business rules, or authorization checks
-- **Framework behavior**: Framework-specific integration or request handling
-- **Resource exhaustion**: Denial-of-service via large inputs or excessive keys
-- **API misuse**: Incorrect usage of the library by consumers (e.g., ignoring `issues`)
+### Out of Scope (Not Vulnerabilities)
 
-These concerns belong to the application layer, outside the FormData parsing boundary.
+The following are **not** considered security vulnerabilities:
+
+- **Application logic**
+  - Value validation, business rules, authorization, or authentication
+- **Framework behavior**
+  - Framework-specific request parsing or integration details
+- **Resource exhaustion**
+  - Denial-of-service via large inputs or excessive keys
+- **API misuse**
+  - Incorrect usage by consumers (e.g., ignoring `issues`)
+
+If an issue falls under these categories,  
+it will be **closed without action**, even if it has security implications
+at the application level.
+
+---
+
+## Common Misclassification
+
+The following are **common but incorrect security reports**:
+
+- Ignoring `issues` and using `data` anyway
+- Treating parsed values as trusted without validation
+- Expecting schema validation, type guarantees, or coercion
+- Assuming framework-style parsing or convenience behavior
+
+These are **application-level responsibilities**, not library vulnerabilities.
 
 ---
 
@@ -59,18 +125,25 @@ These concerns belong to the application layer, outside the FormData parsing bou
 
 safe-formdata provides the following **security guarantees**:
 
-- **Forbidden keys are rejected**: `__proto__`, `constructor`, and `prototype` are always detected and reported
-- **No prototype chain**: Parsed `data` is always created with `Object.create(null)`
-- **Explicit issue reporting**: All boundary violations are reported in `issues`; nothing is silently corrected
-- **Predictable behavior**: No structural inference, no silent merging, no implicit conversions
+- **Forbidden keys are always detected**
+  - `__proto__`, `constructor`, and `prototype` are rejected
+- **No prototype chain**
+  - Parsed `data` is always created with `Object.create(null)`
+- **Explicit issue reporting**
+  - All boundary violations are reported in `issues`
+  - No silent correction or inference
+- **Predictable behavior**
+  - No structural inference
+  - No silent merging
+  - No implicit conversions
 
 safe-formdata **assumes**:
 
-- Input FormData is **fully untrusted**
+- All input FormData is **fully untrusted**
 - Consumers **must check** `issues` before using `data`
-- Value validation and business logic are performed **outside the parsing boundary**
+- Validation and business logic are performed **outside the boundary**
 
-**Important**: Violations of these assumptions (e.g., ignoring `issues`, not validating values) are **not** library vulnerabilities—they are application-level security issues.
+**Important**: Violating these assumptions is **not** a library vulnerability.
 
 ---
 
@@ -78,21 +151,30 @@ safe-formdata **assumes**:
 
 Security reports are handled as follows:
 
-1. **Review**: Issues are evaluated against the security scope defined above
-2. **Response**: You will receive an initial response
-3. **Fix timeline**: In-scope vulnerabilities will be prioritized and addressed promptly
-4. **Disclosure**: Fixes will be released with security notes in the changelog
+1. **Review**
+   - Issues are evaluated against the security scope defined above
+2. **Response**
+   - An initial response will be provided
+3. **Fix**
+   - In-scope vulnerabilities are prioritized and addressed
+4. **Disclosure**
+   - Fixes are released with security notes in the changelog
 
-### Breaking changes
+### Breaking Changes
 
-Security fixes **may introduce breaking changes** in v0.x releases if required to strengthen the boundary. The project prioritizes security over backward compatibility.
+Security fixes **may introduce breaking changes**, including in v0.x releases,
+if required to strengthen the boundary.
 
-### Public disclosure
+Security takes priority over backward compatibility.
 
-Once a fix is released, the vulnerability details may be disclosed publicly to help the community understand the issue and verify the fix.
+### Public Disclosure
+
+After a fix is released, vulnerability details may be disclosed publicly
+to help the community understand and verify the fix.
 
 ---
 
 ## License
 
-This security policy and all security-related contributions are covered by the same [MIT License](./LICENSE) as the rest of the project.
+This security policy and all security-related contributions are covered
+by the same [MIT License](./LICENSE) as the rest of the project.
