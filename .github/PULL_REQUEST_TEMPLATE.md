@@ -1,32 +1,35 @@
 ## Description
 
-<!-- What does this PR change? -->
+<!-- What does this PR change? Keep it concise. -->
 
 ## Boundary Checklist (Required)
 
-> safe-formdata defines a strict trust boundary for FormData.
-> If you answer "no" to any item below, this change likely does not belong here.
+> safe-formdata enforces a **strict trust boundary** for FormData.
+> If any item below does **not** apply, this change likely does not belong here.
 
-- [ ] **No interpretation**  
-       This change does not interpret key names, infer structure, or derive meaning from input.
+- [ ] **No interpretation**
+  - Key names are treated as opaque strings
+  - No structural inference (`[]`, `.`, brackets, paths, etc.)
 
-- [ ] **No silent behavior**  
-       This change does not merge, overwrite, auto-fix, or resolve input implicitly.
+- [ ] **No silent behavior**
+  - No merging, overwriting, auto-fixing, or implicit resolution
+  - All boundary violations are reported explicitly
 
-- [ ] **Boundary respected**  
-       This change does not add validation, coercion, schema, framework conventions, or business logic.
+- [ ] **Boundary respected**
+  - No validation, coercion, schema, framework conventions, or business logic
 
-📘 Full rules: <https://github.com/roottool/safe-formdata/blob/main/AGENTS.md>
+📘 Boundary rules & non-goals:  
+<https://github.com/roottool/safe-formdata/blob/main/AGENTS.md>
 
 ## Type of Change
 
 - [ ] Bug fix
 - [ ] Security fix
-- [ ] Docs
-- [ ] Refactoring
+- [ ] Documentation
+- [ ] Refactoring (no behavior change)
 - [ ] Tests
-- [ ] Tooling
+- [ ] Tooling / CI
 
 ## Testing
 
-<!-- Tests added or updated -->
+<!-- Describe tests added or updated. If none, explain why. -->
