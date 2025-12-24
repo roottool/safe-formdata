@@ -1,5 +1,5 @@
-import { FORBIDDEN_KEYS } from "#issues/forbiddenKeys";
 import { createIssue } from "#issues/createIssue";
+import { FORBIDDEN_KEYS } from "#issues/forbiddenKeys";
 import type { ParseResult } from "#types/ParseResult";
 
 /**

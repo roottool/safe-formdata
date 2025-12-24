@@ -1,4 +1,4 @@
-import { assert, describe, it, expect } from "vitest";
+import { assert, describe, expect, it } from "vitest";
 import { parse } from "#parse";
 
 describe("valid input", () => {
