@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 import { FORBIDDEN_KEYS } from "#issues/forbiddenKeys";
 
 describe("FORBIDDEN_KEYS", () => {

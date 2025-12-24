@@ -1,5 +1,5 @@
-import type { ParseIssue } from "#types/ParseIssue";
 import type { IssueCode } from "#types/IssueCode";
+import type { ParseIssue } from "#types/ParseIssue";
 
 /**
  * Payload for creating a ParseIssue.
