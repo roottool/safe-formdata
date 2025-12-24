@@ -38,22 +38,24 @@ all structural issues explicitly, without inferring structure, intent, or meanin
 
 ## Security scope
 
-### In scope
+safe-formdata defines a **strict trust boundary** between untrusted FormData input
+and application logic.
 
-- Forbidden keys (e.g. prototype pollution)
-- Duplicate keys
-- Structurally invalid keys
-- Explicit reporting of all issues
+Within this boundary, safe-formdata focuses exclusively on:
 
-### Out of scope
+- Preventing **prototype pollution**
+- Detecting **forbidden, invalid, and duplicate keys**
+- Ensuring **explicit issue reporting** with no silent correction
+- Providing **predictable, non-inferential parsing behavior**
 
-- Value validation or coercion
-- Authentication or authorization
-- Denial-of-service protection
-- Framework-specific behavior
+Anything beyond this boundary — including value validation, schema enforcement,
+framework conventions, authentication, or denial-of-service protection —
+is **out of scope** and must be handled by the application.
 
-safe-formdata reports issues instead of throwing,
-to preserve the integrity of the FormData boundary.
+📘 **Authoritative security guarantees, assumptions, and reporting policy:**  
+See [SECURITY.md](./SECURITY.md)
+
+Security decisions and issue triage are based on the definitions in SECURITY.md.
 
 ---
 
