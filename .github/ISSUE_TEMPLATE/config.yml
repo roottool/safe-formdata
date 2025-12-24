@@ -7,11 +7,3 @@ contact_links:
   - name: Question or Discussion
     url: https://github.com/roottool/safe-formdata/discussions
     about: Ask questions or discuss ideas about safe-formdata
-
-  - name: Documentation
-    url: https://github.com/roottool/safe-formdata#readme
-    about: Read the README for API documentation, design principles, and usage examples
-
-  - name: Security Guidelines
-    url: https://github.com/roottool/safe-formdata/SECURITY.md
-    about: Learn about safe-formdata security scope, guarantees, and reporting policy
