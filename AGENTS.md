@@ -103,6 +103,17 @@ For implementation-level security constraints, see the **Security rules (mandato
 
 ---
 
+## Key validation criteria
+
+To maintain a predictable boundary, keys must meet the following criteria. Failure to do so results in an `invalid_key` issue.
+
+- **Non-empty**: A key must have a length > 0.
+  - Note: Keys consisting only of whitespace characters are considered valid as they satisfy the length requirement and preserve the "opaque strings" principle.
+- **Valid Type**: A key must be a string (FormData specifications generally ensure this, but the parser must enforce it).
+- **No reserved names**: While "opaque", keys that interfere with basic object access or are inherently ambiguous in a flat structure are rejected.
+
+---
+
 ## ParseIssue contract
 
 ### Allowed IssueCode values (fixed)
