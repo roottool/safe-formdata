@@ -86,7 +86,7 @@ Before implementing:
 Run these commands before submitting:
 
 ```bash
-bun run type-check   # TypeScript type checking must pass
+bun run check:type   # TypeScript type checking must pass
 bun run test         # All tests must pass
 bun run build        # Build must succeed
 ```
@@ -122,7 +122,7 @@ Before submitting a PR:
 - [ ] Confirmed change does not violate the boundary
 - [ ] Added tests for new functionality
 - [ ] All tests pass (`bun run test`)
-- [ ] Type checking passes (`bun run type-check`)
+- [ ] Type checking passes (`bun run check:type`)
 - [ ] Build succeeds (`bun run build`)
 
 ### PR Description
