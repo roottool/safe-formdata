@@ -16,7 +16,8 @@
 			"types": "./src/*.ts",
 			"import": "./src/*.ts",
 			"default": "./src/*.ts"
-		}
+		},
+		"#safe-formdata": "./src/index.ts"
 	},
 	"type": "module",
 	"main": "./dist/index.js",
