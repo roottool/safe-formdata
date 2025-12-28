@@ -130,6 +130,27 @@ The output type is intentionally flat:
 Record<string, string | File>;
 ```
 
+### Why no multiple values or repeated keys?
+
+HTML FormData allows the same key to appear multiple times
+(e.g. multi-select inputs or repeated checkboxes).
+
+safe-formdata intentionally treats repeated keys as a boundary violation
+and reports them as `duplicate_key` issues.
+
+While multiple values may be semantically valid in application logic,
+their interpretation necessarily implies structure
+(e.g. arrays, sets, ordering, or merging rules).
+
+Defining or inferring such structure is outside the scope of safe-formdata.
+
+safe-formdata establishes a strict, non-inferential boundary:
+each key must map to exactly one value (`string` or `File`),
+or the input is rejected.
+
+If multiple values are required, they must be normalized
+before or outside this boundary.
+
 ### Why no throwing or `parseOrThrow`?
 
 FormData is external input.
