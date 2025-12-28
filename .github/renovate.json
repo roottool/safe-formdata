@@ -4,14 +4,15 @@
 	"timezone": "Asia/Tokyo",
 	"schedule": ["before 5am on Monday"],
 	"labels": ["dependencies"],
+	"automerge": true,
+	"configMigration": true,
 	"lockFileMaintenance": {
 		"enabled": true,
 		"schedule": ["before 5am on Monday"]
 	},
 	"packageRules": [
 		{
-			"matchUpdateTypes": ["patch", "minor"],
-			"automerge": true
+			"matchUpdateTypes": ["patch", "minor"]
 		}
 	]
 }
