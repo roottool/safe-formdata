@@ -8,32 +8,32 @@ import { parse } from "#safe-formdata";
  */
 
 async function handleRequest(request: Request) {
-  // Parse incoming FormData
-  const formData = await request.formData();
+	// Parse incoming FormData
+	const formData = await request.formData();
 
-  const result = parse(formData);
+	const result = parse(formData);
 
-  if (result.data === null) {
-    // Validation failed
-    console.error("Validation issues:", result.issues);
-    return new Response("Invalid FormData", { status: 400 });
-  }
+	if (result.data === null) {
+		// Validation failed
+		console.error("Validation issues:", result.issues);
+		return new Response("Invalid FormData", { status: 400 });
+	}
 
-  // result.data is non-null here
-  const data = result.data;
+	// result.data is non-null here
+	const data = result.data;
 
-  // Example: retrieve 'username' field safely
-  if (!("username" in data)) {
-    return new Response("Username is required", { status: 400 });
-  }
+	// Example: retrieve 'username' field safely
+	if (!("username" in data)) {
+		return new Response("Username is required", { status: 400 });
+	}
 
-  const username = data["username"];
-  if (typeof username !== "string") {
-    return new Response("Username must be a string", { status: 400 });
-  }
+	const username = data["username"];
+	if (typeof username !== "string") {
+		return new Response("Username must be a string", { status: 400 });
+	}
 
-  // Proceed with valid data
-  return new Response(`Hello, ${username.toUpperCase()}`, { status: 200 });
+	// Proceed with valid data
+	return new Response(`Hello, ${username.toUpperCase()}`, { status: 200 });
 }
 
 // Dummy call to satisfy lint / tsc
