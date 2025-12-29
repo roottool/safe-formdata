@@ -22,4 +22,4 @@ jobs:
         uses: ./.github/actions/setup-environment
 
       - name: Run type check
-        run: bun run check:type
+        run: bun run check:type:source
