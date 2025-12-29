@@ -60,7 +60,7 @@ bun run test:coverage     # Run tests with coverage report
 
 ```bash
 bun run build        # Build for production
-bun run check:type   # TypeScript type checking
+bun run check:type:source   # TypeScript type checking
 ```
 
 ## Architecture Notes

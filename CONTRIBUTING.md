@@ -87,7 +87,7 @@ Run these commands before submitting:
 
 ```bash
 bun run check:source # Linting and formatting must pass
-bun run check:type   # TypeScript type checking must pass
+bun run check:type:source   # TypeScript type checking must pass
 bun run test         # All tests must pass
 bun run build        # Build must succeed
 ```
@@ -123,8 +123,8 @@ Before submitting a PR:
 - [ ] Confirmed change does not violate the boundary
 - [ ] Added tests for new functionality
 - [ ] Linting and formatting passes (`bun run check:source`)
+- [ ] Type checking passes (`bun run check:type:source`)
 - [ ] All tests pass (`bun run test`)
-- [ ] Type checking passes (`bun run check:type`)
 - [ ] Build succeeds (`bun run build`)
 
 ### PR Description

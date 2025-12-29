@@ -16,7 +16,8 @@
 			"types": "./src/*.ts",
 			"import": "./src/*.ts",
 			"default": "./src/*.ts"
-		}
+		},
+		"#safe-formdata": "./src/index.ts"
 	},
 	"type": "module",
 	"main": "./dist/index.js",
@@ -36,7 +37,6 @@
 		"dev": "tsup --watch",
 		"lint": "oxlint . --deny-warnings",
 		"lint:fix": "oxlint . --fix-suggestions",
-		"check:type": "tsc --noEmit",
 		"format:biome": "biome check --write --assist-enabled true",
 		"format:prettier": "prettier --cache --write \"**/*.{md,yml,yaml}\"",
 		"format": "npm-run-all2 format:biome format:prettier",
@@ -46,6 +46,9 @@
 		"check:format": "npm-run-all2 check:biome check:prettier",
 		"check:source": "npm-run-all2 lint check:format",
 		"check": "bun run check:source",
+		"check:type:source": "tsc --noEmit",
+		"check:type:example": "tsc --project tsconfig.examples.json --noEmit",
+		"check:type": "npm-run-all2 check:type:source check:type:example",
 		"check:prettier:ci": "prettier --check \"**/*.{md,yml,yaml}\"",
 		"check:format:ci": "npm-run-all2 check:biome check:prettier:ci",
 		"check:source:ci": "npm-run-all2 lint check:format:ci",
@@ -54,7 +57,7 @@
 		"test:coverage": "vitest run --coverage",
 		"build": "tsup",
 		"check:package": "publint && attw --pack . --ignore-rules cjs-resolves-to-esm",
-		"prepublishOnly": "bun run check:type && bun run test:coverage && bun run build && bun run check:package"
+		"prepublishOnly": "bun run check:type:source && bun run test:coverage && bun run build && bun run check:package"
 	},
 	"devDependencies": {
 		"@arethetypeswrong/cli": "0.18.2",
