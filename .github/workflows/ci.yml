@@ -50,7 +50,6 @@ jobs:
               - 'bun.lock'
               - '**/tsconfig*.json'
               - '**/*.ts'
-              - '**/*.tsx'
 
   lint-format:
     needs: [setup]
