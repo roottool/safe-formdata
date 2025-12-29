@@ -29,7 +29,6 @@ if (result.data === null) {
 // but values are still typed as string | File.
 const data = result.data;
 
-// avatar: string | File
 const avatar = data["avatar"];
 
 // Narrow to File before accessing file-specific properties
