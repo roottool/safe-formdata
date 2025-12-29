@@ -23,14 +23,12 @@ if (result.data === null) {
 // but it is typed as Record<string, string | File>.
 const data = result.data;
 
-// name: string | File
 const name = data["name"];
 if (typeof name !== "string") {
 	throw new Error("Expected name to be a string");
 }
 name.toUpperCase();
 
-// age: string | File
 const age = data["age"];
 if (typeof age !== "string") {
 	throw new Error("Expected age to be a string");

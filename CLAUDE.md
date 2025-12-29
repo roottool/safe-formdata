@@ -34,6 +34,22 @@ Key resources:
 - Design decisions (Why no structural inference?, etc.)
 - Versioning policy
 
+## Usage Examples
+
+The `examples/` directory contains comprehensive usage examples:
+
+- `00-basic.ts` - Basic parsing and type narrowing
+- `01-file-upload.ts` - File handling with type guards
+- `02-field-presence.ts` - Field presence checks
+- `03-error-handling.ts` - Validation issue handling
+- `04-integration-fetch.ts` - Integration with Request/Fetch API
+
+Run type checking for examples:
+
+```bash
+bun run check:type:example
+```
+
 ## Development Commands
 
 ### Setup
