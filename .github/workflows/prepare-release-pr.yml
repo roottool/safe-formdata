@@ -31,10 +31,17 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
+      - name: Generate token
+        id: generate_token
+        uses: actions/create-github-app-token@29824e69f54612133e76f7eaac726eef6c875baf # v2.2.1
+        with:
+          app-id: ${{ vars.GH_APP_ID }}
+          private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
+
       - name: Checkout Repository
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
-          persist-credentials: false
+          token: ${{ steps.generate_token.outputs.token }}
 
       - name: Setup Node.js
         uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
@@ -50,19 +57,12 @@ jobs:
         run: |
           echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
 
-      - name: Generate token
-        id: generate_token
-        uses: actions/create-github-app-token@29824e69f54612133e76f7eaac726eef6c875baf # v2.2.1
-        with:
-          app-id: ${{ vars.GH_APP_ID }}
-          private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
-
       - name: Create release branch and commit
         id: create_release_branch
         run: |
           BRANCH_NAME="release/v${{ steps.version.outputs.version }}"
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "safe-formdata[bot]"
+          git config user.email "252148499+safe-formdata[bot]@users.noreply.github.com"
           git checkout -b "$BRANCH_NAME"
           git add package.json
           git commit -m "chore(release): v${{ steps.version.outputs.version }}"
