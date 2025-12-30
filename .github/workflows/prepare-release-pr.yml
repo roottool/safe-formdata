@@ -50,25 +50,30 @@ jobs:
         run: |
           echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
 
-      - name: Create release branch
-        run: |
-          git checkout -b release/v${{ steps.version.outputs.version }}
+      - name: Generate token
+        id: generate_token
+        uses: actions/create-github-app-token@29824e69f54612133e76f7eaac726eef6c875baf # v2.2.1
+        with:
+          app-id: ${{ vars.GH_APP_ID }}
+          private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
 
       - name: Commit version change
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "safe-formdata[bot]"
+          git config user.email "safe-formdata[bot]@users.noreply.github.com"
+          git checkout -b release/v${{ steps.version.outputs.version }}
           git add package.json
           git commit -m "chore(release): v${{ steps.version.outputs.version }}"
           git push origin HEAD
 
       - name: Create Pull Request
+        env:
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
         run: |
           gh pr create \
-            --title "release: v${{ steps.version.outputs.version }}" \
-            --body "Release v${{ steps.version.outputs.version }}" \
             --base main \
             --head release/v${{ steps.version.outputs.version }} \
-            --label "ignore for release"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            --title "release: v${{ steps.version.outputs.version }}" \
+            --body "Release v${{ steps.version.outputs.version }}" \
+            --label "ignore for release" \
+            --assignee "${{ github.repository_owner }}"
