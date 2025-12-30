@@ -1,6 +1,6 @@
 {
 	"name": "safe-formdata",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Boundary-focused FormData parser with strict security guarantees",
 	"author": "roottool",
 	"repository": {
