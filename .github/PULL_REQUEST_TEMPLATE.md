@@ -10,11 +10,9 @@
 - [ ] **No interpretation**
   - Key names are treated as opaque strings
   - No structural inference (`[]`, `.`, brackets, paths, etc.)
-
 - [ ] **No silent behavior**
   - No merging, overwriting, auto-fixing, or implicit resolution
   - All boundary violations are reported explicitly
-
 - [ ] **Boundary respected**
   - No validation, coercion, schema, framework conventions, or business logic
 
