@@ -4,18 +4,16 @@ changelog:
       - "ignore for release"
 
   categories:
-    - title: Security Fixes
-      labels: ["Type: Security", "security"]
     - title: Breaking Changes
-      labels: ["Type: Breaking Change"]
-    - title: Features
-      labels: ["Type: enhancement"]
+      labels: ["Type: Breaking Change", "breaking change"]
     - title: Bug Fixes
-      labels: ["Type: bug"]
+      labels: ["Type: bug", "bug"]
     - title: Documentation
       labels: ["Type: Documentation", "documentation"]
     - title: CI
       labels: ["Type: CI", "ci"]
+    - title: Security Fixes
+      labels: ["Type: Security", "security"]
     - title: Dependency Updates
       labels: ["Type: Dependencies", "dependencies"]
     - title: Other Changes
