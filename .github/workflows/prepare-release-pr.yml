@@ -62,7 +62,7 @@ jobs:
         run: |
           BRANCH_NAME="release/v${{ steps.version.outputs.version }}"
           git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           git checkout -b "$BRANCH_NAME"
           git add package.json
           git commit -m "chore(release): v${{ steps.version.outputs.version }}"
