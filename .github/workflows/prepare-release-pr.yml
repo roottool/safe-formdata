@@ -57,14 +57,17 @@ jobs:
           app-id: ${{ vars.GH_APP_ID }}
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
 
-      - name: Commit version change
+      - name: Create release branch and commit
+        id: create_release_branch
         run: |
           git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git checkout -b release/v${{ steps.version.outputs.version }}
+          git config user.email "2563045+github-actions[bot]@users.noreply.github.com"
+          BRANCH_NAME="release/v${{ steps.version.outputs.version }}"
+          git checkout -b "$BRANCH_NAME"
+          echo "branch=$BRANCH_NAME" >> $GITHUB_OUTPUT
           git add package.json
           git commit -m "chore(release): v${{ steps.version.outputs.version }}"
-          git push origin HEAD
+          git push --set-upstream origin "$BRANCH_NAME"
 
       - name: Create Pull Request
         env:
@@ -72,7 +75,7 @@ jobs:
         run: |
           gh pr create \
             --base main \
-            --head release/v${{ steps.version.outputs.version }} \
+            --head ${{ steps.create_release_branch.outputs.branch }} \
             --title "release: v${{ steps.version.outputs.version }}" \
             --body "Release v${{ steps.version.outputs.version }}" \
             --label "ignore for release" \
