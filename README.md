@@ -9,6 +9,28 @@
 safe-formdata is a **security-focused** parser that establishes a predictable boundary between untrusted input and application logic.
 It enforces strict rules on keys and forbids structural inference by design.
 
+## Table of Contents
+
+- [safe-formdata](#safe-formdata)
+  - [Table of Contents](#table-of-contents)
+  - [Overview](#overview)
+  - [Design principles](#design-principles)
+  - [Security scope](#security-scope)
+  - [Design decisions (Why not?)](#design-decisions-why-not)
+    - [Why no structural inference?](#why-no-structural-inference)
+    - [Why no generic type parameters?](#why-no-generic-type-parameters)
+    - [Why no multiple values or repeated keys?](#why-no-multiple-values-or-repeated-keys)
+    - [Why no throwing or `parseOrThrow`?](#why-no-throwing-or-parseorthrow)
+    - [What is safe-formdata not?](#what-is-safe-formdata-not)
+  - [Installation](#installation)
+  - [Quick Start](#quick-start)
+  - [API](#api)
+    - [parse(formData): ParseResult](#parseformdata-parseresult)
+    - [Result](#result)
+    - [Issues](#issues)
+  - [Versioning](#versioning)
+  - [License](#license)
+
 ---
 
 ## Overview
@@ -58,46 +80,6 @@ See [SECURITY.md](./SECURITY.md)
 Security decisions and issue triage are based on the definitions in SECURITY.md.
 
 ---
-
-## API
-
-### parse(formData): ParseResult
-
-```ts
-import { parse } from "safe-formdata";
-
-const { data, issues } = parse(formData);
-```
-
-- `data` is `null` if any boundary violations are detected
-- `issues` contains all detected structural issues
-- Partial success is not allowed
-
-### Result
-
-```ts
-export interface ParseResult {
-  data: Record<string, string | File> | null;
-  issues: ParseIssue[];
-}
-```
-
-- `data` is non-null only when no boundary violations are detected
-- `data` is always a flat object; no structural inference is performed
-- `issues` must always be checked by the caller
-
-### Issues
-
-```ts
-export interface ParseIssue {
-  code: "invalid_key" | "forbidden_key" | "duplicate_key";
-  path: string[];
-  key?: unknown;
-}
-```
-
-- `path` is always empty and exists only for compatibility
-- Issues are informational and are never thrown
 
 ## Design decisions (Why not?)
 
@@ -167,6 +149,103 @@ inspect issues and decide what to do.
 
 safe-formdata defines a safe boundary.
 Validation and typing belong beyond it.
+
+---
+
+## Installation
+
+Install safe-formdata using your preferred package manager:
+
+```bash
+# npm
+npm install safe-formdata
+
+# yarn
+yarn add safe-formdata
+
+# pnpm
+pnpm add safe-formdata
+
+# bun
+bun add safe-formdata
+```
+
+**Requirements**: TypeScript 5.0+ (for discriminated union type narrowing)
+
+---
+
+## Quick Start
+
+```typescript
+import { parse } from "safe-formdata";
+
+const formData = new FormData();
+formData.append("username", "alice");
+formData.append("age", "25");
+
+const result = parse(formData);
+
+if (result.data !== null) {
+  // Success: data is available
+  console.log(result.data.username); // 'alice'
+  console.log(result.data.age); // '25'
+} else {
+  // Failure: validation issues occurred
+  console.error(result.issues);
+}
+```
+
+**Key points**:
+
+- All values are `string | File` - no automatic type conversion
+- Use `data !== null` to check for success and narrow the type
+- Security boundaries are enforced from the start
+
+For complete examples including file uploads and validation patterns, see the [examples/](./examples) directory.
+
+---
+
+## API
+
+### parse(formData): ParseResult
+
+```ts
+import { parse } from "safe-formdata";
+
+const { data, issues } = parse(formData);
+```
+
+- `data` is `null` if any boundary violations are detected
+- `issues` contains all detected structural issues
+- Partial success is not allowed
+
+### Result
+
+```ts
+export interface ParseResult {
+  data: Record<string, string | File> | null;
+  issues: ParseIssue[];
+}
+```
+
+- `data` is non-null only when no boundary violations are detected
+- `data` is always a flat object; no structural inference is performed
+- `issues` must always be checked by the caller
+
+### Issues
+
+```ts
+export interface ParseIssue {
+  code: "invalid_key" | "forbidden_key" | "duplicate_key";
+  path: string[];
+  key?: unknown;
+}
+```
+
+- `path` is always empty and exists only for compatibility
+- Issues are informational and are never thrown
+
+---
 
 ## Versioning
 

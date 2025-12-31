@@ -149,20 +149,53 @@ parse(formData): ParseResult
 
 ### Type definitions
 
-```ts
-export interface ParseResult {
-  data: Record<string, string | File> | null;
-  issues: ParseIssue[];
-}
+**ParseResult (discriminated union):**
 
+```ts
+export type ParseResult =
+  | {
+      data: Record<string, string | File>;
+      issues: [];
+    }
+  | {
+      data: null;
+      issues: ParseIssue[];
+    };
+```
+
+Type narrowing pattern:
+
+```ts
+if (result.data !== null) {
+  // Success: data is available, issues is []
+} else {
+  // Failure: data is null, issues contains errors
+}
+```
+
+**ParseIssue:**
+
+```ts
 export interface ParseIssue {
-  code: ParseIssueCode;
-  path: string[];
+  code: IssueCode;
+  path: readonly [];
   key?: unknown;
 }
-
-export type ParseIssueCode = "invalid_key" | "forbidden_key" | "duplicate_key";
 ```
+
+**IssueCode:**
+
+```ts
+export type IssueCode = "invalid_key" | "forbidden_key" | "duplicate_key";
+```
+
+**Type documentation:**
+
+All type definitions include comprehensive JSDoc comments for IDE integration. See:
+
+- `src/types/ParseResult.ts` - Discriminated union with type narrowing examples
+- `src/types/ParseIssue.ts` - Issue structure and property explanations
+- `src/types/IssueCode.ts` - Security-focused issue code definitions
 
 ---
 
