@@ -92,6 +92,12 @@ bun run test         # All tests must pass
 bun run build        # Build must succeed
 ```
 
+For local validation before pushing (mimics publish workflow):
+
+```bash
+bun run prepare:publish     # Runs all checks: type checking, tests, build, package validation
+```
+
 ### 3. Testing
 
 - Write tests for all new functionality

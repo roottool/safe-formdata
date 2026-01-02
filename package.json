@@ -57,7 +57,7 @@
 		"test:coverage": "vitest run --coverage",
 		"build": "tsup",
 		"check:package": "publint && attw --pack . --ignore-rules cjs-resolves-to-esm",
-		"prepublishOnly": "bun run check:type:source && bun run test:coverage && bun run build && bun run check:package"
+		"prepare:publish": "npm-run-all2 check:type:source test:coverage build check:package"
 	},
 	"devDependencies": {
 		"@arethetypeswrong/cli": "0.18.2",
