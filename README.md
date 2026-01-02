@@ -252,6 +252,13 @@ export interface ParseIssue {
 v0.x focuses exclusively on establishing and clarifying the FormData boundary.
 No inference or convenience features will be added within v0.x.
 
+## Contributing
+
+Contributions are welcome! Please see:
+
+- [CONTRIBUTING.md](CONTRIBUTING.md) - Contributor guide
+- [docs/PUBLISHING.md](docs/PUBLISHING.md) - Publishing guide (for maintainers)
+
 ## License
 
 MIT
