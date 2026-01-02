@@ -17,13 +17,13 @@ concurrency:
   cancel-in-progress: true
 
 # This workflow contains core CI jobs that run on push/pull_request events.
-# For additional jobs, create separate workflow_call files (e.g., call-*.yml)
-# and invoke them from this workflow. See .github/workflows/call-dependency-review.yml for reference.
+# For additional jobs, create separate workflow_call files (e.g., wc-*.yml)
+# and invoke them from this workflow. See .github/workflows/wc-dependency-review.yml for reference.
 jobs:
   setup:
     name: Setup
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 2
     permissions:
       pull-requests: read
     if: ${{ !github.event.pull_request.draft }}
@@ -53,23 +53,23 @@ jobs:
 
   lint-format:
     needs: [setup]
-    uses: ./.github/workflows/call-lint-format.yml
+    uses: ./.github/workflows/wc-lint-format.yml
 
   type-check:
     needs: [setup]
     if: ${{ needs.setup.outputs.typescript == 'true' }}
-    uses: ./.github/workflows/call-type-check.yml
+    uses: ./.github/workflows/wc-type-check.yml
 
   test:
     needs: [setup]
-    uses: ./.github/workflows/call-test.yml
+    uses: ./.github/workflows/wc-test.yml
     secrets:
       CODECOV_TOKEN: "${{ secrets.CODECOV_TOKEN }}"
 
   export-validation:
     needs: [setup, lint-format, type-check, test]
     if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
-    uses: ./.github/workflows/call-export-validation.yml
+    uses: ./.github/workflows/wc-export-validation.yml
 
   status-check:
     name: Status Check
