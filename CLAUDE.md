@@ -22,6 +22,42 @@ When implementing features or reviewing code:
 2. Then, apply AGENTS.md technical constraints
 3. If a change makes the parser smarter/more convenient, it likely violates the boundary → reject it
 
+## Project Skills
+
+This project includes **Agent Skills** in the `skills/` directory, providing automated code review capabilities for Claude Code.
+
+### boundary-validator
+
+The `boundary-validator` skill automatically validates code changes against AGENTS.md design rules:
+
+- **Location**: `skills/boundary-validator/`
+- **Purpose**: Detect boundary principle violations during PR creation and code review
+- **Triggers**: Automatically activates when creating PRs or requesting code reviews
+- **Coverage**:
+  - Keys are opaque strings (no bracket/dot notation parsing)
+  - No silent behavior (detect duplicate keys)
+  - No inference, no convenience (no type coercion, validation)
+  - Explicit issue reporting (no exceptions for input errors)
+  - Security rules (forbidden keys, prototype safety)
+
+**Usage in Claude Code**:
+
+```
+Review this code against boundary-validator rules
+```
+
+The skill will automatically check your implementation for violations and provide specific feedback with line references.
+
+### For Non-Claude Code Tools
+
+If you're using other development tools (Windsurf, Cursor, etc.):
+
+- **Reference AGENTS.md directly** in your prompts or tool configuration
+- Agent Skills are primarily designed for Claude Code
+- See `skills/README.md` for more details on cross-tool compatibility
+
+For complete information about the skills system, see [`skills/README.md`](skills/README.md) and [`AGENTS.md`](AGENTS.md#agent-skills).
+
 ## API Documentation
 
 For complete API documentation, TypeScript interfaces, and usage examples, see **README.md**.
