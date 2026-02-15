@@ -70,6 +70,11 @@ jobs:
     secrets:
       CODECOV_TOKEN: "${{ secrets.CODECOV_TOKEN }}"
 
+  dependency-review:
+    needs: [setup]
+    if: ${{ needs.setup.outputs.dependencies == 'true' && github.event_name == 'pull_request' }}
+    uses: ./.github/workflows/wc-dependency-review.yml
+
   export-validation:
     needs: [setup, lint-format, type-check, test]
     if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
@@ -79,7 +84,15 @@ jobs:
     name: Status Check
     runs-on: ubuntu-slim
     timeout-minutes: 1
-    needs: [setup, lint-format, type-check, test, export-validation]
+    needs:
+      [
+        setup,
+        lint-format,
+        type-check,
+        test,
+        export-validation,
+        dependency-review,
+      ]
     if: always() && (contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled'))
     steps:
       - run: exit 1
