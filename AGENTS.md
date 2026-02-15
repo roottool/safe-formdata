@@ -276,19 +276,6 @@ Validates code changes against the Design rules and Security rules defined in th
 
 For details, see [`skills/boundary-validator/SKILL.md`](skills/boundary-validator/SKILL.md).
 
-### Using Skills in Other Tools
-
-Agent Skills are currently supported primarily by Claude Code. For other development tools:
-
-| Tool              | Support   | Usage                                        |
-| ----------------- | --------- | -------------------------------------------- |
-| **Claude Code**   | ✅ Full   | Automatic detection of `skills/` directory   |
-| **Windsurf**      | ⚠️ Manual | Reference this AGENTS.md directly in prompts |
-| **Cursor**        | ⚠️ Manual | Use `.cursorrules` or reference AGENTS.md    |
-| **claude.ai Web** | ⚠️ Manual | Upload SKILL.md as project knowledge         |
-
-**For non-supported tools**: Use this AGENTS.md document directly, or configure your tool to reference the project's design principles explicitly in CLAUDE.md.
-
 ### Relationship to AGENTS.md
 
 - **AGENTS.md is the source of truth**: All design principle changes are made here first
