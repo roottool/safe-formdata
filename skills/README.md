@@ -47,9 +47,15 @@ If you're using tools that don't support Agent Skills, please reference [AGENTS.
 
 ## Maintenance Policy
 
-1. **AGENTS.md is the source of truth**: Make design principle changes in AGENTS.md first
-2. **Skills follow**: Reflect AGENTS.md changes in `skills/`
-3. **Strategic duplication**: Document duplication is acceptable due to different purposes
+When updating design rules:
+
+1. **Edit AGENTS.md first** (source of truth)
+2. **Update corresponding references** in `boundary-validator/references/`
+   - `design-rules.md` — Design rules section
+   - `security-rules.md` — Security rules section
+   - `api-contract.md` — API contract section
+3. **Increment skill version** in `boundary-validator/SKILL.md` frontmatter
+4. **Commit both** AGENTS.md and `skills/` changes together
 
 ## Official Specification
 

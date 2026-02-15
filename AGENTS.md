@@ -95,14 +95,6 @@ This is non-optional and part of the boundary definition.
 
 ---
 
-## Security guarantees
-
-> **Note**: For security scope definitions, see **README.md Security scope section**.
-
-For implementation-level security constraints, see the **Security rules (mandatory) section** above.
-
----
-
 ## Key validation criteria
 
 To maintain a predictable boundary, keys must meet the following criteria. Failure to do so results in an `invalid_key` issue.
@@ -214,23 +206,6 @@ If a feature conflicts with these, it must be rejected.
 
 ---
 
-## v0.1.0 scope
-
-v0.1.0 establishes the FormData boundary with:
-
-- Flat FormData parsing into a plain JavaScript object
-- Detection of forbidden, duplicate, and invalid keys
-- Non-throwing issue reporting
-- A minimal, stable public API
-
----
-
-## Versioning
-
-For versioning policy details, see **README.md Versioning section**.
-
----
-
 ## Review rule of thumb
 
 If a change makes the parser:
@@ -242,63 +217,3 @@ If a change makes the parser:
 it likely violates the boundary.
 
 When in doubt, reject the change.
-
----
-
-## Agent Skills
-
-This project provides the content of AGENTS.md in Agent Skills format through the `skills/` directory.
-
-### What are Agent Skills?
-
-Agent Skills are structured knowledge packages optimized for Claude Code and similar AI-powered development tools. They enable:
-
-- **Automatic triggering**: Skills activate during PR creation, code review, etc.
-- **Progressive disclosure**: Load only necessary information on demand
-- **Standardized format**: Follows [agentskills.dev](https://agentskills.dev) specification
-
-### Available Skills
-
-#### boundary-validator (`skills/boundary-validator/`)
-
-Validates code changes against the Design rules and Security rules defined in this document.
-
-- **Purpose**: Automated detection of boundary principle violations
-- **Triggers**: PR creation, code review, post-implementation checks
-- **Coverage**:
-  - Keys are opaque strings (no bracket/dot notation parsing)
-  - No silent behavior (detect duplicate keys)
-  - No inference, no convenience (no type coercion, validation)
-  - Explicit issue reporting (no exceptions for input errors)
-  - Security rules (forbidden keys, prototype safety)
-
-**Supported tools**: Claude Code
-
-For details, see [`skills/boundary-validator/SKILL.md`](skills/boundary-validator/SKILL.md).
-
-### Relationship to AGENTS.md
-
-- **AGENTS.md is the source of truth**: All design principle changes are made here first
-- **Skills are optimized versions**: The `skills/` directory provides the same rules in a format optimized for agent consumption
-- **Synchronization**: When AGENTS.md is updated, corresponding files in `skills/boundary-validator/references/` should be updated
-
-This is a **strategic duplication**:
-
-- **AGENTS.md**: Human-readable, comprehensive, works with all tools
-- **skills/**: Agent-optimized, progressive disclosure, auto-triggering (Claude Code)
-
-Both serve different audiences and purposes, making the duplication necessary for maximum compatibility.
-
-### Maintenance
-
-When updating design rules:
-
-1. **Edit AGENTS.md first** (this file is the master)
-2. **Update corresponding references** in `skills/boundary-validator/references/`
-   - `design-rules.md` - Lines 36-75 of this file
-   - `security-rules.md` - Lines 76-95 of this file
-   - `api-contract.md` - Lines 119-199 of this file
-3. **Increment skill version** in `skills/boundary-validator/SKILL.md` frontmatter
-4. **Commit both** AGENTS.md and skills/ changes together
-
-For more information about the skills system, see [`skills/README.md`](skills/README.md).
