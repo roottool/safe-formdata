@@ -1,20 +1,10 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
-## Project Overview
-
-**safe-formdata** is a boundary-focused FormData parser that establishes a strict, security-oriented boundary between untrusted FormData input and application logic.
+**safe-formdata** is a boundary-focused FormData parser — Claude Code向けの作業指示書。
 
 ## Critical: Follow AGENTS.md
 
-**All implementation and review decisions must strictly adhere to AGENTS.md**, which defines the non-negotiable technical rules:
-
-- Implementation-level interpretation of README.md design principles
-- Security implementation rules (prototype safety, forbidden keys)
-- API contract and type definitions
-- Non-goals (hard exclusions for any feature requests)
-- Code review criteria ("Review rule of thumb")
+**All implementation and review decisions must strictly adhere to AGENTS.md.**
 
 When implementing features or reviewing code:
 
@@ -22,66 +12,18 @@ When implementing features or reviewing code:
 2. Then, apply AGENTS.md technical constraints
 3. If a change makes the parser smarter/more convenient, it likely violates the boundary → reject it
 
-## Project Skills
+## Agent Skills
 
-This project includes **Agent Skills** in the `skills/` directory, providing automated code review capabilities for Claude Code.
+The `boundary-validator` skill (`skills/boundary-validator/`) validates code changes against AGENTS.md design rules.
 
-### boundary-validator
-
-The `boundary-validator` skill automatically validates code changes against AGENTS.md design rules:
-
-- **Location**: `skills/boundary-validator/`
-- **Purpose**: Detect boundary principle violations during PR creation and code review
 - **Triggers**: Automatically activates when creating PRs or requesting code reviews
-- **Coverage**:
-  - Keys are opaque strings (no bracket/dot notation parsing)
-  - No silent behavior (detect duplicate keys)
-  - No inference, no convenience (no type coercion, validation)
-  - Explicit issue reporting (no exceptions for input errors)
-  - Security rules (forbidden keys, prototype safety)
+- **Coverage**: See AGENTS.md "Agent Skills" section for the full coverage list
 
 **Usage in Claude Code**:
 
 ```
 Review this code against boundary-validator rules
 ```
-
-The skill will automatically check your implementation for violations and provide specific feedback with line references.
-
-### For Non-Claude Code Tools
-
-If you're using other development tools (Windsurf, Cursor, etc.):
-
-- **Reference AGENTS.md directly** in your prompts or tool configuration
-- Agent Skills are primarily designed for Claude Code
-- See `skills/README.md` for more details on cross-tool compatibility
-
-For complete information about the skills system, see [`skills/README.md`](skills/README.md) and [`AGENTS.md`](AGENTS.md#agent-skills).
-
-## API Documentation
-
-For complete API documentation, TypeScript interfaces, and usage examples, see **README.md**.
-
-**README.md follows a "philosophy-first" structure:**
-
-1. **Overview** - What this library is and is not
-2. **Design principles** - Core philosophy (keys are opaque, no silent fixes, etc.)
-3. **Security scope** - What's in scope vs out of scope
-4. **Design decisions (Why not?)** - Why common features are intentionally omitted
-5. **Installation** - Package manager setup
-6. **Quick Start** - Minimal working example
-7. **API** - Detailed API reference
-
-This structure ensures users understand the "boundary-focused" philosophy before writing code, reducing misuse.
-
-Key resources:
-
-- API interfaces (ParseResult discriminated union, ParseIssue)
-- Issue codes (invalid_key, forbidden_key, duplicate_key)
-- Security scope (in scope vs out of scope)
-- Design decisions (Why no structural inference?, etc.)
-- Type narrowing pattern (`data !== null`)
-- Versioning policy
 
 ## Usage Examples
 
@@ -99,6 +41,20 @@ Run type checking for examples:
 bun run check:type:example
 ```
 
+## Toolchain
+
+| Tool                   | Role                            |
+| ---------------------- | ------------------------------- |
+| **bun**                | Package manager / script runner |
+| **TypeScript** (`tsc`) | Type checking                   |
+| **tsup**               | Build (bundler)                 |
+| **vitest**             | Test runner                     |
+| **oxlint**             | Linter                          |
+| **Biome**              | Formatter (TS/JS/JSON)          |
+| **Prettier**           | Formatter (Markdown/YAML)       |
+| **publint** / **attw** | Package export validation       |
+| **npm-run-all2**       | Script orchestration            |
+
 ## Development Commands
 
 ### Setup
@@ -114,6 +70,25 @@ bun run dev          # Watch mode for building
 bun run test:watch   # Watch mode for testing
 ```
 
+### Linting & Formatting
+
+```bash
+bun run lint         # oxlint (deny-warnings)
+bun run lint:fix     # oxlint --fix-suggestions
+bun run format       # Biome + Prettier (write)
+bun run fix          # lint:fix + format (all-in-one auto-fix)
+```
+
+### Quality Checks
+
+```bash
+bun run check            # lint + format check (read-only)
+bun run check:type       # TypeScript check (source + examples)
+bun run check:type:source   # TypeScript check (source only)
+bun run check:type:example  # TypeScript check (examples only)
+bun run check:package    # publint + attw export validation
+```
+
 ### Testing
 
 ```bash
@@ -124,68 +99,35 @@ bun run test:coverage     # Run tests with coverage report
 ### Build
 
 ```bash
-bun run build        # Build for production
-bun run check:type:source   # TypeScript type checking
+bun run build             # Build for production (tsup)
 ```
 
-## Type Safety and IDE Integration
+### Publishing
 
-All type definitions include comprehensive JSDoc comments for enhanced IDE experience:
-
-### Type Narrowing Pattern
-
-The `ParseResult` type is a discriminated union. Use `data !== null` to narrow the type:
-
-```typescript
-const result = parse(formData);
-
-if (result.data !== null) {
-  // TypeScript knows: data is Record<string, string | File>
-  // TypeScript knows: issues is []
-  console.log(result.data.username);
-} else {
-  // TypeScript knows: data is null
-  // TypeScript knows: issues is ParseIssue[]
-  console.error(result.issues);
-}
+```bash
+bun run prepare:publish   # Full pre-publish pipeline: type check → test:coverage → build → check:package
 ```
 
-### JSDoc Benefits
+## CI/CD
 
-When you hover over types in your IDE, you'll see:
+- **Workflows**: `.github/workflows/`
+  - `ci.yml` - Main CI pipeline
+  - `publish.yml` - npm publish
+  - `prepare-release-pr.yml` - Release PR automation
+  - `wc-*.yml` - Reusable workflow components (type-check, lint-format, test, etc.)
+- **PR template**: `.github/PULL_REQUEST_TEMPLATE.md`
+- **Renovate**: `.github/renovate.json`
 
-- **ParseResult** - Discriminated union explanation and usage examples
-- **ParseIssue** - Each property's purpose and security implications
-- **IssueCode** - Security rationale for each issue code
+## Important: No `.ok` Property
 
-Example JSDoc locations:
-
-- `src/types/ParseResult.ts` - Full discriminated union documentation
-- `src/types/ParseIssue.ts` - Property-level explanations
-- `src/types/IssueCode.ts` - Security-focused code definitions
-
-### Important: No `.ok` Property
-
-Unlike some libraries, `ParseResult` does not have a `.ok` property. Use `data !== null` instead:
+`ParseResult` does not have a `.ok` property. Use `data !== null` to narrow the type:
 
 ```typescript
-// ✅ Correct
+// Correct
 if (result.data !== null) {
 }
 
-// ❌ Wrong - .ok does not exist
+// Wrong - .ok does not exist
 if (result.ok) {
 }
 ```
-
----
-
-## Architecture Notes
-
-This project follows a minimal, security-focused architecture:
-
-- **TypeScript-based**: Strict type checking enabled
-- **Minimal dependencies**: Zero runtime dependencies, minimal dev dependencies
-- **Framework-agnostic**: Works with any JavaScript framework or runtime
-- **Security-first**: Uses `Object.create(null)` to prevent prototype pollution
-- **Discriminated unions**: Type-safe result handling without boolean flags
