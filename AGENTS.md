@@ -249,7 +249,7 @@ When in doubt, reject the change.
 
 This project provides the content of AGENTS.md in Agent Skills format through the `skills/` directory.
 
-### Purpose
+### What are Agent Skills?
 
 Agent Skills are structured knowledge packages optimized for Claude Code and similar AI-powered development tools. They enable:
 
