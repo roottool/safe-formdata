@@ -8,6 +8,9 @@ on:
     branches: [main]
     types: [opened, synchronize, reopened, ready_for_review]
 
+permissions:
+  contents: read
+
 defaults:
   run:
     shell: bash
@@ -25,6 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 2
     permissions:
+      contents: read
       pull-requests: read
     if: ${{ !github.event.pull_request.draft }}
     outputs:
