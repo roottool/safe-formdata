@@ -15,7 +15,7 @@ When implementing features or reviewing code:
 The `boundary-validator` skill (`skills/boundary-validator/`) validates code changes against AGENTS.md design rules.
 
 - **Triggers**: Automatically activates when creating PRs or requesting code reviews
-- **Coverage**: See AGENTS.md "Agent Skills" section for the full coverage list
+- **Coverage**: See AGENTS.md "Design rules" and "Security rules" sections
 
 **Usage in Claude Code**:
 

@@ -26,25 +26,6 @@ Performs code review based on boundary principles.
 
 For details, see [`boundary-validator/SKILL.md`](./boundary-validator/SKILL.md).
 
-## Supported Tools
-
-### ✅ Automatic Support
-
-- **Claude Code** - Automatically detects `skills/` in the project
-
-### ⚠️ Manual Reference Required
-
-- **Windsurf** - Instruct to reference AGENTS.md directly
-- **Cursor** - Specify rules in AGENTS.md or `.cursorrules`
-- **claude.ai Web** - Manually upload as project knowledge
-
-## Relationship to AGENTS.md
-
-- **AGENTS.md**: Master document for both humans and agents
-- **skills/**: Optimized version for Agent Skills-compatible tools
-
-If you're using tools that don't support Agent Skills, please reference [AGENTS.md](../AGENTS.md) directly.
-
 ## Maintenance Policy
 
 When updating design rules:
