@@ -21,7 +21,7 @@ The `boundary-validator` skill (`skills/boundary-validator/`) validates code cha
 
 **Usage in Claude Code**:
 
-```
+```text
 Review this code against boundary-validator rules
 ```
 
