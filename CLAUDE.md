@@ -1,7 +1,5 @@
 # CLAUDE.md
 
-**safe-formdata** is a boundary-focused FormData parser — Claude Code向けの作業指示書。
-
 ## Critical: Follow AGENTS.md
 
 **All implementation and review decisions must strictly adhere to AGENTS.md.**
