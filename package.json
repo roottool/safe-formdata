@@ -2,15 +2,30 @@
 	"name": "safe-formdata",
 	"version": "0.1.3",
 	"description": "Boundary-focused FormData parser with strict security guarantees",
+	"keywords": [
+		"boundary",
+		"formdata",
+		"parser",
+		"prototype-pollution",
+		"security"
+	],
+	"homepage": "https://github.com/roottool/safe-formdata#readme",
+	"bugs": {
+		"url": "https://github.com/roottool/safe-formdata/issues"
+	},
+	"license": "MIT",
 	"author": "roottool",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/roottool/safe-formdata.git"
 	},
-	"bugs": {
-		"url": "https://github.com/roottool/safe-formdata/issues"
-	},
-	"homepage": "https://github.com/roottool/safe-formdata#readme",
+	"files": [
+		"dist"
+	],
+	"type": "module",
+	"main": "./dist/index.js",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
 	"imports": {
 		"#*": {
 			"types": "./src/*.ts",
@@ -19,10 +34,6 @@
 		},
 		"#safe-formdata": "./src/index.ts"
 	},
-	"type": "module",
-	"main": "./dist/index.js",
-	"module": "./dist/index.js",
-	"types": "./dist/index.d.ts",
 	"exports": {
 		".": {
 			"types": "./dist/index.d.ts",
@@ -30,27 +41,24 @@
 			"default": "./dist/index.js"
 		}
 	},
-	"files": [
-		"dist"
-	],
 	"scripts": {
 		"dev": "tsup --watch",
 		"lint": "oxlint . --deny-warnings",
 		"lint:fix": "oxlint . --fix-suggestions",
-		"format:biome": "biome check --write --assist-enabled true",
+		"format:oxfmt": "oxfmt",
 		"format:prettier": "prettier --cache --write \"**/*.{md,yml,yaml}\"",
-		"format": "npm-run-all2 format:biome format:prettier",
+		"format": "npm-run-all2 format:oxfmt format:prettier",
 		"fix": "npm-run-all2 lint:fix format",
-		"check:biome": "biome check . --assist-enabled true",
+		"check:oxfmt": "oxfmt --check",
 		"check:prettier": "prettier --cache --check \"**/*.{md,yml,yaml}\"",
-		"check:format": "npm-run-all2 check:biome check:prettier",
+		"check:format": "npm-run-all2 check:oxfmt check:prettier",
 		"check:source": "npm-run-all2 lint check:format",
 		"check": "bun run check:source",
 		"check:type:source": "tsc --noEmit",
 		"check:type:example": "tsc --project tsconfig.examples.json --noEmit",
 		"check:type": "npm-run-all2 check:type:source check:type:example",
 		"check:prettier:ci": "prettier --check \"**/*.{md,yml,yaml}\"",
-		"check:format:ci": "npm-run-all2 check:biome check:prettier:ci",
+		"check:format:ci": "npm-run-all2 check:oxfmt check:prettier:ci",
 		"check:source:ci": "npm-run-all2 lint check:format:ci",
 		"test": "vitest run",
 		"test:watch": "vitest",
@@ -61,11 +69,11 @@
 	},
 	"devDependencies": {
 		"@arethetypeswrong/cli": "0.18.2",
-		"@biomejs/biome": "2.3.10",
 		"@types/node": "25.0.3",
 		"@vitest/coverage-v8": "4.0.16",
 		"happy-dom": "20.0.11",
 		"npm-run-all2": "8.0.4",
+		"oxfmt": "0.35.0",
 		"oxlint": "1.34.0",
 		"prettier": "3.7.4",
 		"publint": "0.3.16",
@@ -73,13 +81,5 @@
 		"tsup": "8.5.1",
 		"typescript": "5.9.3",
 		"vitest": "4.0.16"
-	},
-	"license": "MIT",
-	"keywords": [
-		"formdata",
-		"parser",
-		"security",
-		"boundary",
-		"prototype-pollution"
-	]
+	}
 }
