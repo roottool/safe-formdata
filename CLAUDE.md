@@ -48,8 +48,7 @@ bun run check:type:example
 | **tsup**               | Build (bundler)                 |
 | **vitest**             | Test runner                     |
 | **oxlint**             | Linter                          |
-| **Biome**              | Formatter (TS/JS/JSON)          |
-| **Prettier**           | Formatter (Markdown/YAML)       |
+| **oxfmt**              | Formatter (TS/JS/JSON)          |
 | **publint** / **attw** | Package export validation       |
 | **npm-run-all2**       | Script orchestration            |
 
@@ -73,7 +72,7 @@ bun run test:watch   # Watch mode for testing
 ```bash
 bun run lint         # oxlint (deny-warnings)
 bun run lint:fix     # oxlint --fix-suggestions
-bun run format       # Biome + Prettier (write)
+bun run format       # oxfmt (write)
 bun run fix          # lint:fix + format (all-in-one auto-fix)
 ```
 
