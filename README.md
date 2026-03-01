@@ -239,12 +239,11 @@ export interface ParseResult {
 ```ts
 export interface ParseIssue {
   code: "invalid_key" | "forbidden_key" | "duplicate_key";
-  path: string[];
-  key?: unknown;
+  key: string;
 }
 ```
 
-- `path` is always empty and exists only for compatibility
+- `key` is the original FormData key that caused the issue
 - Issues are informational and are never thrown
 
 ---

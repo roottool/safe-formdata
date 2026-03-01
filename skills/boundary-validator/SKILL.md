@@ -124,7 +124,6 @@ data[key] = value; // always overwrites
 if (seen.has(key)) {
   issues.push({
     code: "duplicate_key",
-    path: [],
     key,
   });
   // Do NOT continue processing
@@ -221,7 +220,6 @@ const FORBIDDEN_KEYS = ["__proto__", "constructor", "prototype"];
 if (FORBIDDEN_KEYS.includes(key)) {
   issues.push({
     code: "forbidden_key",
-    path: [],
     key,
   });
 }

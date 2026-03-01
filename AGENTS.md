@@ -119,8 +119,7 @@ No additional IssueCode may be introduced without a major version bump.
 ### ParseIssue shape
 
 - `code` must be one of the allowed IssueCode values.
-- `path` must always be an empty array (no structural inference). This field exists only to preserve compatibility with external issue formats.
-- `key?` may contain the problematic key when an issue occurs (for debugging purposes).
+- `key` must be the original FormData key that caused the issue, reported as-is without interpretation.
 - Issues are informational, not exceptions.
 
 Note: In v1.0+, additional fields such as `message: string` and `meta?: Record<string, unknown>` may be considered for enhanced error reporting.
@@ -170,8 +169,7 @@ if (result.data !== null) {
 ```ts
 export interface ParseIssue {
   code: IssueCode;
-  path: readonly [];
-  key?: unknown;
+  key: string;
 }
 ```
 

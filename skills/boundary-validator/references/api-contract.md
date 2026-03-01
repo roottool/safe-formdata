@@ -116,17 +116,14 @@ if (result.data !== null) {
 ```typescript
 export interface ParseIssue {
   code: IssueCode;
-  path: readonly [];
-  key?: unknown;
+  key: string;
 }
 ```
 
 #### Constraints
 
 - **`code`**: Must be one of the allowed IssueCode values
-- **`path`**: Must always be an empty array `[]` (no structural inference)
-  - This field exists only to preserve compatibility with external issue formats
-- **`key`**: Optional, may contain the problematic key when an issue occurs (for debugging)
+- **`key`**: Must be the original FormData key that caused the issue, reported as-is without interpretation
 - **Issues are informational, not exceptions**
 
 #### Future Considerations

@@ -47,7 +47,6 @@ for (const [key, value] of formData.entries()) {
   if (FORBIDDEN_KEYS.includes(key as any)) {
     issues.push({
       code: "forbidden_key",
-      path: [],
       key,
     });
     continue; // Do not process forbidden keys
@@ -70,7 +69,6 @@ const result = parse(formData);
 expect(result.data).toBeNull();
 expect(result.issues).toContainEqual({
   code: "forbidden_key",
-  path: [],
   key: "__proto__",
 });
 
@@ -82,7 +80,6 @@ const result2 = parse(formData);
 expect(result2.data).toBeNull();
 expect(result2.issues).toContainEqual({
   code: "forbidden_key",
-  path: [],
   key: "constructor",
 });
 
@@ -94,7 +91,6 @@ const result3 = parse(formData);
 expect(result3.data).toBeNull();
 expect(result3.issues).toContainEqual({
   code: "forbidden_key",
-  path: [],
   key: "prototype",
 });
 ```
