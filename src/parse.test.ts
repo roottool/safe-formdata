@@ -31,7 +31,7 @@ describe("duplicate key detection", () => {
 		const issue = result.issues[0];
 		assert(issue);
 		expect(issue.code).toBe("duplicate_key");
-		expect(issue.path).toEqual([]);
+		expect(issue.key).toBe("a");
 	});
 
 	it("treats bracket notation as opaque keys", () => {
@@ -45,6 +45,7 @@ describe("duplicate key detection", () => {
 		const issue = result.issues[0];
 		assert(issue);
 		expect(issue.code).toBe("duplicate_key");
+		expect(issue.key).toBe("items[]");
 	});
 });
 
@@ -85,7 +86,6 @@ describe("forbidden key detection", () => {
 		assert(issue);
 		expect(issue.code).toBe("forbidden_key");
 		expect(issue.key).toBe("prototype");
-		expect(issue.path).toEqual([]);
 	});
 });
 
@@ -102,7 +102,6 @@ describe("invalid key detection", () => {
 		assert(issue);
 		expect(issue.code).toBe("invalid_key");
 		expect(issue.key).toBe("");
-		expect(issue.path).toEqual([]);
 	});
 
 	it("handles non-string keys gracefully if they occur", () => {
@@ -118,17 +117,6 @@ describe("invalid key detection", () => {
 });
 
 describe("boundary constraints", () => {
-	it("always returns empty path", () => {
-		const fd = new FormData();
-		fd.append("__proto__", "x");
-
-		const result = parse(fd);
-
-		const issue = result.issues[0];
-		assert(issue);
-		expect(issue.path).toEqual([]);
-	});
-
 	it("creates data object with no prototype", () => {
 		const fd = new FormData();
 		fd.append("a", "1");

@@ -30,7 +30,6 @@ for (const issue of result.issues) {
 	// Interpret or format them at a higher layer if needed.
 	console.error({
 		code: issue.code,
-		path: issue.path,
 		key: issue.key,
 	});
 }

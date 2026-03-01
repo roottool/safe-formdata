@@ -36,17 +36,17 @@ export function parse(formData: FormData): ParseResult {
 
 	for (const [key, value] of formData.entries()) {
 		if (typeof key !== "string" || key.length === 0) {
-			issues.push(createIssue("invalid_key", { key }));
+			issues.push(createIssue("invalid_key", key));
 			continue;
 		}
 
 		if (FORBIDDEN_KEYS.has(key)) {
-			issues.push(createIssue("forbidden_key", { key }));
+			issues.push(createIssue("forbidden_key", key));
 			continue;
 		}
 
 		if (seenKeys.has(key)) {
-			issues.push(createIssue("duplicate_key", { key }));
+			issues.push(createIssue("duplicate_key", key));
 			continue;
 		}
 
