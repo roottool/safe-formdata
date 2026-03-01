@@ -38,7 +38,7 @@ It enforces strict rules on keys and forbids structural inference by design.
 ## Overview
 
 FormData is untyped and unstructured by nature.
-Many parsers attempt to infer structure or semantics from key naming conventions.
+Parsers often attempt to infer structure or semantics from key naming conventions.
 
 safe-formdata intentionally does not.
 
@@ -85,7 +85,7 @@ Security decisions and issue triage are based on the definitions in SECURITY.md.
 
 ## Design decisions (Why not?)
 
-safe-formdata intentionally omits several common features.
+safe-formdata intentionally omits the following common features.
 
 ### Why no structural inference?
 
