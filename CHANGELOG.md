@@ -33,20 +33,25 @@ interface ParseIssue {
 
 **Migration**: Remove all references to `issue.path`. Because `path` was always an empty array, any reference to it was effectively a no-op and can be deleted outright.
 
-### `ParseIssue.key` added (required, `string`)
+### `ParseIssue.key` narrowed to required `string`
 
-A required `key: string` field has been added to identify which FormData key caused the issue.
+`key` existed in v0.1.x as `key?: unknown`. It is now required and typed as `string`.
 
 ```ts
-// v0.1.x — no key field
-issue.code; // "forbidden_key"
+// v0.1.x
+interface ParseIssue {
+  code: IssueCode;
+  key?: unknown; // optional, untyped
+}
 
-// v0.2.0 — key identifies the offending field
-issue.code; // "forbidden_key"
-issue.key; // "__proto__"
+// v0.2.0
+interface ParseIssue {
+  code: IssueCode;
+  key: string; // required, typed
+}
 ```
 
-**Migration**: Use `issue.key` wherever you need to identify the offending field. This is an additive change with no runtime impact, but type definitions that reference `ParseIssue` must be updated.
+**Migration**: Remove any `undefined` guards on `issue.key` and update type annotations that reference `ParseIssue.key` as `unknown`.
 
 ### `issues` on failure narrowed to a non-empty tuple
 
