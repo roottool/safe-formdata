@@ -31,7 +31,7 @@ This runs the following steps.
 
 ## Workflow Overview
 
-1. **Prepare Release PR**: Bump version → Create release branch → Open PR for review
+1. **Prepare Release PR**: Bump version → Update CHANGELOG → Create release branch → Open PR for review
 2. **Review & Merge**: Maintainer reviews and merges release PR to main
 3. **Publish**: Manual trigger of publish workflow → All checks run → npm publish
 
