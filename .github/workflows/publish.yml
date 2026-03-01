@@ -55,6 +55,21 @@ jobs:
         run: |
           echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
 
+      - name: Extract changelog section
+        id: changelog
+        run: |
+          VERSION="v${{ steps.version.outputs.version }}"
+          BODY=$(awk "/^## \[$VERSION\]/{found=1; next} found && /^## /{exit} found{print}" CHANGELOG.md)
+          BODY=$(echo "$BODY" | awk 'NF{found=1} found' | awk '{a[NR]=$0} NF{last=NR} END{for(i=1;i<=last;i++) print a[i]}')
+          if [ -z "$BODY" ]; then
+            echo "::warning::No changelog section found for $VERSION in CHANGELOG.md"
+          fi
+          {
+            echo "body<<EOF"
+            echo "$BODY"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
       - name: Ensure version not published
         run: |
           VERSION="v${{ steps.version.outputs.version }}"
@@ -73,6 +88,9 @@ jobs:
           git push origin "v${{ steps.version.outputs.version }}"
 
       - name: Create GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CHANGELOG_BODY: ${{ steps.changelog.outputs.body }}
         run: |
           gh api \
             --method POST \
@@ -80,7 +98,6 @@ jobs:
             -H "X-GitHub-Api-Version: 2022-11-28" \
             "/repos/${{ github.repository }}/releases" \
             -f tag_name="v${{ steps.version.outputs.version }}" \
+            -f body="$CHANGELOG_BODY" \
             -F draft=true \
             -F generate_release_notes=true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

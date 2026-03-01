@@ -57,6 +57,15 @@ jobs:
         run: |
           echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
 
+      - name: Update CHANGELOG
+        run: |
+          VERSION="v${{ steps.version.outputs.version }}"
+          if grep -q "^## \[Unreleased\]" CHANGELOG.md; then
+            sed -i "s/^## \[Unreleased\]/## [$VERSION]/" CHANGELOG.md
+          else
+            echo "::notice::No [Unreleased] section found in CHANGELOG.md, skipping"
+          fi
+
       - name: Create release branch and commit
         id: create_release_branch
         run: |
@@ -64,7 +73,7 @@ jobs:
           git config user.name "safe-formdata[bot]"
           git config user.email "252148499+safe-formdata[bot]@users.noreply.github.com"
           git checkout -b "$BRANCH_NAME"
-          git add package.json
+          git add package.json CHANGELOG.md
           git commit -m "chore(release): v${{ steps.version.outputs.version }}"
           git push --set-upstream origin "$BRANCH_NAME"
           echo "branch=$BRANCH_NAME" >> $GITHUB_OUTPUT

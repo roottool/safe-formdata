@@ -232,7 +232,7 @@ export type IssueCode = "invalid_key" | "forbidden_key" | "duplicate_key";
 // ✅ ParseResult discriminated union
 export type ParseResult =
   | { data: Record<string, string | File>; issues: [] }
-  | { data: null; issues: ParseIssue[] };
+  | { data: null; issues: [ParseIssue, ...ParseIssue[]] };
 
 // ✅ Type narrowing with data !== null
 if (result.data !== null) {
@@ -315,7 +315,7 @@ function handleResult(result: ParseResult) {
     console.log(result.issues.length); // 0
   } else {
     // TypeScript knows: result.data is null
-    // TypeScript knows: result.issues is ParseIssue[]
+    // TypeScript knows: result.issues is [ParseIssue, ...ParseIssue[]]
     for (const issue of result.issues) {
       console.error(issue.code);
     }

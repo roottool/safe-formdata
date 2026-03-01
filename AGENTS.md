@@ -150,7 +150,7 @@ export type ParseResult =
     }
   | {
       data: null;
-      issues: ParseIssue[];
+      issues: [ParseIssue, ...ParseIssue[]];
     };
 ```
 

@@ -224,15 +224,14 @@ const { data, issues } = parse(formData);
 ### Result
 
 ```ts
-export interface ParseResult {
-  data: Record<string, string | File> | null;
-  issues: ParseIssue[];
-}
+export type ParseResult =
+  | { data: Record<string, string | File>; issues: [] }
+  | { data: null; issues: [ParseIssue, ...ParseIssue[]] };
 ```
 
 - `data` is non-null only when no boundary violations are detected
 - `data` is always a flat object; no structural inference is performed
-- `issues` must always be checked by the caller
+- Use `data !== null` to narrow the type; `issues` is `[]` on success and non-empty on failure
 
 ### Issues
 
