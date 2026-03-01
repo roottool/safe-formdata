@@ -350,7 +350,6 @@ function parse(formData: FormData): ParseResult {
     if (key === "__proto__") {
       issues.push({
         code: "forbidden_key",
-        path: [],
         key,
       });
       // Problem: Continues processing other keys
@@ -422,7 +421,6 @@ function parse(formData: FormData): ParseResult {
     if (typeof key !== "string" || key.length === 0) {
       issues.push({
         code: "invalid_key",
-        path: [],
         key,
       });
       continue;

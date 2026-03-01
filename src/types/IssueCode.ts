@@ -3,8 +3,8 @@
  *
  * All issue codes represent security boundaries enforced by safe-formdata:
  *
- * - **`invalid_key`**: Key contains characters outside `[a-zA-Z0-9_-]`.
- *   Prevents injection attacks and ensures predictable field names.
+ * - **`invalid_key`**: Key is empty or not a string.
+ *   Prevents ambiguous or unrepresentable keys from entering application logic.
  *
  * - **`forbidden_key`**: Key is a forbidden prototype property
  *   (`__proto__`, `constructor`, `prototype`).

@@ -12,7 +12,7 @@ export interface ParseIssue {
 	/**
 	 * Type of validation issue.
 	 *
-	 * - `invalid_key`: Key contains characters outside `[a-zA-Z0-9_-]`
+	 * - `invalid_key`: Key is empty or not a string
 	 * - `forbidden_key`: Key is a forbidden prototype property (e.g., `__proto__`)
 	 * - `duplicate_key`: Key appears multiple times in FormData
 	 *
@@ -21,27 +21,9 @@ export interface ParseIssue {
 	code: IssueCode;
 
 	/**
-	 * Always an empty array (no structural inference).
+	 * The field key that caused the issue.
 	 *
-	 * This field exists only for compatibility with external issue formats.
-	 *
-	 * @see {@link https://github.com/roottool/safe-formdata/blob/main/AGENTS.md | Why path is always empty}
+	 * This is the original key from FormData, reported as-is without interpretation.
 	 */
-	path: readonly [];
-
-	/**
-	 * The field key that caused the issue (for debugging).
-	 *
-	 * This is the original key from FormData, even if it's invalid or forbidden.
-	 *
-	 * @example
-	 * ```typescript
-	 * {
-	 *   code: 'invalid_key',
-	 *   key: 'user.name',  // Contains invalid character '.'
-	 *   path: []
-	 * }
-	 * ```
-	 */
-	key?: unknown;
+	key: string;
 }

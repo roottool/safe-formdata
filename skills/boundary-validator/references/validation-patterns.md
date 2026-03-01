@@ -137,7 +137,6 @@ for (const [key, value] of formData.entries()) {
   if (seen.has(key)) {
     issues.push({
       code: "duplicate_key",
-      path: [],
       key,
     });
     continue; // Do not process
@@ -300,7 +299,6 @@ for (const [key, value] of formData.entries()) {
   if (invalidCondition) {
     issues.push({
       code: "invalid_key",
-      path: [],
       key,
     });
     continue; // Do not throw
@@ -362,7 +360,6 @@ for (const [key, value] of formData.entries()) {
   if (FORBIDDEN_KEYS.includes(key as any)) {
     issues.push({
       code: "forbidden_key",
-      path: [],
       key,
     });
     continue;

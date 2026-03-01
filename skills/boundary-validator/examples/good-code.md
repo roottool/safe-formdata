@@ -21,7 +21,6 @@ export function parse(formData: FormData): ParseResult {
     if (typeof key !== "string" || key.length === 0) {
       issues.push({
         code: "invalid_key" as IssueCode,
-        path: [] as const,
         key,
       });
       continue;
@@ -31,7 +30,6 @@ export function parse(formData: FormData): ParseResult {
     if (FORBIDDEN_KEYS.includes(key as any)) {
       issues.push({
         code: "forbidden_key" as IssueCode,
-        path: [] as const,
         key,
       });
       continue;
@@ -41,7 +39,6 @@ export function parse(formData: FormData): ParseResult {
     if (seen.has(key)) {
       issues.push({
         code: "duplicate_key" as IssueCode,
-        path: [] as const,
         key,
       });
       continue;
@@ -70,7 +67,6 @@ export function parse(formData: FormData): ParseResult {
 if (typeof key !== "string") {
   issues.push({
     code: "invalid_key",
-    path: [],
     key,
   });
   continue;
@@ -80,7 +76,6 @@ if (typeof key !== "string") {
 if (key.length === 0) {
   issues.push({
     code: "invalid_key",
-    path: [],
     key: "",
   });
   continue;
@@ -101,7 +96,6 @@ const FORBIDDEN_KEYS = ["__proto__", "constructor", "prototype"] as const;
 if (FORBIDDEN_KEYS.includes(key as any)) {
   issues.push({
     code: "forbidden_key",
-    path: [],
     key,
   });
   continue; // Do not process forbidden keys
@@ -127,7 +121,6 @@ for (const [key, value] of formData.entries()) {
   if (seen.has(key)) {
     issues.push({
       code: "duplicate_key",
-      path: [],
       key,
     });
     continue; // Do not process duplicate
@@ -137,7 +130,7 @@ for (const [key, value] of formData.entries()) {
 }
 
 // ✅ Alternative: Detect duplicates using Map
-const keyCount = new Map<unknown, number>();
+const keyCount = new Map<string, number>();
 
 for (const [key] of formData.entries()) {
   keyCount.set(key, (keyCount.get(key) || 0) + 1);
@@ -147,7 +140,6 @@ for (const [key, count] of keyCount) {
   if (count > 1) {
     issues.push({
       code: "duplicate_key",
-      path: [],
       key,
     });
   }
@@ -263,7 +255,6 @@ it("rejects __proto__ key", () => {
   expect(result.data).toBeNull();
   expect(result.issues).toContainEqual({
     code: "forbidden_key",
-    path: [],
     key: "__proto__",
   });
 });
@@ -279,7 +270,6 @@ it("reports duplicate keys", () => {
   expect(result.data).toBeNull();
   expect(result.issues).toContainEqual({
     code: "duplicate_key",
-    path: [],
     key: "username",
   });
 });

@@ -1,5 +1,6 @@
 import { createIssue } from "#issues/createIssue";
 import { FORBIDDEN_KEYS } from "#issues/forbiddenKeys";
+import type { ParseIssue } from "#types/ParseIssue";
 import type { ParseResult } from "#types/ParseResult";
 
 /**
@@ -20,7 +21,7 @@ import type { ParseResult } from "#types/ParseResult";
  * fd.append('name', 'alice')
  * const result = parse(fd)
  *
- * if (result.data) {
+ * if (result.data !== null) {
  *   // Success: result.data is { name: 'alice' }
  * } else {
  *   // Failure: result.issues contains detected problems
@@ -30,23 +31,23 @@ import type { ParseResult } from "#types/ParseResult";
  * @see {@link https://github.com/roottool/safe-formdata/blob/main/AGENTS.md AGENTS.md} for design rules
  */
 export function parse(formData: FormData): ParseResult {
-	const data = Object.create(null) as Record<string, string | File>;
-	const issues = [];
+	const data: Record<string, string | File> = Object.create(null);
+	const issues: ParseIssue[] = [];
 	const seenKeys = new Set<string>();
 
 	for (const [key, value] of formData.entries()) {
 		if (typeof key !== "string" || key.length === 0) {
-			issues.push(createIssue("invalid_key", { key }));
+			issues.push(createIssue("invalid_key", key));
 			continue;
 		}
 
 		if (FORBIDDEN_KEYS.has(key)) {
-			issues.push(createIssue("forbidden_key", { key }));
+			issues.push(createIssue("forbidden_key", key));
 			continue;
 		}
 
 		if (seenKeys.has(key)) {
-			issues.push(createIssue("duplicate_key", { key }));
+			issues.push(createIssue("duplicate_key", key));
 			continue;
 		}
 
@@ -54,10 +55,12 @@ export function parse(formData: FormData): ParseResult {
 		data[key] = value;
 	}
 
-	return issues.length > 0
+	// Destructure to let TypeScript infer [ParseIssue, ...ParseIssue[]] without a type assertion
+	const [firstIssue, ...restIssues] = issues;
+	return firstIssue !== undefined
 		? {
 				data: null,
-				issues,
+				issues: [firstIssue, ...restIssues],
 			}
 		: {
 				data,

@@ -90,7 +90,6 @@ for (const [key, value] of formData.entries()) {
   if (seen.has(key)) {
     issues.push({
       code: "duplicate_key",
-      path: [],
       key,
     });
     continue; // Do not process further
@@ -216,7 +215,6 @@ for (const [key, value] of formData.entries()) {
   if (typeof key !== "string" || key.length === 0) {
     issues.push({
       code: "invalid_key",
-      path: [],
       key,
     });
     continue;
