@@ -8,10 +8,14 @@ These constraints ensure API stability and prevent breaking changes.
 
 ## Public API (Minimal and Stable)
 
-The safe-formdata public API consists of a single function:
+The safe-formdata public API consists of a single function and utility types:
 
 ```typescript
 parse(formData: FormData): ParseResult
+
+// Named utility types derived from ParseResult
+type SuccessResult = Extract<ParseResult, { data: Record<string, string | File> }>;
+type FailureResult = Extract<ParseResult, { data: null }>;
 ```
 
 ### Constraints
@@ -64,7 +68,7 @@ export type ParseResult =
     }
   | {
       data: null;
-      issues: ParseIssue[];
+      issues: [ParseIssue, ...ParseIssue[]];
     };
 ```
 
@@ -72,7 +76,7 @@ export type ParseResult =
 
 - **Must be a discriminated union**: Two distinct shapes based on success/failure
 - **Success state**: `data` is a Record, `issues` is an empty array (literal type `[]`)
-- **Failure state**: `data` is `null`, `issues` is a non-empty array
+- **Failure state**: `data` is `null`, `issues` is a non-empty tuple (`[ParseIssue, ...ParseIssue[]]`)
 - **No intermediate states**: Partial success is not allowed
 
 #### Type Narrowing Pattern
@@ -227,7 +231,7 @@ See:
  */
 export type ParseResult =
   | { data: Record<string, string | File>; issues: [] }
-  | { data: null; issues: ParseIssue[] };
+  | { data: null; issues: [ParseIssue, ...ParseIssue[]] };
 ````
 
 ---
@@ -269,6 +273,7 @@ The following changes are **non-breaking** and allowed in minor/patch versions:
 When reviewing API changes:
 
 - [ ] Public API remains `parse(formData): ParseResult` only
+- [ ] `SuccessResult` / `FailureResult` utility types are derived from `ParseResult` (not independently defined)
 - [ ] No overloads added
 - [ ] No options parameters added
 - [ ] `ParseResult` structure unchanged
@@ -279,4 +284,4 @@ When reviewing API changes:
 ---
 
 **Source**: AGENTS.md (lines 119-199)
-**Last updated**: 2026-01-12
+**Last updated**: 2026-03-02
