@@ -33,15 +33,15 @@ This runs the following steps.
 
 1. **Prepare Release PR**: Bump version → Create release branch → Open PR for review
 2. **Review & Merge**: Maintainer reviews and merges release PR to main
-3. **Publish**: Manual trigger of publish workflow → All checks run → NPM publish
+3. **Publish**: Manual trigger of publish workflow → All checks run → npm publish
 
 The publish workflow is defined in `.github/workflows/publish.yml` and runs the following steps:
 
 1. Setup environment (Bun + dependencies)
 2. **Validate and build package** (`bun run prepare:publish`)
-3. Setup Node.js for NPM
-4. Publish to NPM with provenance
-5. Create and push git tag
+3. Setup Node.js for npm
+4. Publish to npm with provenance
+5. Create and push Git tag
 6. Create GitHub Release (draft)
 
 ---

@@ -160,7 +160,7 @@ function parse(formData: FormData): any {
 // Violates: No silent behavior
 ```
 
-### ❌ Object.assign / Spread Operator
+### ❌ Object.assign / spread syntax
 
 ```typescript
 // ❌ WRONG: Using Object.assign (merges)
@@ -488,7 +488,7 @@ export type ParseResult =
 
 ---
 
-## Testing Anti-Patterns
+## Testing antipatterns
 
 ### ❌ Not Testing Forbidden Keys
 

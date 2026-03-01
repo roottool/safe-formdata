@@ -4,7 +4,7 @@
 
 ## Type of Change
 
-- [ ] Bug fix (non-breaking change fixing an issue)
+- [ ] Bugfix (non-breaking change fixing an issue)
 - [ ] Security fix (non-breaking change addressing a security issue)
 - [ ] Documentation (changes to documentation only)
 - [ ] Refactoring (non-breaking change improving code structure)
@@ -27,7 +27,7 @@
   - Key names are treated as opaque strings
   - No structural inference (`[]`, `.`, brackets, paths, etc.)
 - [ ] **No silent behavior**
-  - No merging, overwriting, auto-fixing, or implicit resolution
+  - No merging, overwriting, autofixing, or implicit resolution
   - All boundary violations are reported explicitly
 - [ ] **Boundary respected**
   - No validation, coercion, schema, framework conventions, or business logic

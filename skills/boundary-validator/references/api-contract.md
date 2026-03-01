@@ -241,7 +241,7 @@ For complete versioning policy, see README.md Versioning section.
 
 ### Key Points
 
-- **Patch versions** (0.1.x): Bug fixes, no API changes
+- **Patch versions** (0.1.x): bugfixes, no API changes
 - **Minor versions** (0.x.0): Non-breaking additions (with caution in 0.x)
 - **Major versions** (1.0.0+): Breaking changes allowed
 
@@ -259,7 +259,7 @@ The following changes are **breaking** and require a major version bump:
 
 The following changes are **non-breaking** and allowed in minor/patch versions:
 
-- Bug fixes in parsing logic
+- Bugfixes in parsing logic
 - Performance improvements
 - Internal refactoring
 - Documentation improvements

@@ -25,7 +25,7 @@ Users must upgrade to the latest version to receive security patches.
 
 ## Public vs Private Reporting
 
-safe-formdata distinguishes clearly between **private vulnerability disclosure**
+safe-formdata distinguishes between **private vulnerability disclosure**
 and **public security discussion**.
 
 ### Private (Security Advisory)
