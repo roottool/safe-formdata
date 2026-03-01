@@ -20,7 +20,7 @@ Before creating a release PR, validate locally:
 bun run prepare:publish
 ```
 
-This runs:
+This runs the following steps.
 
 1. TypeScript type checking (`check:type:source`)
 2. Test suite with coverage (`test:coverage`)

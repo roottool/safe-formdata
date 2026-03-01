@@ -4,7 +4,7 @@ This directory contains **Agent Skills** specific to the safe-formdata project.
 
 ## What are Agent Skills?
 
-Agent Skills are structured knowledge packages that agents like Claude Code can efficiently reference. Based on the implementation rules in AGENTS.md, they provide:
+Agent Skills are structured knowledge packages that agents like Claude Code can efficiently reference. Based on the implementation rules in AGENTS.md, they provide the following.
 
 - **Automatic triggering**: Activates automatically during PR creation and code review
 - **Progressive disclosure**: Loads only necessary information incrementally
@@ -18,7 +18,7 @@ Performs code review based on boundary principles.
 
 - **Purpose**: Automatically detect violations of safe-formdata's design principles
 - **Triggers**: PR creation, code review, post-implementation
-- **Validation items**:
+- **Validation items**
   - Key opacity (no array notation parsing, etc.)
   - No silent behavior (no merging, overwriting, etc.)
   - No inference or convenience features
