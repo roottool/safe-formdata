@@ -30,7 +30,7 @@ import type { ParseResult } from "#types/ParseResult";
  * @see {@link https://github.com/roottool/safe-formdata/blob/main/AGENTS.md AGENTS.md} for design rules
  */
 export function parse(formData: FormData): ParseResult {
-	const data = Object.create(null) as Record<string, string | File>;
+	const data: Record<string, string | File> = Object.create(null);
 	const issues = [];
 	const seenKeys = new Set<string>();
 
