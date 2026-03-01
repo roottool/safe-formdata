@@ -37,32 +37,32 @@
 
 ## Security & API Stability
 
-**Security Impact:**
+**Security Impact**
 
 - [ ] No impact on security (no changes to forbidden keys, prototype safety)
 - [ ] Reviewed against security rules in AGENTS.md
 - [ ] If security-related: Explain impact and mitigation
 
-**API Contract:**
+**API Contract**
 
 - [ ] No changes to public API (`parse` function signature, type definitions)
 - [ ] No breaking changes to `ParseResult`, `ParseIssue`, or `IssueCode`
 - [ ] If API change: Is this a breaking change? (Yes/No + explanation)
 
-**Versioning:**
+**Versioning**
 
 - [ ] Change is compatible with current v0.x versioning policy
 - [ ] If breaking change proposed: Justification for major version bump
 
 ## Testing
 
-**Automated Checks:**
+**Automated Checks**
 
 - [ ] TypeScript type checking passes (`bun run check:type:source`)
 - [ ] All tests pass (`bun run test`)
 - [ ] Build succeeds (`bun run build`)
 
-**Additional Verification** (describe any manual testing, edge case verification, or integration testing):
+**Additional Verification** (describe any manual testing, edge case verification, or integration testing)
 
 <!-- Describe tests added, updated, or manual verification performed. If none, explain why. -->
 
