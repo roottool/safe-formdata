@@ -217,3 +217,15 @@ If a change makes the parser:
 it likely violates the boundary.
 
 When in doubt, reject the change.
+
+---
+
+## Agent Skills
+
+The `boundary-validator` skill in `skills/boundary-validator/` provides structured
+validation guidance based on the rules in this document.
+
+- **Claude Code**: Activates automatically during PR creation and code review.
+  Invoke with `Review this code against boundary-validator rules`.
+- **Other agents**: Apply the validation patterns in `skills/boundary-validator/SKILL.md`
+  when creating PRs, reviewing code, or implementing features.
