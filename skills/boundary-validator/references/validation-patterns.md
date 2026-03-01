@@ -104,9 +104,7 @@ data[key] = value; // If key exists, this silently overwrites
 ```typescript
 // ❌ Violation: Converting to array for duplicates
 if (data[key]) {
-  data[key] = Array.isArray(data[key])
-    ? [...data[key], value]
-    : [data[key], value];
+  data[key] = Array.isArray(data[key]) ? [...data[key], value] : [data[key], value];
 }
 
 // ❌ Violation: Array push
@@ -392,11 +390,7 @@ export function parse(formData: FormData, strict: boolean): ParseResult;
 
 ```typescript
 // ❌ Violation: Adding new issue codes without major version bump
-export type IssueCode =
-  | "invalid_key"
-  | "forbidden_key"
-  | "duplicate_key"
-  | "invalid_value"; // NEW CODE - requires major version!
+export type IssueCode = "invalid_key" | "forbidden_key" | "duplicate_key" | "invalid_value"; // NEW CODE - requires major version!
 ```
 
 ### Correct Patterns
