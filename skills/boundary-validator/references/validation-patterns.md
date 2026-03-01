@@ -8,7 +8,7 @@ Use these patterns when reviewing code changes to safe-formdata.
 
 ## Detection Strategy
 
-When reviewing code, search for these anti-patterns.
+When reviewing code, search for these antipatterns.
 
 1. **Keyword search**: Look for suspicious method calls and operators
 2. **Control flow analysis**: Examine conditional logic related to keys
@@ -18,7 +18,7 @@ When reviewing code, search for these anti-patterns.
 
 ## Rule 1: Keys are Opaque Strings
 
-### Anti-Patterns to Detect
+### Antipatterns to Detect
 
 #### Pattern: Bracket Notation Parsing
 
@@ -82,7 +82,7 @@ if (key === "exact_key_name") {
 
 ## Rule 2: No Silent Behavior
 
-### Anti-Patterns to Detect
+### Antipatterns to Detect
 
 #### Pattern: Merge/Overwrite
 
@@ -151,7 +151,7 @@ for (const [key, value] of formData.entries()) {
 
 ## Rule 3: No Inference, No Convenience
 
-### Anti-Patterns to Detect
+### Antipatterns to Detect
 
 #### Pattern: Structural Inference
 
@@ -248,7 +248,7 @@ export function parse(formData: FormData): ParseResult {
 
 ## Rule 4: Explicit Issue Reporting
 
-### Anti-Patterns to Detect
+### Antipatterns to Detect
 
 #### Pattern: Throwing Exceptions
 
@@ -321,7 +321,7 @@ return { data, issues: [] };
 
 ## Security-Specific Patterns
 
-### Anti-Patterns to Detect
+### Antipatterns to Detect
 
 #### Pattern: Unsafe Object Creation
 
@@ -376,7 +376,7 @@ for (const [key, value] of formData.entries()) {
 
 ## API Contract Patterns
 
-### Anti-Patterns to Detect
+### Antipatterns to Detect
 
 #### Pattern: Function Overloads
 
