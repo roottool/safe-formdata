@@ -88,7 +88,7 @@ if (result.data !== null) {
   console.log(result.data.username);
 } else {
   // TypeScript knows: data is null
-  // TypeScript knows: issues is ParseIssue[]
+  // TypeScript knows: issues is [ParseIssue, ...ParseIssue[]]
   console.error(result.issues);
 }
 ```
