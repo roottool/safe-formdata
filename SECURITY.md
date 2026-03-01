@@ -30,7 +30,7 @@ and **public security discussion**.
 
 ### Private (Security Advisory)
 
-Use **GitHub Security Advisories** for:
+Use **GitHub Security Advisories** for the following.
 
 - Reproducible vulnerabilities
 - Exploit techniques or payloads
@@ -42,7 +42,7 @@ Use **GitHub Security Advisories** for:
 
 ### Public Issue
 
-Public issues are appropriate only for:
+Public issues are appropriate only for the following.
 
 - **Design-level security questions**
 - **Non-sensitive security concerns**
@@ -149,7 +149,7 @@ safe-formdata **assumes**:
 
 ## Disclosure Policy
 
-Security reports are handled as follows:
+Security reports are handled as follows.
 
 1. **Review**
    - Issues are evaluated against the security scope defined above

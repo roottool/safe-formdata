@@ -4,7 +4,7 @@
  * These keys are reserved properties on `Object.prototype` and must never
  * be allowed in parsed FormData, regardless of their values or context.
  *
- * The forbidden keys are:
+ * The forbidden keys are the following.
  * - `__proto__`: Legacy prototype accessor
  * - `prototype`: Function prototype property
  * - `constructor`: Object constructor reference

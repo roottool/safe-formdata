@@ -8,7 +8,7 @@ This document provides guidelines for contributing to this boundary-focused Form
 
 ## Before You Start
 
-**Please read these documents carefully:**
+**Please read these documents carefully.**
 
 1. **README.md**: Understand the design principles and what safe-formdata is (and isn't)
 2. **AGENTS.md**: Review the non-negotiable implementation rules
@@ -110,7 +110,7 @@ bun run test:coverage   # View coverage report
 
 ### 4. Security Considerations
 
-**Mandatory security rules** (AGENTS.md):
+**Mandatory security rules** (AGENTS.md)
 
 - Use `Object.create(null)` for parsed data (no prototype)
 - Reject forbidden keys: `__proto__`, `constructor`, `prototype`
@@ -135,7 +135,7 @@ Before submitting a PR:
 
 ### PR Description
 
-Include:
+Include the following.
 
 1. **Problem**: What issue does this solve?
 2. **Solution**: How does this maintain the boundary?
@@ -144,7 +144,7 @@ Include:
 
 ### Review Process
 
-PRs will be evaluated against:
+PRs will be evaluated against the following.
 
 1. **Alignment with design principles** (README.md)
 2. **Compliance with technical rules** (AGENTS.md)

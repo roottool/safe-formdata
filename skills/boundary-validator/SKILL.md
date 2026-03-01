@@ -55,7 +55,7 @@ Review this code against boundary-validator rules
 
 ### Review Process
 
-The skill will:
+The skill will do the following.
 
 1. **Read the changed files** using the Read and Grep tools
 2. **Check for violations** against the four design rules
@@ -234,12 +234,12 @@ const data = Object.create(null); // Not {}
 
 ### API Contract
 
-**IssueCode stability**:
+**IssueCode stability**
 
 - No new IssueCode values without major version bump
 - Existing codes: `invalid_key`, `forbidden_key`, `duplicate_key`
 
-**ParseResult type**:
+**ParseResult type**
 
 - Must be a discriminated union
 - `data !== null` for type narrowing

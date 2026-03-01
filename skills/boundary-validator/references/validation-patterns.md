@@ -8,7 +8,7 @@ Use these patterns when reviewing code changes to safe-formdata.
 
 ## Detection Strategy
 
-When reviewing code, search for these anti-patterns:
+When reviewing code, search for these anti-patterns.
 
 1. **Keyword search**: Look for suspicious method calls and operators
 2. **Control flow analysis**: Examine conditional logic related to keys

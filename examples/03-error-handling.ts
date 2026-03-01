@@ -35,7 +35,7 @@ for (const issue of result.issues) {
 	});
 }
 
-// Typical handling pattern:
+// Typical handling pattern is as follows.
 // - log issues
 // - return HTTP 400
 // - show a validation error to the user

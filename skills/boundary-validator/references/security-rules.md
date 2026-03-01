@@ -10,7 +10,7 @@ These rules are non-negotiable and must be enforced in all implementations.
 
 ### Forbidden Keys
 
-Explicitly forbid the following keys:
+Explicitly forbid the following keys.
 
 - `__proto__`
 - `constructor`
