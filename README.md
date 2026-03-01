@@ -30,6 +30,7 @@ It enforces strict rules on keys and forbids structural inference by design.
     - [Result](#result)
     - [Issues](#issues)
   - [Versioning](#versioning)
+  - [Contributing](#contributing)
   - [License](#license)
 
 ---

@@ -34,10 +34,7 @@ function parse(formData: FormData): ParseResult;
 function parse(formData: FormData, options: ParseOptions): ParseResult;
 
 // Adding options
-function parse(
-  formData: FormData,
-  options?: { allowDuplicates?: boolean },
-): ParseResult;
+function parse(formData: FormData, options?: { allowDuplicates?: boolean }): ParseResult;
 
 // Adding framework adapters
 function parseRequest(req: NextRequest): ParseResult;
@@ -191,11 +188,7 @@ export type IssueCode = "invalid_key" | "forbidden_key" | "duplicate_key";
 export type IssueCode = "invalid_key" | "forbidden_key" | "duplicate_key";
 
 // v1.0.0 - Major version allows changes
-export type IssueCode =
-  | "invalid_key"
-  | "forbidden_key"
-  | "duplicate_key"
-  | "invalid_value"; // OK in major version
+export type IssueCode = "invalid_key" | "forbidden_key" | "duplicate_key" | "invalid_value"; // OK in major version
 ```
 
 ---

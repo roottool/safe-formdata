@@ -84,15 +84,7 @@ jobs:
     name: Status Check
     runs-on: ubuntu-slim
     timeout-minutes: 1
-    needs:
-      [
-        setup,
-        lint-format,
-        type-check,
-        test,
-        export-validation,
-        dependency-review,
-      ]
+    needs: [setup, lint-format, type-check, test, export-validation, dependency-review]
     if: always() && (contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled'))
     steps:
       - run: exit 1

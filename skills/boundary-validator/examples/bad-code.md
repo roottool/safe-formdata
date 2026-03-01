@@ -460,11 +460,7 @@ export function parse(formData: FormData, strict?: boolean): ParseResult {
 
 ```typescript
 // ❌ WRONG: Adding new issue code in minor version
-export type IssueCode =
-  | "invalid_key"
-  | "forbidden_key"
-  | "duplicate_key"
-  | "invalid_value"; // NEW - requires major version bump!
+export type IssueCode = "invalid_key" | "forbidden_key" | "duplicate_key" | "invalid_value"; // NEW - requires major version bump!
 
 // Problem: Breaking change without major version bump
 // Violates: API contract (IssueCode stability)
