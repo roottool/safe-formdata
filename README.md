@@ -197,7 +197,7 @@ if (result.data !== null) {
 }
 ```
 
-**Key points**
+### Key points
 
 - All values are `string | File` - no automatic type conversion
 - Use `data !== null` to check for success and narrow the type
