@@ -9,7 +9,7 @@ Migration guides for breaking changes are maintained below.
 
 ---
 
-## [Unreleased]
+## [v0.2.0]
 
 > **Breaking changes** — In the 0.x series, minor version bumps are treated as effectively major releases.
 
