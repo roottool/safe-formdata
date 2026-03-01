@@ -12,7 +12,7 @@ export interface ParseIssue {
 	/**
 	 * Type of validation issue.
 	 *
-	 * - `invalid_key`: Key contains characters outside `[a-zA-Z0-9_-]`
+	 * - `invalid_key`: Key is empty or not a string
 	 * - `forbidden_key`: Key is a forbidden prototype property (e.g., `__proto__`)
 	 * - `duplicate_key`: Key appears multiple times in FormData
 	 *
