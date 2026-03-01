@@ -64,7 +64,9 @@ export type ParseResult =
 			data: null;
 
 			/**
-			 * Array of validation issues that prevented successful parsing.
+			 * Non-empty array of validation issues that prevented successful parsing.
+			 *
+			 * Always contains at least one issue when `data` is `null`.
 			 *
 			 * Possible issue codes:
 			 * - `invalid_key`: Key contains unsafe characters
@@ -83,5 +85,5 @@ export type ParseResult =
 			 * }
 			 * ```
 			 */
-			issues: ParseIssue[];
+			issues: [ParseIssue, ...ParseIssue[]];
 	  };

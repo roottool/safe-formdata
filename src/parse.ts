@@ -54,10 +54,11 @@ export function parse(formData: FormData): ParseResult {
 		data[key] = value;
 	}
 
-	return issues.length > 0
+	const [firstIssue, ...restIssues] = issues;
+	return firstIssue !== undefined
 		? {
 				data: null,
-				issues,
+				issues: [firstIssue, ...restIssues],
 			}
 		: {
 				data,
