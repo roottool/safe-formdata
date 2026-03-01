@@ -22,12 +22,13 @@ The `path` field has been removed from `ParseIssue`.
 interface ParseIssue {
   code: IssueCode;
   path: readonly []; // removed
+  key?: unknown;
 }
 
 // v0.2.0
 interface ParseIssue {
   code: IssueCode;
-  key: string; // added (see below)
+  key: string; // narrowed (see below)
 }
 ```
 
