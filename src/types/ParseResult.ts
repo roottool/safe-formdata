@@ -69,7 +69,7 @@ export type ParseResult =
 			 * Always contains at least one issue when `data` is `null`.
 			 *
 			 * Possible issue codes:
-			 * - `invalid_key`: Key contains unsafe characters
+			 * - `invalid_key`: Key is empty or not a string
 			 * - `forbidden_key`: Key is a forbidden prototype property
 			 * - `duplicate_key`: Key appears multiple times
 			 *

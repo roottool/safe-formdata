@@ -1,5 +1,6 @@
 import { createIssue } from "#issues/createIssue";
 import { FORBIDDEN_KEYS } from "#issues/forbiddenKeys";
+import type { ParseIssue } from "#types/ParseIssue";
 import type { ParseResult } from "#types/ParseResult";
 
 /**
@@ -20,7 +21,7 @@ import type { ParseResult } from "#types/ParseResult";
  * fd.append('name', 'alice')
  * const result = parse(fd)
  *
- * if (result.data) {
+ * if (result.data !== null) {
  *   // Success: result.data is { name: 'alice' }
  * } else {
  *   // Failure: result.issues contains detected problems
@@ -31,7 +32,7 @@ import type { ParseResult } from "#types/ParseResult";
  */
 export function parse(formData: FormData): ParseResult {
 	const data: Record<string, string | File> = Object.create(null);
-	const issues = [];
+	const issues: ParseIssue[] = [];
 	const seenKeys = new Set<string>();
 
 	for (const [key, value] of formData.entries()) {
@@ -54,6 +55,7 @@ export function parse(formData: FormData): ParseResult {
 		data[key] = value;
 	}
 
+	// Destructure to let TypeScript infer [ParseIssue, ...ParseIssue[]] without a type assertion
 	const [firstIssue, ...restIssues] = issues;
 	return firstIssue !== undefined
 		? {
