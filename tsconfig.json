@@ -7,6 +7,7 @@
 		"moduleResolution": "nodenext",
 		"rewriteRelativeImportExtensions": true,
 		"erasableSyntaxOnly": true,
+		"isolatedDeclarations": true,
 		"verbatimModuleSyntax": true,
 
 		// Emit
@@ -15,7 +16,6 @@
 		"declarationMap": true,
 		"sourceMap": true,
 		"outDir": "./dist",
-		"removeComments": true,
 
 		// Type Checking (strict mode)
 		"strict": true,
