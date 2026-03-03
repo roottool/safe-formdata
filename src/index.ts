@@ -1,9 +1,3 @@
-/**
- * safe-formdata: Boundary-focused FormData parser
- *
- * See AGENTS.md for design rules and boundary definition.
- */
-
 export { parse } from "#parse";
 
 export type { IssueCode } from "#types/IssueCode";
