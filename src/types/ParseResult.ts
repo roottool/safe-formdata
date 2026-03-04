@@ -3,7 +3,7 @@ import type { ParseIssue } from "#types/ParseIssue";
 /**
  * Result of parsing FormData with {@link parse}.
  *
- * This is a discriminated union type. Use `data !== null` to narrow the type:
+ * Use `data !== null` to narrow the type:
  * - `data !== null` → Success: parsed data available, issues is empty array
  * - `data === null` → Failure: validation issues occurred
  *
@@ -51,7 +51,7 @@ export type ParseResult =
 			data: Record<string, string | File>;
 
 			/**
-			 * Empty array when parsing succeeds.
+			 * Always `[]` on success — kept for consistent destructuring alongside the failure branch.
 			 */
 			issues: [];
 	  }
@@ -65,8 +65,6 @@ export type ParseResult =
 
 			/**
 			 * Non-empty array of validation issues that prevented successful parsing.
-			 *
-			 * Always contains at least one issue when `data` is `null`.
 			 *
 			 * Possible issue codes:
 			 * - `invalid_key`: Key is empty or not a string

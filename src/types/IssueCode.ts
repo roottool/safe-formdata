@@ -1,8 +1,6 @@
 /**
  * Type of validation issue detected during FormData parsing.
  *
- * All issue codes represent security boundaries enforced by safe-formdata:
- *
  * - **`invalid_key`**: Key is empty or not a string.
  *   Prevents ambiguous or unrepresentable keys from entering application logic.
  *

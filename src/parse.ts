@@ -4,16 +4,14 @@ import type { ParseIssue } from "#types/ParseIssue";
 import type { ParseResult } from "#types/ParseResult";
 
 /**
- * Parses FormData into a flat JavaScript object with strict boundary enforcement.
+ * Parses FormData into a flat JavaScript object.
  *
- * This function establishes a security-focused boundary between untrusted FormData input
- * and application logic by:
- * - Detecting duplicate, forbidden, and invalid keys
- * - Treating keys as opaque strings (no structural inference)
- * - Returning null data if any issues are detected (no partial success)
+ * Fails completely if any entry violates the rules below — no partial success:
+ * - Duplicate, forbidden, and invalid keys are rejected
+ * - Keys are treated as opaque strings (no structural inference)
  *
  * @param formData - The FormData instance to parse
- * @returns ParseResult containing either parsed data or issues (never both)
+ * @returns ParseResult containing either parsed data or issues, never both
  *
  * @example
  * ```ts
