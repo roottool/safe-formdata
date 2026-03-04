@@ -16,8 +16,7 @@ Before implementing, review:
 
 safe-formdata is a **boundary-focused FormData parser**.
 
-Its sole responsibility is to establish a strict, security-oriented boundary
-between untrusted FormData input and application logic.
+Its sole responsibility is maintaining a strict parsing boundary between untrusted FormData and application logic.
 
 This document defines the non-negotiable rules for implementation and review.
 
@@ -97,7 +96,7 @@ This is non-optional and part of the boundary definition.
 
 ## Key validation criteria
 
-To maintain a predictable boundary, keys must meet the following criteria. Failure to do so results in an `invalid_key` issue.
+Keys failing any of the following result in an `invalid_key` issue:
 
 - **Non-empty**: A key must have a length > 0.
   - Note: Keys consisting only of whitespace characters are considered valid as they satisfy the length requirement and preserve the "opaque strings" principle.
@@ -122,7 +121,7 @@ No additional IssueCode may be introduced without a major version bump.
 - `key` must be the original FormData key that caused the issue, reported as-is without interpretation.
 - Issues are informational, not exceptions.
 
-Note: In v1.0+, additional fields such as `message: string` and `meta?: Record<string, unknown>` may be considered for enhanced error reporting.
+Note: In v1.0+, additional fields (e.g., `message`, `meta`) may be added for richer error reporting.
 
 ---
 
@@ -181,7 +180,7 @@ export type IssueCode = "invalid_key" | "forbidden_key" | "duplicate_key";
 
 **Type documentation:**
 
-All type definitions include comprehensive JSDoc comments for IDE integration. See:
+All public types include JSDoc comments for IDE integration. See:
 
 - `src/types/ParseResult.ts` - Discriminated union with type narrowing examples
 - `src/types/ParseIssue.ts` - Issue structure and property explanations

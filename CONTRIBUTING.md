@@ -2,13 +2,9 @@
 
 Thank you for your interest in contributing to safe-formdata!
 
-This document provides guidelines for contributing to this boundary-focused FormData parser.
-
 ---
 
 ## Before You Start
-
-**Please read these documents carefully.**
 
 1. **README.md**: Understand the design principles and what safe-formdata is (and isn't)
 2. **AGENTS.md**: Review the non-negotiable implementation rules
@@ -46,8 +42,6 @@ bun run test:watch   # Watch mode for testing
 ---
 
 ## Project Philosophy
-
-safe-formdata establishes a **strict boundary** between untrusted FormData input and application logic.
 
 ### Core Principles (from README.md)
 
@@ -135,7 +129,7 @@ Before submitting a PR:
 
 ### PR Description
 
-Include the following.
+Include the following:
 
 1. **Problem**: What issue does this solve?
 2. **Solution**: How does this maintain the boundary?
@@ -144,7 +138,7 @@ Include the following.
 
 ### Review Process
 
-PRs will be evaluated against the following.
+PRs are evaluated against:
 
 1. **Alignment with design principles** (README.md)
 2. **Compliance with technical rules** (AGENTS.md)
