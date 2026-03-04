@@ -5,8 +5,6 @@ description: Validates code changes against safe-formdata's boundary-focused des
 
 # Boundary Validator
 
-Validates code changes against safe-formdata's four design rules.
-
 ## Review Process
 
 1. Read the changed files using the Read and Grep tools
@@ -42,7 +40,7 @@ Never throw for input-derived errors. Return `{ data: null, issues }` when any i
 
 ## Review Output Format
 
-When violations are found, report in this format:
+When violations are found, report findings in this format:
 
 ```markdown
 ## Boundary Validation Results
