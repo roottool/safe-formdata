@@ -7,8 +7,8 @@
 [![CI](https://github.com/roottool/safe-formdata/actions/workflows/ci.yml/badge.svg)](https://github.com/roottool/safe-formdata/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/roottool/safe-formdata/graph/badge.svg)](https://codecov.io/gh/roottool/safe-formdata)
 
-safe-formdata is a **security-focused** parser that establishes a predictable boundary between untrusted input and application logic.
-It enforces strict rules on keys and forbids structural inference by design.
+safe-formdata is a strict FormData parser.
+It enforces rules on keys and forbids structural inference by design.
 
 ## Table of Contents
 
@@ -76,10 +76,7 @@ Anything beyond this boundary — including value validation, schema enforcement
 framework conventions, authentication, or denial-of-service protection —
 is **out of scope** and must be handled by the application.
 
-📘 **Authoritative security guarantees, assumptions, and reporting policy:**  
-See [SECURITY.md](./SECURITY.md)
-
-Security decisions and issue triage are based on the definitions in SECURITY.md.
+Security guarantees, assumptions, and reporting policy: [SECURITY.md](./SECURITY.md)
 
 ---
 
@@ -128,7 +125,7 @@ their interpretation necessarily implies structure
 
 Defining or inferring such structure is outside the scope of safe-formdata.
 
-safe-formdata establishes a strict, non-inferential boundary:
+safe-formdata enforces a strict rule:
 each key must map to exactly one value (`string` or `File`),
 or the input is rejected.
 
@@ -156,7 +153,7 @@ Validation and typing belong beyond it.
 
 ## Installation
 
-Install safe-formdata using your preferred package manager:
+Install:
 
 ```bash
 # npm
@@ -201,9 +198,8 @@ if (result.data !== null) {
 
 - All values are `string | File` - no automatic type conversion
 - Use `data !== null` to check for success and narrow the type
-- Security boundaries are enforced from the start
 
-For complete examples including file uploads and validation patterns, see the [examples/](./examples) directory.
+See [examples/](./examples) for file upload handling and more.
 
 ---
 
@@ -254,7 +250,7 @@ No inference or convenience features will be added within v0.x.
 
 ## Contributing
 
-Contributions are welcome! Please see:
+See:
 
 - [CONTRIBUTING.md](CONTRIBUTING.md) - Contributor guide
 - [docs/PUBLISHING.md](docs/PUBLISHING.md) - Publishing guide (for maintainers)

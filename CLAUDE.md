@@ -23,7 +23,7 @@ Review this code against boundary-validator rules
 
 ## Usage Examples
 
-The `examples/` directory contains comprehensive usage examples:
+The `examples/` directory contains usage examples:
 
 - `00-basic.ts` - Basic parsing and type narrowing
 - `01-file-upload.ts` - File handling with type guards

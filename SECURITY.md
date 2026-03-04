@@ -1,7 +1,5 @@
 # Security Policy
 
-safe-formdata is a **boundary-focused FormData parser** designed with security as a core principle.
-
 This document defines:
 
 - How to report security issues responsibly
@@ -9,14 +7,13 @@ This document defines:
 - The security guarantees and assumptions of this library
 - How security-related issues are evaluated and handled
 
-This policy serves as the **authoritative reference** for security-related decisions,
-including issue triage and closure.
+This policy governs security issue triage and closure decisions.
 
 ---
 
 ## Supported Versions
 
-**Only the latest release receives security updates.**
+Only the latest release receives security updates.
 
 Security fixes are not backported.
 Users must upgrade to the latest version to receive security patches.
@@ -30,7 +27,7 @@ and **public security discussion**.
 
 ### Private (Security Advisory)
 
-Use **GitHub Security Advisories** for the following.
+Use **GitHub Security Advisories** for:
 
 - Reproducible vulnerabilities
 - Exploit techniques or payloads
@@ -42,7 +39,7 @@ Use **GitHub Security Advisories** for the following.
 
 ### Public Issue
 
-Public issues are appropriate only for the following.
+Public issues are appropriate for:
 
 - **Design-level security questions**
 - **Non-sensitive security concerns**
@@ -102,9 +99,7 @@ The following are **not** considered security vulnerabilities:
 - **API misuse**
   - Incorrect usage by consumers (e.g., ignoring `issues`)
 
-If an issue falls under these categories,  
-it will be **closed without action**, even if it has security implications
-at the application level.
+If an issue falls under these categories, it will be closed without action, even if it has security implications at the application level.
 
 ---
 
@@ -149,7 +144,7 @@ safe-formdata **assumes**:
 
 ## Disclosure Policy
 
-Security reports are handled as follows.
+Security reports are handled as follows:
 
 1. **Review**
    - Issues are evaluated against the security scope defined above
