@@ -55,7 +55,7 @@ Review this code against boundary-validator rules
 
 ### Review Process
 
-The skill will do the following.
+The skill:
 
 1. **Read the changed files** using the Read and Grep tools
 2. **Check for violations** against the four design rules
