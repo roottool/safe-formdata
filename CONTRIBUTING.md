@@ -1,5 +1,7 @@
 # Contributing to safe-formdata
 
+Thank you for your interest in contributing to safe-formdata!
+
 ---
 
 ## Before You Start

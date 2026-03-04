@@ -2,13 +2,13 @@
 
 **The strict trust boundary for FormData.**
 
+safe-formdata is a **security-focused** FormData parser.
+It enforces rules on keys and forbids structural inference by design.
+
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/roottool/safe-formdata)
 [![npm version](https://img.shields.io/npm/v/safe-formdata)](https://www.npmjs.com/package/safe-formdata)
 [![CI](https://github.com/roottool/safe-formdata/actions/workflows/ci.yml/badge.svg)](https://github.com/roottool/safe-formdata/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/roottool/safe-formdata/graph/badge.svg)](https://codecov.io/gh/roottool/safe-formdata)
-
-safe-formdata is a strict FormData parser.
-It enforces rules on keys and forbids structural inference by design.
 
 ## Table of Contents
 

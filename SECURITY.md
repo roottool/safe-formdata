@@ -99,7 +99,7 @@ The following are **not** considered security vulnerabilities:
 - **API misuse**
   - Incorrect usage by consumers (e.g., ignoring `issues`)
 
-If an issue falls under these categories, it will be closed without action, even if it has security implications at the application level.
+If an issue falls under these categories, it will be **closed without action**, even if it has security implications at the application level.
 
 ---
 
