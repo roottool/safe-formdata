@@ -21,7 +21,7 @@ type SuccessResult = Extract<ParseResult, { data: Record<string, string | File> 
 type FailureResult = Extract<ParseResult, { data: null }>;
 ```
 
-See implementation: `src/index.ts`, `src/parse.ts`
+See implementation: [`src/index.ts`](../../../src/index.ts), [`src/parse.ts`](../../../src/parse.ts)
 
 ### Violations
 
@@ -41,7 +41,7 @@ function parseRequest(req: NextRequest): ParseResult;
 
 ## Type Definitions
 
-See source: `src/types/ParseResult.ts`, `src/types/ParseIssue.ts`, `src/types/IssueCode.ts`
+See source: [`src/types/ParseResult.ts`](../../../src/types/ParseResult.ts), [`src/types/ParseIssue.ts`](../../../src/types/ParseIssue.ts), [`src/types/IssueCode.ts`](../../../src/types/IssueCode.ts)
 
 ### Type Narrowing Pattern
 
