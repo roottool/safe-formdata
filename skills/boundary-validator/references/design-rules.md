@@ -248,4 +248,4 @@ When in doubt, reject the change.
 ---
 
 **Source**: AGENTS.md (lines 36-75)
-**Last updated**: 2026-01-12
+**Last updated**: 2026-03-06

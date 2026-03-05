@@ -40,11 +40,11 @@ for (const [key, value] of formData.entries()) {
 **✅ Correct**:
 
 ```typescript
-const FORBIDDEN_KEYS = ["__proto__", "constructor", "prototype"] as const;
+const FORBIDDEN_KEYS: ReadonlySet<string> = new Set(["__proto__", "constructor", "prototype"]);
 
 for (const [key, value] of formData.entries()) {
   // Check for forbidden keys
-  if (FORBIDDEN_KEYS.includes(key as any)) {
+  if (FORBIDDEN_KEYS.has(key)) {
     issues.push({
       code: "forbidden_key",
       key,
@@ -191,4 +191,4 @@ When implementing or reviewing security-related code:
 ---
 
 **Source**: AGENTS.md (lines 76-95)
-**Last updated**: 2026-01-12
+**Last updated**: 2026-03-06
