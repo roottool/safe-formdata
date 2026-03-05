@@ -34,7 +34,7 @@ describe("valid input", () => {
 
 		assert(result.data !== null);
 		expect(result.issues).toEqual([]);
-		expect(result.data.upload).toBeInstanceOf(File);
+		expect(result.data["upload"]).toBeInstanceOf(File);
 	});
 });
 
