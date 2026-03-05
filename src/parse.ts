@@ -1,7 +1,7 @@
-import { createIssue } from "#issues/createIssue";
-import { FORBIDDEN_KEYS } from "#issues/forbiddenKeys";
 import type { ParseIssue } from "#types/ParseIssue";
 import type { ParseResult } from "#types/ParseResult";
+
+const FORBIDDEN_KEYS: ReadonlySet<string> = new Set(["__proto__", "prototype", "constructor"]);
 
 /**
  * Parses FormData into a flat JavaScript object.
@@ -35,17 +35,17 @@ export function parse(formData: FormData): ParseResult {
 
 	for (const [key, value] of formData.entries()) {
 		if (typeof key !== "string" || key.length === 0) {
-			issues.push(createIssue("invalid_key", key));
+			issues.push({ code: "invalid_key", key });
 			continue;
 		}
 
 		if (FORBIDDEN_KEYS.has(key)) {
-			issues.push(createIssue("forbidden_key", key));
+			issues.push({ code: "forbidden_key", key });
 			continue;
 		}
 
 		if (seenKeys.has(key)) {
-			issues.push(createIssue("duplicate_key", key));
+			issues.push({ code: "duplicate_key", key });
 			continue;
 		}
 
