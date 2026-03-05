@@ -15,6 +15,27 @@ describe("valid input", () => {
 			age: "20",
 		});
 	});
+
+	it("returns empty data and no issues for empty FormData", () => {
+		const fd = new FormData();
+
+		const result = parse(fd);
+
+		expect(result.issues).toEqual([]);
+		expect(result.data).toEqual({});
+	});
+
+	it("stores File values in data", () => {
+		const fd = new FormData();
+		const file = new File(["content"], "test.txt", { type: "text/plain" });
+		fd.append("upload", file);
+
+		const result = parse(fd);
+
+		assert(result.data !== null);
+		expect(result.issues).toEqual([]);
+		expect(result.data.upload).toBeInstanceOf(File);
+	});
 });
 
 describe("duplicate key detection", () => {
@@ -32,6 +53,22 @@ describe("duplicate key detection", () => {
 		assert(issue);
 		expect(issue.code).toBe("duplicate_key");
 		expect(issue.key).toBe("a");
+	});
+
+	it("reports an issue for each occurrence beyond the first", () => {
+		const fd = new FormData();
+		fd.append("a", "1");
+		fd.append("a", "2");
+		fd.append("a", "3");
+
+		const result = parse(fd);
+
+		expect(result.data).toBeNull();
+		expect(result.issues).toHaveLength(2);
+		for (const issue of result.issues) {
+			expect(issue.code).toBe("duplicate_key");
+			expect(issue.key).toBe("a");
+		}
 	});
 
 	it("treats bracket notation as opaque keys", () => {
