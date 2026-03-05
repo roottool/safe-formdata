@@ -131,7 +131,7 @@ data[key] = value; // Always overwrites
 
 ```typescript
 // ✅ Correct: Detect and report duplicates
-const seen = new Set<unknown>();
+const seen = new Set<string>();
 
 for (const [key, value] of formData.entries()) {
   if (seen.has(key)) {

@@ -84,7 +84,7 @@ Object.assign(data, { [key]: value });
 
 ```typescript
 // Detect and report duplicates
-const seen = new Set<unknown>();
+const seen = new Set<string>();
 
 for (const [key, value] of formData.entries()) {
   if (seen.has(key)) {
