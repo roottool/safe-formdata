@@ -186,8 +186,8 @@ const result = parse(formData);
 
 if (result.data !== null) {
   // Success: data is available
-  console.log(result.data.username); // 'alice'
-  console.log(result.data.age); // '25'
+  console.log(result.data["username"]); // 'alice'
+  console.log(result.data["age"]); // '25'
 } else {
   // Failure: validation issues occurred
   console.error(result.issues);

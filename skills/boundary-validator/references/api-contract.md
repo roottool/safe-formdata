@@ -243,7 +243,7 @@ For complete versioning policy, see README.md Versioning section.
 ### Key Points
 
 - **Patch versions** (0.1.x): bugfixes, no API changes
-- **Minor versions** (0.x.0): Non-breaking additions (with caution in 0.x)
+- **Minor versions** (0.x.0): Breaking changes allowed in 0.x (treated as effectively major)
 - **Major versions** (1.0.0+): Breaking changes allowed
 
 ### What Counts as Breaking

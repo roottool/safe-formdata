@@ -131,7 +131,7 @@ data[key] = value; // Always overwrites
 
 ```typescript
 // ✅ Correct: Detect and report duplicates
-const seen = new Set<unknown>();
+const seen = new Set<string>();
 
 for (const [key, value] of formData.entries()) {
   if (seen.has(key)) {
@@ -442,4 +442,4 @@ grep -r "ParseOptions" src/
 
 ---
 
-**Last updated**: 2026-01-12
+**Last updated**: 2026-03-06
