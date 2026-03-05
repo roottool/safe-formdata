@@ -10,7 +10,7 @@ These rules are non-negotiable and must be enforced in all implementations.
 
 ### Forbidden Keys
 
-Explicitly forbid the following keys.
+Explicitly forbid the following keys:
 
 - `__proto__`
 - `constructor`
@@ -22,9 +22,7 @@ Explicitly forbid the following keys.
 
 These keys can be exploited for prototype pollution attacks, which allow attackers to modify the prototype chain of JavaScript objects and potentially execute arbitrary code or cause denial-of-service.
 
-### Examples
-
-**❌ Violations**:
+### Violations
 
 ```typescript
 // Accepting forbidden keys
@@ -37,63 +35,7 @@ for (const [key, value] of formData.entries()) {
 }
 ```
 
-**✅ Correct**:
-
-```typescript
-const FORBIDDEN_KEYS: ReadonlySet<string> = new Set(["__proto__", "constructor", "prototype"]);
-
-for (const [key, value] of formData.entries()) {
-  // Check for forbidden keys
-  if (FORBIDDEN_KEYS.has(key)) {
-    issues.push({
-      code: "forbidden_key",
-      key,
-    });
-    continue; // Do not process forbidden keys
-  }
-
-  data[key] = value;
-}
-```
-
-### Test Cases
-
-Implementations must include tests that verify forbidden keys are rejected:
-
-```typescript
-// Test: __proto__ is rejected
-const formData = new FormData();
-formData.append("__proto__", "malicious");
-const result = parse(formData);
-
-expect(result.data).toBeNull();
-expect(result.issues).toContainEqual({
-  code: "forbidden_key",
-  key: "__proto__",
-});
-
-// Test: constructor is rejected
-formData.clear();
-formData.append("constructor", "malicious");
-const result2 = parse(formData);
-
-expect(result2.data).toBeNull();
-expect(result2.issues).toContainEqual({
-  code: "forbidden_key",
-  key: "constructor",
-});
-
-// Test: prototype is rejected
-formData.clear();
-formData.append("prototype", "malicious");
-const result3 = parse(formData);
-
-expect(result3.data).toBeNull();
-expect(result3.issues).toContainEqual({
-  code: "forbidden_key",
-  key: "prototype",
-});
-```
+See correct implementation: `src/parse.ts`
 
 ---
 
@@ -113,56 +55,21 @@ const data = Object.create(null);
 
 Using `{}` or `new Object()` creates objects with `Object.prototype` in their prototype chain. This makes the data container vulnerable to prototype pollution and adds unnecessary properties (`toString`, `hasOwnProperty`, etc.) that could conflict with FormData keys.
 
-### Examples
-
-**❌ Violations**:
+### Violations
 
 ```typescript
 // Using plain object literal
 const data = {};
-// data.__proto__ === Object.prototype (vulnerable)
 
 // Using Object constructor
 const data = new Object();
-// data.__proto__ === Object.prototype (vulnerable)
-
-// Inherited properties
-const data = {};
-console.log(data.toString); // [Function: toString] (inherited)
 ```
 
-**✅ Correct**:
-
-```typescript
-// Create prototype-less object
-const data = Object.create(null);
-// data.__proto__ === undefined (safe)
-
-// No inherited properties
-console.log(data.toString); // undefined
-console.log(data.hasOwnProperty); // undefined
-
-// Safe to use any key
-data["toString"] = "my value"; // No conflict with Object.prototype.toString
-```
-
-### Type Safety
-
-When using TypeScript, the type should reflect the prototype-less nature:
-
-```typescript
-// Correct type annotation
-const data: Record<string, string | File> = Object.create(null);
-```
+See correct implementation: `src/parse.ts`
 
 ---
 
 ## Security Scope
-
-For a complete understanding of what safe-formdata does and doesn't protect against, see:
-
-- README.md: Security scope section
-- AGENTS.md: Security guarantees section
 
 ### In Scope (What safe-formdata protects against)
 

@@ -16,9 +16,7 @@ These rules define the non-negotiable constraints for safe-formdata implementati
 
 FormData keys should be treated as opaque identifiers. Any interpretation of key structure (e.g., `user[name]` → nested object) introduces assumptions about the sender's intent, which violates the boundary principle.
 
-### Examples
-
-**❌ Violations**:
+### Violations
 
 ```typescript
 // Parsing bracket notation
@@ -36,13 +34,7 @@ if (key.includes("[") && key.includes("]")) {
 }
 ```
 
-**✅ Correct**:
-
-```typescript
-// Treat all keys as opaque strings
-const data = Object.create(null);
-data[key] = value; // No interpretation
-```
+See correct implementation: `src/parse.ts`
 
 ---
 
@@ -58,9 +50,7 @@ All duplicate keys are boundary violations.
 
 Silent behavior hides information from the application. If a key appears multiple times in FormData, the application must decide how to handle it. The parser's job is only to detect and report the violation, not to resolve it.
 
-### Examples
-
-**❌ Violations**:
+### Violations
 
 ```typescript
 // Merging duplicate keys
@@ -80,29 +70,7 @@ if (!data[key]) {
 Object.assign(data, { [key]: value });
 ```
 
-**✅ Correct**:
-
-```typescript
-// Detect and report duplicates
-const seen = new Set<string>();
-
-for (const [key, value] of formData.entries()) {
-  if (seen.has(key)) {
-    issues.push({
-      code: "duplicate_key",
-      key,
-    });
-    continue; // Do not process further
-  }
-  seen.add(key);
-  data[key] = value;
-}
-
-// If issues exist, return null data
-if (issues.length > 0) {
-  return { data: null, issues };
-}
-```
+See correct implementation: `src/parse.ts`
 
 ---
 
@@ -119,9 +87,7 @@ Convenience features belong outside the boundary.
 
 The parser's sole responsibility is to establish a predictable boundary. Inference, validation, and convenience features introduce complexity and assumptions that blur the boundary.
 
-### Examples
-
-**❌ Violations**:
+### Violations
 
 ```typescript
 // Array inference
@@ -153,20 +119,10 @@ function parse(
     allowDuplicates?: boolean;
     convertTypes?: boolean;
   },
-) {
-  // Configuration adds complexity
-}
+) {}
 ```
 
-**✅ Correct**:
-
-```typescript
-// No inference, no validation, no options
-const data = Object.create(null);
-for (const [key, value] of formData.entries()) {
-  data[key] = value; // Store as-is
-}
-```
+See correct implementation: `src/parse.ts`
 
 ---
 
@@ -181,18 +137,12 @@ for (const [key, value] of formData.entries()) {
 
 Throwing exceptions forces callers to use try-catch, which is error-prone. Returning a structured result allows applications to handle issues explicitly and predictably.
 
-### Examples
-
-**❌ Violations**:
+### Violations
 
 ```typescript
 // Throwing exceptions
 if (invalidKey) {
   throw new Error("Invalid key"); // Forces try-catch
-}
-
-if (forbiddenKey) {
-  throw new SecurityError("Forbidden key");
 }
 
 // Partial success
@@ -204,32 +154,7 @@ if (issues.length > 0) {
 }
 ```
 
-**✅ Correct**:
-
-```typescript
-// Return structured result
-const issues: ParseIssue[] = [];
-const data = Object.create(null);
-
-for (const [key, value] of formData.entries()) {
-  if (typeof key !== "string" || key.length === 0) {
-    issues.push({
-      code: "invalid_key",
-      key,
-    });
-    continue;
-  }
-
-  data[key] = value;
-}
-
-// All-or-nothing: if any issues, return null data
-if (issues.length > 0) {
-  return { data: null, issues };
-}
-
-return { data, issues: [] };
-```
+See correct implementation: `src/parse.ts`
 
 ---
 
@@ -237,9 +162,9 @@ return { data, issues: [] };
 
 If a change makes the parser:
 
-- **smarter**
-- **more convenient**
-- **more opinionated**
+- smarter
+- more convenient
+- more opinionated
 
 it likely violates the boundary.
 

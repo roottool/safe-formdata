@@ -20,63 +20,25 @@ When reviewing code, search for these antipatterns.
 
 ### Antipatterns to Detect
 
-#### Pattern: Bracket Notation Parsing
-
 ```typescript
-// ❌ Violation: Parsing [] for arrays
+// ❌ Parsing bracket notation
 if (key.endsWith("[]")) {
   /* ... */
 }
-if (key.includes("[]")) {
-  /* ... */
-}
-key.slice(0, -2); // Removing []
-
-// ❌ Violation: Parsing [index] for arrays
+key.slice(0, -2);
 const match = key.match(/\[(\d+)\]/);
-key.replace(/\[\d+\]/, "");
 
-// ❌ Violation: Parsing [name] for nested objects
-const match = key.match(/\[(\w+)\]/);
-if (key.includes("[") && key.includes("]")) {
-  /* ... */
-}
-```
-
-#### Pattern: Dot Notation Parsing
-
-```typescript
-// ❌ Violation: Parsing . for nested objects
+// ❌ Parsing dot notation
 if (key.includes(".")) {
   /* ... */
 }
 const parts = key.split(".");
-const [parent, child] = key.split(".");
 
-// ❌ Violation: Path parsing
-key.split(".").reduce((obj, part) => obj[part], root);
-```
-
-#### Pattern: Special Character Interpretation
-
-```typescript
-// ❌ Violation: Treating special characters as delimiters
+// ❌ Special character interpretation
 key.split(/[.\[\]]/);
-key.replace(/[\[\]\.]/g, "");
 ```
 
-### Correct Patterns
-
-```typescript
-// ✅ Correct: Keys as opaque strings
-const data = Object.create(null);
-data[key] = value; // No interpretation
-
-// ✅ Correct: String comparison without parsing
-if (key === "exact_key_name") {
-  /* ... */
-}
-```
+See correct implementation: `src/parse.ts`
 
 ---
 
@@ -84,67 +46,24 @@ if (key === "exact_key_name") {
 
 ### Antipatterns to Detect
 
-#### Pattern: Merge/Overwrite
-
 ```typescript
-// ❌ Violation: Object.assign (merges)
+// ❌ Merge / overwrite
 Object.assign(data, { [key]: value });
-Object.assign(data, newData);
-
-// ❌ Violation: Spread operator (merges)
 data = { ...data, [key]: value };
-data = { ...data, ...newData };
+data[key] = value; // without duplicate check
 
-// ❌ Violation: Direct overwrite without checking
-data[key] = value; // If key exists, this silently overwrites
-```
-
-#### Pattern: Array Accumulation
-
-```typescript
-// ❌ Violation: Converting to array for duplicates
+// ❌ Array accumulation
 if (data[key]) {
   data[key] = Array.isArray(data[key]) ? [...data[key], value] : [data[key], value];
 }
 
-// ❌ Violation: Array push
-if (!data[key]) data[key] = [];
-data[key].push(value);
-```
-
-#### Pattern: First-Wins / Last-Wins
-
-```typescript
-// ❌ Violation: First-wins semantics
+// ❌ First-wins / last-wins
 if (!data[key]) {
   data[key] = value;
 }
-if (data[key] === undefined) {
-  data[key] = value;
-}
-
-// ❌ Violation: Last-wins (implicit in direct assignment)
-data[key] = value; // Always overwrites
 ```
 
-### Correct Patterns
-
-```typescript
-// ✅ Correct: Detect and report duplicates
-const seen = new Set<string>();
-
-for (const [key, value] of formData.entries()) {
-  if (seen.has(key)) {
-    issues.push({
-      code: "duplicate_key",
-      key,
-    });
-    continue; // Do not process
-  }
-  seen.add(key);
-  data[key] = value;
-}
-```
+See correct implementation: `src/parse.ts`
 
 ---
 
@@ -152,96 +71,23 @@ for (const [key, value] of formData.entries()) {
 
 ### Antipatterns to Detect
 
-#### Pattern: Structural Inference
-
 ```typescript
-// ❌ Violation: Creating nested objects
+// ❌ Structural inference
 const parts = key.split(".");
 let current = data;
 for (const part of parts) {
-  current[part] = current[part] || {};
-  current = current[part];
+  current = current[part] = current[part] || {};
 }
 
-// ❌ Violation: Array creation based on key pattern
-if (key.endsWith("[]")) {
-  data[key] = [];
-}
-```
-
-#### Pattern: Type Coercion
-
-```typescript
-// ❌ Violation: Converting to number
+// ❌ Type coercion
 const numValue = Number(value);
-const numValue = parseInt(value);
-const numValue = +value;
-
-// ❌ Violation: Converting to boolean
 const boolValue = value === "true";
-const boolValue = Boolean(value);
-const boolValue = !!value;
 
-// ❌ Violation: Date parsing
-const dateValue = new Date(value);
-const dateValue = Date.parse(value);
+// ❌ Configuration options
+function parse(formData: FormData, options?: { allowDuplicates?: boolean }): ParseResult {}
 ```
 
-#### Pattern: Value Validation
-
-```typescript
-// ❌ Violation: Validating email format
-if (!isValidEmail(value)) {
-  throw new Error("Invalid email");
-}
-
-// ❌ Violation: Validating required fields
-if (!value || value.length === 0) {
-  throw new Error("Field is required");
-}
-
-// ❌ Violation: Schema validation
-const schema = z.object({
-  /* ... */
-});
-schema.parse(data);
-```
-
-#### Pattern: Configuration Options
-
-```typescript
-// ❌ Violation: Adding options parameter
-function parse(
-  formData: FormData,
-  options?: {
-    allowDuplicates?: boolean;
-    convertTypes?: boolean;
-    strict?: boolean;
-  },
-): ParseResult {
-  /* ... */
-}
-
-// ❌ Violation: Using options internally
-if (options?.allowDuplicates) {
-  // Different behavior based on options
-}
-```
-
-### Correct Patterns
-
-```typescript
-// ✅ Correct: No inference, store values as-is
-const data = Object.create(null);
-for (const [key, value] of formData.entries()) {
-  data[key] = value; // Store string or File as-is
-}
-
-// ✅ Correct: No options, single signature
-export function parse(formData: FormData): ParseResult {
-  // Implementation
-}
-```
+See correct implementation: `src/parse.ts`
 
 ---
 
@@ -249,71 +95,15 @@ export function parse(formData: FormData): ParseResult {
 
 ### Antipatterns to Detect
 
-#### Pattern: Throwing Exceptions
-
 ```typescript
-// ❌ Violation: throw for input-derived errors
-if (invalidKey) {
-  throw new Error("Invalid key");
-}
+// ❌ Throwing
+if (invalidKey) { throw new Error("Invalid key"); }
 
-if (forbiddenKey) {
-  throw new SecurityError("Forbidden key");
-}
-
-if (duplicateKey) {
-  throw new DuplicateKeyError();
-}
-
-// ❌ Violation: throw inside loop
-for (const [key, value] of formData.entries()) {
-  if (someCondition) {
-    throw new Error(); // Forces try-catch on caller
-  }
-}
+// ❌ Partial success
+return { data: partialData, issues: [...] };
 ```
 
-#### Pattern: Partial Success
-
-```typescript
-// ❌ Violation: Returning partial data with issues
-return {
-  data: partialData, // Some keys processed
-  issues: [...]      // Some keys failed
-};
-
-// ❌ Violation: Allowing issues.length > 0 with non-null data
-if (issues.length > 0) {
-  return { data, issues }; // WRONG: data should be null
-}
-```
-
-### Correct Patterns
-
-```typescript
-// ✅ Correct: Collect issues, return structured result
-const issues: ParseIssue[] = [];
-const data = Object.create(null);
-
-for (const [key, value] of formData.entries()) {
-  if (invalidCondition) {
-    issues.push({
-      code: "invalid_key",
-      key,
-    });
-    continue; // Do not throw
-  }
-
-  data[key] = value;
-}
-
-// ✅ Correct: All-or-nothing based on issues
-if (issues.length > 0) {
-  return { data: null, issues };
-}
-
-return { data, issues: [] };
-```
+See correct implementation: `src/parse.ts`
 
 ---
 
@@ -321,53 +111,19 @@ return { data, issues: [] };
 
 ### Antipatterns to Detect
 
-#### Pattern: Unsafe Object Creation
-
 ```typescript
-// ❌ Violation: Using plain object literal
+// ❌ Unsafe object creation
 const data = {};
 const data = new Object();
 
-// ❌ Violation: Not checking for forbidden keys before assignment
+// ❌ Missing forbidden key check
 for (const [key, value] of formData.entries()) {
-  data[key] = value; // Dangerous if key === '__proto__'
-}
-```
-
-#### Pattern: Missing Forbidden Key Check
-
-```typescript
-// ❌ Violation: No forbidden key validation
-for (const [key, value] of formData.entries()) {
-  if (typeof key !== "string" || key.length === 0) {
-    // Invalid key check
-  }
-  // Missing: forbidden key check for __proto__, constructor, prototype
+  // No __proto__ / constructor / prototype check
   data[key] = value;
 }
 ```
 
-### Correct Patterns
-
-```typescript
-// ✅ Correct: Prototype-less object
-const data = Object.create(null);
-
-// ✅ Correct: Check for forbidden keys
-const FORBIDDEN_KEYS = ["__proto__", "constructor", "prototype"];
-
-for (const [key, value] of formData.entries()) {
-  if (FORBIDDEN_KEYS.includes(key as any)) {
-    issues.push({
-      code: "forbidden_key",
-      key,
-    });
-    continue;
-  }
-
-  data[key] = value;
-}
-```
+See correct implementation: `src/parse.ts`
 
 ---
 
@@ -375,67 +131,49 @@ for (const [key, value] of formData.entries()) {
 
 ### Antipatterns to Detect
 
-#### Pattern: Function Overloads
-
 ```typescript
-// ❌ Violation: Adding overloads
+// ❌ Function overloads
 export function parse(formData: FormData): ParseResult;
 export function parse(formData: FormData, strict: boolean): ParseResult;
+
+// ❌ New IssueCode without major version bump
+export type IssueCode = "invalid_key" | "forbidden_key" | "duplicate_key" | "invalid_value";
 ```
 
-#### Pattern: Changing IssueCode
-
-```typescript
-// ❌ Violation: Adding new issue codes without major version bump
-export type IssueCode = "invalid_key" | "forbidden_key" | "duplicate_key" | "invalid_value"; // NEW CODE - requires major version!
-```
-
-### Correct Patterns
-
-```typescript
-// ✅ Correct: Single function signature
-export function parse(formData: FormData): ParseResult {
-  // Implementation
-}
-
-// ✅ Correct: Stable IssueCode (v0.x)
-export type IssueCode = "invalid_key" | "forbidden_key" | "duplicate_key";
-```
+See correct types: `src/types/`
 
 ---
 
 ## Grep Commands for Detection
 
-Use these commands to search for violations:
-
 ```bash
-# Search for bracket notation parsing
+# Bracket notation parsing
 grep -r "endsWith\('\[\]'\)" src/
 grep -r "includes\('\[\]'\)" src/
 grep -r "match.*\\\[" src/
 
-# Search for dot notation parsing
+# Dot notation parsing
 grep -r "split\('\.'\)" src/
 grep -r "includes\('\.'\)" src/
 
-# Search for Object.assign or spread
+# Object.assign or spread
 grep -r "Object\.assign" src/
 grep -r "\.\.\." src/
 
-# Search for throw statements
+# Throw statements
 grep -r "throw new" src/
 grep -r "throw " src/
 
-# Search for type coercion
+# Type coercion
 grep -r "Number(" src/
 grep -r "Boolean(" src/
 grep -r "parseInt" src/
 
-# Search for plain object creation
+# Unsafe object creation
 grep -r "= {}" src/
 grep -r "new Object()" src/
 
-# Search for configuration options
+# Configuration options
 grep -r "options\?" src/
 grep -r "ParseOptions" src/
 ```
