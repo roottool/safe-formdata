@@ -35,7 +35,7 @@ for (const [key, value] of formData.entries()) {
 }
 ```
 
-See correct implementation: [`src/parse.ts`](../../../src/parse.ts)
+See correct implementation: `src/parse.ts`
 
 ---
 
@@ -65,7 +65,7 @@ const data = {};
 const data = new Object();
 ```
 
-See correct implementation: [`src/parse.ts`](../../../src/parse.ts)
+See correct implementation: `src/parse.ts`
 
 ---
 

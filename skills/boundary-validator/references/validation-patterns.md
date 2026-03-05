@@ -38,7 +38,7 @@ const parts = key.split(".");
 key.split(/[.\[\]]/);
 ```
 
-See correct implementation: [`src/parse.ts`](../../../src/parse.ts)
+See correct implementation: `src/parse.ts`
 
 ---
 
@@ -63,7 +63,7 @@ if (!data[key]) {
 }
 ```
 
-See correct implementation: [`src/parse.ts`](../../../src/parse.ts)
+See correct implementation: `src/parse.ts`
 
 ---
 
@@ -87,7 +87,7 @@ const boolValue = value === "true";
 function parse(formData: FormData, options?: { allowDuplicates?: boolean }): ParseResult {}
 ```
 
-See correct implementation: [`src/parse.ts`](../../../src/parse.ts)
+See correct implementation: `src/parse.ts`
 
 ---
 
@@ -103,7 +103,7 @@ if (invalidKey) { throw new Error("Invalid key"); }
 return { data: partialData, issues: [...] };
 ```
 
-See correct implementation: [`src/parse.ts`](../../../src/parse.ts)
+See correct implementation: `src/parse.ts`
 
 ---
 
@@ -123,7 +123,7 @@ for (const [key, value] of formData.entries()) {
 }
 ```
 
-See correct implementation: [`src/parse.ts`](../../../src/parse.ts)
+See correct implementation: `src/parse.ts`
 
 ---
 
@@ -140,7 +140,7 @@ export function parse(formData: FormData, strict: boolean): ParseResult;
 export type IssueCode = "invalid_key" | "forbidden_key" | "duplicate_key" | "invalid_value";
 ```
 
-See correct types: [`src/types/`](../../../src/types/)
+See correct types: `src/types/`
 
 ---
 

@@ -34,7 +34,7 @@ if (key.includes("[") && key.includes("]")) {
 }
 ```
 
-See correct implementation: [`src/parse.ts`](../../../src/parse.ts)
+See correct implementation: `src/parse.ts`
 
 ---
 
@@ -70,7 +70,7 @@ if (!data[key]) {
 Object.assign(data, { [key]: value });
 ```
 
-See correct implementation: [`src/parse.ts`](../../../src/parse.ts)
+See correct implementation: `src/parse.ts`
 
 ---
 
@@ -122,7 +122,7 @@ function parse(
 ) {}
 ```
 
-See correct implementation: [`src/parse.ts`](../../../src/parse.ts)
+See correct implementation: `src/parse.ts`
 
 ---
 
@@ -154,7 +154,7 @@ if (issues.length > 0) {
 }
 ```
 
-See correct implementation: [`src/parse.ts`](../../../src/parse.ts)
+See correct implementation: `src/parse.ts`
 
 ---
 
