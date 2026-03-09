@@ -1,3 +1,6 @@
+> [!CAUTION]
+> This package is archived and no longer maintained.
+
 # safe-formdata
 
 **The strict trust boundary for FormData.**
